@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
-
-function Purpose() {
+import 'react-navigation'
+function Purpose({navigation}) {
     return(
             <View style = {{}}>
                 <View style = {{marginBottom : 100}}>
@@ -12,7 +12,8 @@ function Purpose() {
                     <Text style={styles.Text}>멘토</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.Button}>
+                <TouchableOpacity style={styles.Button}
+                    onPress = {() => navigation.navigate('SelectSchool')}>
                     <Text style={styles.Text}>멘티</Text>
                 </TouchableOpacity>
             </View>

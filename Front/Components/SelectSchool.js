@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import PickerBox from 'react-native-picker-select';
+import 'react-navigation'
 
-function SelectSchool() {
+function SelectSchool({navigation}) {
+    const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
     return(
             <View>
                 <View>
@@ -19,14 +21,16 @@ function SelectSchool() {
                               borderColor : '#bdc3c7', 
                               overflow : 'hidden'}}>
                 <PickerBox 
-                    placeholder = {{label : '학교를 선택하세요',value : null}} 
+                    selectdValue={selectdValue}
+                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
                     items = {[ 
                     {label : '아주대학교', value : 'AjouUniversity'},
                     {label : '서울대학교', value : 'SeoulUniversity'}]}
                     >
                     </PickerBox>
                     </View>
-                     <TouchableOpacity style={styles.startButton}>
+                     <TouchableOpacity style={styles.startButton}
+                       onPress = {() => navigation.navigate('Certify')}>
                     <Text style={styles.Text}>다음</Text>
                 </TouchableOpacity>
             </View>

@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
+import 'react-navigation';
 
-
-function Start() {
+function Start({navigation}) {
     return(
             <View>
-                <TouchableOpacity style={styles.startButton}>
+                <TouchableOpacity style={styles.startButton} 
+                    onPress = {() => navigation.navigate('Purpose')}>
                     <Text style={styles.Text}>시작하기</Text>
                 </TouchableOpacity>
                 
