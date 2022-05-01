@@ -1,7 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
+import * as Font from 'expo-font';
 
+const getFonts = async () => {
+  await Font.loadAsync({
+      SCDream1: require('../assets/fonts/SCDream1.otf'),
+  })
+}
 
 function Certify() {
     return(
@@ -20,6 +26,7 @@ function Certify() {
             </View>
     )
 }
+
 const styles = StyleSheet.create({
    CertifyButton:{
     width : 300, 
@@ -60,6 +67,7 @@ const styles = StyleSheet.create({
        paddingRight : 10,
        fontWeight : 'bold',
        fontSize : 15,
+       fontFamily: 'SCDream1'
    },
    Introduce:{
     color : "black",
