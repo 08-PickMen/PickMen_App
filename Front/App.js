@@ -7,7 +7,6 @@
  */
 
 import React, { Component } from 'react';
-import {Node} from 'react';
 import 'react-native-gesture-handler';
 import GradeAccess from './Components/GradeAccess';
 import {createStackNavigator} from '@react-navigation/stack'
@@ -19,7 +18,7 @@ import Certify from './Components/Certify';
 import Information from './Components/Information';
 const stack = createStackNavigator();
 
-class App extends React.Component{
+class App extends Component{
   render(){
   return (
     <NavigationContainer>

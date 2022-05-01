@@ -19,7 +19,7 @@ function SelectSchool({navigation}) {
                               borderRadius : 10,
                               borderWidth : 1,
                               borderColor : '#bdc3c7', 
-                              overflow : 'hidden'}}>
+                              overflow : 'hidden',}}>
                 <PickerBox 
                     selectdValue={selectdValue}
                     onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
        marginTop : 5,
        paddingLeft : 10,
        paddingRight : 10,
-       fontWeight : 'bold',
        fontSize : 15,
+       fontFamily : 'Jalnan',
    },
    Introduce:{
     color : "black",
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     marginBottom : 40,
     paddingLeft : 10,
     paddingRight : 10,
-    fontWeight : 'bold',
     fontSize : 20,
+    fontFamily : 'Jalnan',
 }
   });
 

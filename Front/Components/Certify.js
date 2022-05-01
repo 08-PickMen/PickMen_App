@@ -1,13 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
-import * as Font from 'expo-font';
-
-const getFonts = async () => {
-  await Font.loadAsync({
-      SCDream1: require('../assets/fonts/SCDream1.otf'),
-  })
-}
 
 function Certify() {
     return(
@@ -65,9 +58,8 @@ const styles = StyleSheet.create({
        marginTop : 5,
        paddingLeft : 10,
        paddingRight : 10,
-       fontWeight : 'bold',
        fontSize : 15,
-       fontFamily: 'SCDream1'
+       fontFamily: 'Jalnan',
    },
    Introduce:{
     color : "black",
@@ -77,8 +69,8 @@ const styles = StyleSheet.create({
     marginBottom : 70,
     paddingLeft : 10,
     paddingRight : 10,
-    fontWeight : 'bold',
     fontSize : 25,
+    fontFamily: 'Jalnan',
 }
   });
 

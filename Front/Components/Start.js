@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
-
 function Start({navigation}) {
     return(
             <View>
@@ -16,16 +15,16 @@ function Start({navigation}) {
                     marginLeft : 'auto',
                     paddingLeft : 10,
                     paddingRight : 10,
-                    fontWeight : 'bold',
                     fontSize : 15,
+                    fontFamily : 'Jalnan',
                 }}>이미 계정이 있으시다면?</Text>
                 <Text style={{
                     paddingLeft : 10,
                     paddingRight : 10,
-                    fontWeight : 'bold',
                     fontSize : 15,
                     color : '#27BAFF',
-                    marginRight : 'auto'
+                    marginRight : 'auto',
+                    fontFamily : 'Jalnan',
                 }}>로그인하기</Text>
                 </View>  
             </View>
@@ -49,8 +48,8 @@ const styles = StyleSheet.create({
        marginTop : 5,
        paddingLeft : 10,
        paddingRight : 10,
-       fontWeight : 'bold',
        fontSize : 15,
+       fontFamily : 'Jalnan',
    }
   });
 
