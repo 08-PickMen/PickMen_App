@@ -17,20 +17,7 @@ function GradeAccess_Menti() {
                         <Text style={styles.ButtonText}>중복인증</Text>
                 </TouchableOpacity>
                 </View>
-                <View>
-                    <Text style = {styles.Text}>성적표</Text>
-                </View>
-                <View style = {{flexDirection : 'row'}}>
-                <TextInput style = {styles.TextInput} placeholder = "성적표를 업로드 해주세요."/>
-                <TouchableOpacity style={styles.CheckButton}>
-                        <Text style={styles.ButtonText}>업로드</Text>
-                </TouchableOpacity>
-                </View>
-                <View>
-                    <TouchableOpacity style={styles.AccessButton}>
-                        <Text style={styles.ButtonText}>인증하기</Text>
-                    </TouchableOpacity>
-                </View>
+
                 <View>
                     <TouchableOpacity style={styles.CorrectButton}>
                         <Text style={styles.ButtonText}>확인</Text>
