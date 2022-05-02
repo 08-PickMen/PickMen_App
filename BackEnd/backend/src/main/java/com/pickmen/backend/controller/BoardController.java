@@ -1,7 +1,7 @@
-package com.study.blog.controller;
+package com.pickmen.backend.controller;
 
-import com.study.blog.service.BoardService;
-import lombok.extern.slf4j.Slf4j;
+import com.pickmen.backend.service.BoardService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller

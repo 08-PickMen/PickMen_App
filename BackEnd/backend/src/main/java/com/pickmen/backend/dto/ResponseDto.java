@@ -1,4 +1,4 @@
-package com.study.blog.dto;
+package com.pickmen.backend.dto;
 
 import lombok.*;
 import lombok.experimental.Accessors;

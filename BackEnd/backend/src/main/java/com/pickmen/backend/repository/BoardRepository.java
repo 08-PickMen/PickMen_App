@@ -1,6 +1,7 @@
-package com.study.blog.repository;
+package com.pickmen.backend.repository;
 
-import com.study.blog.model.Board;
+import com.pickmen.backend.model.Board;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,14 +1,16 @@
-package com.study.blog.config.auth;
-
-import com.study.blog.model.User;
-import lombok.Getter;
-import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+package com.pickmen.backend.config.auth;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.pickmen.backend.model.User;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.Getter;
+import lombok.ToString;
 
 // 1. Spring Security 가 로그인 요청을 가로채서 로그인을 진행.
 // 2. 로그인 완료 후 UserDetails 타입의 객체를 Spring Security ContextHolder (새션 저장소) 에 저장

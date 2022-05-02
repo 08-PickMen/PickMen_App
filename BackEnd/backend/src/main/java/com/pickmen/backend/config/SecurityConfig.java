@@ -1,6 +1,7 @@
-package com.study.blog.config;
+package com.pickmen.backend.config;
 
-import com.study.blog.config.auth.PrincipalDetailsService;
+import com.pickmen.backend.config.auth.PrincipalDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

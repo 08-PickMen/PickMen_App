@@ -1,15 +1,17 @@
-package com.study.blog.config.auth;
+package com.pickmen.backend.config.auth;
 
-import com.study.blog.model.User;
-import com.study.blog.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
+
+import com.pickmen.backend.model.User;
+import com.pickmen.backend.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

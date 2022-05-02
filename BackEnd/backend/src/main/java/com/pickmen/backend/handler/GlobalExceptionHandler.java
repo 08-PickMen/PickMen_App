@@ -1,6 +1,7 @@
-package com.study.blog.handler;
+package com.pickmen.backend.handler;
 
-import com.study.blog.dto.ResponseDto;
+import com.pickmen.backend.dto.ResponseDto;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

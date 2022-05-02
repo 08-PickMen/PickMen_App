@@ -1,4 +1,4 @@
-package com.study.blog.model;
+package com.pickmen.backend.model;
 
 public enum RoleType {
   USER,

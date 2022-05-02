@@ -1,15 +1,21 @@
-package com.study.blog.controller.api;
+package com.pickmen.backend.controller.api;
 
-import com.study.blog.dto.ResponseDto;
-import com.study.blog.model.User;
-import com.study.blog.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.http.HttpSession;
+
+import com.pickmen.backend.dto.ResponseDto;
+import com.pickmen.backend.model.User;
+import com.pickmen.backend.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController

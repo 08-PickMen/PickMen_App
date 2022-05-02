@@ -1,15 +1,16 @@
-package com.study.blog.service;
+package com.pickmen.backend.service;
 
-import com.study.blog.model.RoleType;
-import com.study.blog.model.User;
-import com.study.blog.repository.UserRepository;
+import java.util.Optional;
+
+import com.pickmen.backend.model.RoleType;
+import com.pickmen.backend.model.User;
+import com.pickmen.backend.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -47,13 +48,5 @@ public class UserService {
     return userRepository.save(findUser);
   }
 
-  // @Transactional
-  // public boolean updateRand(String email, String rand){
-  //   try{
 
-  //   }
-  //   catch(Exception e){
-  //     e.printStackTrace();
-  //   }
-  // }
 }
