@@ -16,6 +16,7 @@ import Purpose from './Components/purpose';
 import SelectSchool from './Components/SelectSchool';
 import Certify from './Components/Certify';
 import Information from './Components/Information';
+import HomeScreen from './Components/HomeScreen';
 const stack = createStackNavigator();
 
 class App extends Component{
@@ -25,6 +26,7 @@ class App extends Component{
       <stack.Navigator screenOptions={{
         headerShown: false,
       }}>
+        <stack.Screen name="HomeScreen" component={HomeScreen}/>
         <stack.Screen name="Start" component={Start}/>
         <stack.Screen name="Purpose" component={Purpose}/>
         <stack.Screen name="SelectSchool" component={SelectSchool}/>
