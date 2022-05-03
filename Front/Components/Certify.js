@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
-
-function Certify() {
+import 'react-navigation'
+function Certify({navigation}) {
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -13,7 +13,8 @@ function Certify() {
                     <Text style={styles.Text}>인증번호 전송</Text>
                 </TouchableOpacity>
                 <TextInput style = {styles.TextInput} placeholder = "인증번호를 입력해주세요"/>
-                <TouchableOpacity style={styles.CorrectButton}>
+                <TouchableOpacity style={styles.CorrectButton}
+                 onPress = {() => navigation.navigate('Test')}>
                     <Text style={styles.Text}>확인</Text>
                 </TouchableOpacity>
             </View>

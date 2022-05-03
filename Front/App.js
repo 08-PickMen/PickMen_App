@@ -17,6 +17,7 @@ import SelectSchool from './Components/SelectSchool';
 import Certify from './Components/Certify';
 import Information from './Components/Information';
 import HomeScreen from './Components/HomeScreen';
+import Test from './utils/utils'
 const stack = createStackNavigator();
 
 class App extends Component{
@@ -26,13 +27,14 @@ class App extends Component{
       <stack.Navigator screenOptions={{
         headerShown: false,
       }}>
-        <stack.Screen name="HomeScreen" component={HomeScreen}/>
         <stack.Screen name="Start" component={Start}/>
         <stack.Screen name="Purpose" component={Purpose}/>
         <stack.Screen name="SelectSchool" component={SelectSchool}/>
         <stack.Screen name="Certify" component={Certify}/>
         <stack.Screen name="Information" component={Information}/>
         <stack.Screen name="GradeAccess" component={GradeAccess}/>
+        <stack.Screen name="HomeScreen" component={HomeScreen}/>
+        <stack.Screen name="Test" component={Test}/>
       </stack.Navigator>
     </NavigationContainer>
   );
