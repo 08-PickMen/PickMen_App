@@ -33,11 +33,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.webjars.npm</groupId>
 		    <artifactId>axios</artifactId>
 		    <version>0.19.2</version>
-		</dependency>
+		</dependency> -->
+		   <!-- Starter Email -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>1.4.3.RELEASE</version>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
