@@ -1,0 +1,19 @@
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/pickman?serverTimezone=UTC
+    username: root
+    password: cjswo1591
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: false
+    #    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
