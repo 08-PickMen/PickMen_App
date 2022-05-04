@@ -17,3 +17,27 @@ spring:
       hibernate:
         format_sql: true
     generate-ddl: true
+
+  servlet:
+    multipart:
+      location: c:\\upload
+      maxFileSize: 200MB
+      maxRequestSize: 100MB
+  
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: wocjf0513@ajou.ac.kr  
+    password: zcplisaxwurmivii
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
