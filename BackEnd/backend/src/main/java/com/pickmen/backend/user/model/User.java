@@ -1,10 +1,26 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.user.model;
 
-import lombok.*;
+import java.time.LocalDateTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.pickmen.backend.RoleType;
+
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 // ORM -> 오브젝트를 테이블로 매핑해주는 역할
 // JPA 는 Java의 ORM
@@ -40,4 +56,30 @@ public class User {
   @CreationTimestamp // Insert 할때 자동으로 날짜가 들어감
   @Column(nullable = false)
   private LocalDateTime createDate; // 생성일
+
+
+   // 새로 입력 
+
+   @Column(nullable= true)
+   private String ninkname;
+ 
+   @Column(nullable= true)
+   private String universityName;
+ 
+   @Column(nullable= true)
+   private String profileImage;
+   
+   @Column(nullable= true)
+   private String reportCard;
+ 
+   @Column(nullable= true)
+   private String teachSector;
+ 
+   @Column(nullable= true)
+   private float averageRating;
+ 
+   @Column(nullable= true)
+   private boolean activeCanTeach;
+ 
+   // 새로 사용
 }

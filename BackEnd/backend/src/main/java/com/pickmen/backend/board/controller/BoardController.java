@@ -1,6 +1,6 @@
-package com.pickmen.backend.controller;
+package com.pickmen.backend.board.controller;
 
-import com.pickmen.backend.service.BoardService;
+import com.pickmen.backend.board.service.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

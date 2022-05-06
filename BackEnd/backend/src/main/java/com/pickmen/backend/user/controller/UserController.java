@@ -1,4 +1,4 @@
-package com.pickmen.backend.controller;
+package com.pickmen.backend.user.controller;
 
 import java.util.Random;
 

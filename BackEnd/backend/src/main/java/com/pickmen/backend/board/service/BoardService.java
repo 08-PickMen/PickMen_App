@@ -1,10 +1,10 @@
-package com.pickmen.backend.service;
+package com.pickmen.backend.board.service;
 
 import java.util.List;
 
-import com.pickmen.backend.model.Board;
-import com.pickmen.backend.model.User;
-import com.pickmen.backend.repository.BoardRepository;
+import com.pickmen.backend.board.model.Board;
+import com.pickmen.backend.board.repository.BoardRepository;
+import com.pickmen.backend.user.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
