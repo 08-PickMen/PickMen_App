@@ -29,7 +29,7 @@ function Start({navigation}) {
                     color : '#27BAFF',
                     marginRight : 'auto',
                     fontFamily : 'Jalnan',
-                }}>로그인하기</Text>
+                }} onPress={()=> navigation.navigate('LoginPage')}>로그인하기</Text>
                 </View>  
             </View>
     )

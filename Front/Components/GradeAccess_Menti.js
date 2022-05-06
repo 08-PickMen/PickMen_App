@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
-
-function GradeAccess_Menti() {
+import 'react-navigation'
+function GradeAccess_Menti({navigation}) {
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -19,7 +19,8 @@ function GradeAccess_Menti() {
                 </View>
 
                 <View>
-                    <TouchableOpacity style={styles.CorrectButton}>
+                    <TouchableOpacity style={styles.CorrectButton}
+                        onPress={()=> navigation.navigate('Information')}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
                 </View>

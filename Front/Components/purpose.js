@@ -8,7 +8,8 @@ function Purpose({navigation}) {
                 <View style = {{marginBottom : 100}}>
                     <Text style = {styles.Introduce}>당신의 가입 목적은 무엇인가요?</Text>
                 </View>
-                <TouchableOpacity style={styles.Button}>
+                <TouchableOpacity style={styles.Button}
+                    onPress = {()=> navigation.navigate('SelectSchool_Mento')}>
                     <Text style={styles.Text}>멘토</Text>
                 </TouchableOpacity>
 
