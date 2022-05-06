@@ -40,4 +40,30 @@ public class User {
   @CreationTimestamp // Insert 할때 자동으로 날짜가 들어감
   @Column(nullable = false)
   private LocalDateTime createDate; // 생성일
+
+
+   // 새로 입력 
+
+   @Column(nullable= true)
+   private String ninkname;
+ 
+   @Column(nullable= true)
+   private String universityName;
+ 
+   @Column(nullable= true)
+   private String profileImage;
+   
+   @Column(nullable= true)
+   private String reportCard;
+ 
+   @Column(nullable= true)
+   private String teachSector;
+ 
+   @Column(nullable= true)
+   private float averageRating;
+ 
+   @Column(nullable= true)
+   private boolean activeCanTeach;
+ 
+   // 새로 사용
 }

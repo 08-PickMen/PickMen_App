@@ -22,7 +22,7 @@ public class UserService {
   @Transactional
   public User join(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    user.setRole(RoleType.USER);
+    user.setRole(user.getRole());
     return userRepository.save(user);
   }
 
