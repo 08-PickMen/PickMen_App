@@ -1,5 +1,4 @@
 package com.pickmen.backend.board.model;
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
