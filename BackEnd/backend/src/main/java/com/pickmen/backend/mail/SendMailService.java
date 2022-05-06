@@ -1,4 +1,4 @@
-package com.pickmen.backend.service;
+package com.pickmen.backend.mail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

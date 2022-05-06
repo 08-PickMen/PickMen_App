@@ -1,10 +1,24 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.board.model;
+import java.time.LocalDateTime;
 
-import lombok.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.pickmen.backend.user.model.User;
+
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "reply")
 @Getter
@@ -13,6 +27,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
 public class Reply {
 
   @Id
