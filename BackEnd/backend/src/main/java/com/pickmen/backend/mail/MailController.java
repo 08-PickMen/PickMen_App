@@ -1,10 +1,8 @@
-package com.pickmen.backend.controller;
+package com.pickmen.backend.mail;
 
 import java.util.Random;
 
 import javax.servlet.http.HttpSession;
-
-import com.pickmen.backend.service.SendMailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

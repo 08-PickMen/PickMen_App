@@ -1,4 +1,4 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.advertiser.model;
 
 import java.sql.Date;
 

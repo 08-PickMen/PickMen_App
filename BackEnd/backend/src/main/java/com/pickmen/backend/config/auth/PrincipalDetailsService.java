@@ -3,7 +3,7 @@ package com.pickmen.backend.config.auth;
 import java.util.Optional;
 
 import com.pickmen.backend.model.User;
-import com.pickmen.backend.repository.UserRepository;
+import com.pickmen.backend.user.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,4 +1,4 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.admin.model;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.pickmen.backend.model.ReportType;
+
 
 import org.hibernate.annotations.CreationTimestamp;
 

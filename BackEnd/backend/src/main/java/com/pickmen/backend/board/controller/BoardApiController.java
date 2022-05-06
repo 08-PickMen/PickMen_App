@@ -1,9 +1,9 @@
-package com.pickmen.backend.controller.api;
+package com.pickmen.backend.board.controller;
 
+import com.pickmen.backend.board.model.Board;
+import com.pickmen.backend.board.service.BoardService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.dto.ResponseDto;
-import com.pickmen.backend.model.Board;
-import com.pickmen.backend.service.BoardService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

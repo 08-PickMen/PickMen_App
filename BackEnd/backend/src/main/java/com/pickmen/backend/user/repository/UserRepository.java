@@ -1,4 +1,4 @@
-package com.pickmen.backend.repository;
+package com.pickmen.backend.user.repository;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.admin.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

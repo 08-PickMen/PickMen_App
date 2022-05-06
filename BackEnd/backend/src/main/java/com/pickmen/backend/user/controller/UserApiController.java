@@ -1,10 +1,10 @@
-package com.pickmen.backend.controller.api;
+package com.pickmen.backend.user.controller;
 
 import javax.servlet.http.HttpSession;
 
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.model.User;
-import com.pickmen.backend.service.UserService;
+import com.pickmen.backend.user.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
