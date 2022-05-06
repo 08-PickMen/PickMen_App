@@ -1,4 +1,4 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.user.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

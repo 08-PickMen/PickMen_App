@@ -16,8 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.pickmen.backend.model.Reply;
-import com.pickmen.backend.model.User;
+import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
 

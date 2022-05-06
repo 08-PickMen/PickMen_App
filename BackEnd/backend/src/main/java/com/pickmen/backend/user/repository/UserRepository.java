@@ -2,7 +2,7 @@ package com.pickmen.backend.user.repository;
 
 import java.util.Optional;
 
-import com.pickmen.backend.model.User;
+import com.pickmen.backend.user.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

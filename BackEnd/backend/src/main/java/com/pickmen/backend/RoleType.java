@@ -1,4 +1,4 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend;
 
 // public enum RoleType {
 //   USER,

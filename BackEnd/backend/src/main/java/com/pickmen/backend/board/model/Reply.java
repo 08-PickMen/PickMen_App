@@ -1,4 +1,4 @@
-package com.pickmen.backend.model;
+package com.pickmen.backend.board.model;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.pickmen.backend.board.model.Board;
+import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
 
