@@ -1,8 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function Information() {
+    var [value, setValue] = useState('');
+    async function returnEmail() {
+        var data = await AsyncStorage.getItem('email');
+        setValue(data)
+    }
+    returnEmail();
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -22,7 +30,8 @@ function Information() {
                 </View>
                 <View>
                     <Text style = {styles.Text}>이메일 주소(ID)</Text>
-                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요."/>
+                    <TextInput style = {styles.TextInput} placeholder = {String(value)} editable={false} selectTextOnFocus={false}
+                    backgroundColor ='gray' placeholderTextColor='white'/>
                 </View>
                 <View>
                     <Text style = {styles.Text}>비밀번호 입력</Text>

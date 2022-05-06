@@ -18,6 +18,8 @@ spring:
         format_sql: true
     generate-ddl: true
 
+<<<<<<< HEAD
+=======
   servlet:
     multipart:
       location: c:\\upload
@@ -26,6 +28,7 @@ spring:
   
 
 
+>>>>>>> a54b9f05b1bab4d24ea6fb96e8cfa5e131f598c5
   mail:
     host: smtp.gmail.com
     port: 587
@@ -35,9 +38,18 @@ spring:
       mail:
         smtp:
           starttls:
+<<<<<<< HEAD
+            enable: false
+            required: true
+          auth: false
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+=======
             enable: true
             required: true
           auth: true
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+>>>>>>> a54b9f05b1bab4d24ea6fb96e8cfa5e131f598c5
