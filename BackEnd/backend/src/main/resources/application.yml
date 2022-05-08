@@ -1,8 +1,10 @@
 
 server:
-  port: 8080
+  port: 8000
 
 spring:
+  devtools:
+    livereload:      enabled: true
   datasource:
     url: jdbc:mysql://localhost:3306/pickmen?serverTimezone=UTC
     username: root
@@ -17,3 +19,7 @@ spring:
       hibernate:
         format_sql: true
     generate-ddl: true
+  mvc:
+    view:
+       prefix: /WEB-INF/views/
+       suffix: .jsp

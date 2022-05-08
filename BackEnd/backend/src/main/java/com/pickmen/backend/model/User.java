@@ -36,6 +36,8 @@ public class User {
   // @ColumnDefault("'USER'") -> 별로 안좋음
   @Enumerated(EnumType.STRING) // DB 는 RoleType 이 없기 때문에 String 타입이라고 알려줘야 함
   private RoleType role; // ENUM을 쓰는것이 좋다.
+  
+  
 
   @CreationTimestamp // Insert 할때 자동으로 날짜가 들어감
   @Column(nullable = false)
