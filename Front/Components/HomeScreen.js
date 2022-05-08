@@ -16,7 +16,7 @@ const Tab = createBottomTabNavigator();
 function HomeScreen(route, navigation) {
     return(
         
-            <NavigationContainer independent={true} >
+            <NavigationContainer independent={1} >
 
             <Tab.Navigator screenOptions={{headerShown : false,
                 tabBarStyle : {
