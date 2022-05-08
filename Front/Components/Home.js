@@ -4,8 +4,8 @@ import 'react-navigation';
 
 function Home() {
     return(
-            <View style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
-                <Text></Text>
+            <View style={{flex : 1, justifyContent : 'center', alignItems : 'center', backgroundColor : '#fff'}}>
+                <Text>안녕</Text>
             </View>
     )
 }

@@ -10,17 +10,30 @@ import MentoProfile from './MentoProfile';
 import Post from './Post';
 import Chat from './Chat';
 import Profile from './Profile';
+
 const Tab = createBottomTabNavigator();
 
 function HomeScreen(route, navigation) {
     return(
+        
             <NavigationContainer independent={true} >
-            <Tab.Navigator screenOptions={{headerShown : false}}>
+
+            <Tab.Navigator screenOptions={{headerShown : false,
+                tabBarStyle : {
+                    backgroundColor : '#fff',
+                },
+                tabBarActiveTintColor : '#27BAFF',
+                
+                }}>
                 <Tab.Screen name="MentoProfile" component={MentoProfile} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Profile.source} style={{width :30, height : 30}}/>
                         )
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
                     }
                 }}/>
                 <Tab.Screen name="Post" component={Post} options={{
@@ -28,27 +41,43 @@ function HomeScreen(route, navigation) {
                         return(
                         <Image source={IconStyles.Post.source} style={{width :30, height : 30}}/>
                         )
-                    }
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
+                    },
                 }}/>
                 <Tab.Screen name="Home" component={Home} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Home.source} style={{width :30, height : 30}}/>
                         )
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
                     }
                 }}/>
-                <Tab.Screen name="Chat" component={Chat} options={{
+                <Tab.Screen name="Chat" component={Chat} options={{ 
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Chat.source} style={{width :30, height : 30}}/>
                         )
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
                     }
-                }}/>
+                }} />
                 <Tab.Screen name="MyProfile" component={Profile} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.MyProfile.source} style={{width :30, height : 30}}/>
                         )
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
                     }
                 }}/>
             </Tab.Navigator>

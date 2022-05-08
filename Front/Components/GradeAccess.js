@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
+import api from 'axios';
+import {AsyncStorage} from '@react-native-community/async-storage';
 
+function GradeUpload() {
+    api.post({baseURL : 'http://http://10.0.2.2:8090/auth/test2',})
+} 
 function GradeAccess() {
     return(
             <View>
