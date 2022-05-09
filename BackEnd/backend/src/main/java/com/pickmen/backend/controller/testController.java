@@ -6,7 +6,10 @@ import com.pickmen.backend.ocr.ocrService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 class testController {
@@ -22,10 +25,25 @@ class testController {
         return "Hello World";
     }
 
-    @GetMapping("auth/test2")
-    public String detectText() throws IOException{
+    @PostMapping("auth/test2")
+    public String detectText(@RequestParam(value = "file", required = false) MultipartFile uploadfile) throws IOException{
+
+
+        // for(MultipartFile file: uploadfile)
+        // {
+        //     if(!file.isEmpty())
+        //     {
+        //         FileDto dto=new FileDto(UUID.randomUUID().toString(),file.getOriginalFilename(),file.getContentType());
+        //         list.add(dto);
+        //         File newFileName=new File(dto.getUuid()+"_"+dto.getFileName());
+                
+        //         file.transferTo(newFileName);
+        //         System.out.println(newFileName);
+        //     }
+        // }
         System.out.println("test2");
-        ocrService.detectText();
+        ocrService.detectText(uploadfile);
+        //ocrService.detectText();
         return "Detect Text";
     }
 
