@@ -29,6 +29,7 @@ function Information() {
         params: {
             username : email,
             password : password,
+            email : email
         }}).then(function(response) {
             console.log(response.data)
         })

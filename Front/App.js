@@ -25,7 +25,7 @@ class App extends Component{
       <stack.Navigator screenOptions={{
         headerShown: false,
       }}>
-                <stack.Screen name="GradeAccess" component={GradeAccess}/>
+        <stack.Screen name="GradeAccess" component={GradeAccess}/>
         <stack.Screen name="Start" component={Start}/>
         <stack.Screen name="Purpose" component={Purpose}/>
         <stack.Screen name="SelectSchool" component={SelectSchool}/>

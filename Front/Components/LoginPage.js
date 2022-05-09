@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { View, Text, StyleSheet , TextInput} from 'react-native';
+import { View, Text, StyleSheet , TextInput, Alert} from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
 import axios  from 'axios';
@@ -8,13 +8,20 @@ import axios  from 'axios';
 function LoginPage({navigation}) {
     const  [email, setEmail] = useState('');
     const  [password, setPassword] = useState('');
+
     function LoginAccess(email, password) {
-       axios.post('http://10.0.2.2:8090/auth/loginProc',{ params: {
-           username: email,
+        console.log(email, password)
+       axios.post('http://10.0.2.2:8090/auth/loginProc',null,{ params: {
+            username: email,
             password: password
        }}).then(response => {
-              console.log('hello')
-              console.log(response.data);
+              console.log(response.data)
+              if(response.data==true){
+                navigation.navigate('HomeScreen');
+              }else{
+                alert('아이디 또는 비밀번호가 틀렸습니다.');
+                navigation.navigate('LoginPage');
+              }
     }).catch(function(error){
         console.log(error)
     })
@@ -33,7 +40,7 @@ function LoginPage({navigation}) {
                 <TouchableOpacity style={styles.startButton} 
                     onPress = {()=> {
                         LoginAccess(email, password);
-                        navigation.navigate('HomeScreen');
+                            navigation.navigate('HomeScreen');                    
                     }}>
                     <Text style={styles.ButtonText}>Login</Text>
                 </TouchableOpacity>  

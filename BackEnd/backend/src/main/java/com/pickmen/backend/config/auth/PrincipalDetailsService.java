@@ -33,6 +33,7 @@ public class PrincipalDetailsService implements UserDetailsService {
             () -> new UsernameNotFoundException("Not found user. username: " + username));
 
     // context holder 에 세션이 저장됨
+
     return new PrincipalDetail(principal);
   }
 }

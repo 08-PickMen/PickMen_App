@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet , Image} from 'react-native';
+import { View, Text, StyleSheet , Image, Platform} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
 import api from 'axios';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -7,12 +7,30 @@ import {AsyncStorage} from '@react-native-community/async-storage';
 
 function GradeAccess() {
     const [image, setImage] = React.useState(null);
-    function ImageUpload() {
-        launchImageLibrary({}, response => {
-            setImage(response.assets[0].uri)
-            console.log(response.assets[0].uri)
+    async function ImageUpload() {
+         launchImageLibrary({}, response => {
+             if(response.assets[0].uri) {
+                 console.log(response);
+                    setImage(response.assets[0].uri);
+             }
+             var data = new FormData();
+                data.append('file', {
+                    uri : Platform.OS === 'android' ? response.assets[0].uri : 'file://' + response.assets[0].uri,
+                    name : 'image.jpg',
+                    type : 'image/jpeg'
+                });
+             api.post('http://10.0.2.2:8090/auth/ImageUpload', data, {
+                    headers : {
+                        'Content-Type' : 'multipart/form-data'
+                    }
+             }).then(response => {
+                console.log(response.data);
+            })
         })
+
     }
+    async function checkImage() {
+        }
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -31,14 +49,11 @@ function GradeAccess() {
                     <Text style = {styles.Text}>성적표</Text>
                 </View>
                 <View>
-                    <Image source={{uri : image}} style = {{width : 30, height : 30}}>
-
-                    </Image>
                 </View>
                 <View style = {{flexDirection : 'row'}}>
                 <TextInput style = {styles.TextInput} placeholder = "성적표를 업로드 해주세요."/>
                 <TouchableOpacity style={styles.CheckButton}
-                onPress={()=>ImageUpload()}>
+                onPress={()=>{ImageUpload();}}>
                         <Text style={styles.ButtonText}>업로드</Text>
                 </TouchableOpacity>
                 </View>

@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <h1>
+            test page
+        </h1>
+    </head>
+    <body>
+        <form name="myform3" method="post" action="/login">
+            <input type="text" name="username">
+            <input type="password" name="password">
+            <input type="submit">
+        </form>
+        <form name="myform" method="post" enctype="multipart/form-data" action="/auth/test2">
+            <input type="file" name="file">
+            <input type="submit">
+        </form>
+
+        <form name="myform2" method="post" enctype="multipart/form-data" action="/upload">
+            <input type="file" name="file">
+            <input type="submit">
+        </form>
+    </body>
+</html>
