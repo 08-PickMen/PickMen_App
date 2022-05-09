@@ -26,6 +26,8 @@
     "AsyncStorage": "^0.1.5",
     "axios": "^0.27.2",
     "expo-font": "^10.0.5",
+    "jetifier": "^2.0.0",
+    "patch-package": "^6.4.7",
     "react": "17.0.2",
     "react-native": "0.67.4",
     "react-native-cli": "^2.0.1",
