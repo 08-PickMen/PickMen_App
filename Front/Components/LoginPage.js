@@ -1,9 +1,24 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { View, Text, StyleSheet , TextInput} from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
+import axios  from 'axios';
+
 
 function LoginPage({navigation}) {
+    const  [email, setEmail] = useState('');
+    const  [password, setPassword] = useState('');
+    function LoginAccess(email, password) {
+       axios.post('http://10.0.2.2:8090/auth/loginProc',{ params: {
+           username: email,
+            password: password
+       }}).then(response => {
+              console.log('hello')
+              console.log(response.data);
+    }).catch(function(error){
+        console.log(error)
+    })
+    }
     return(
             <View>
                 <View>
@@ -12,11 +27,14 @@ function LoginPage({navigation}) {
                     </Text>
                 </View>
                 <View>
-                <TextInput style = {styles.TextInput} placeholder = "Email Address"/>
-                <TextInput secureTextEntry={true} style = {styles.TextInput} placeholder = "Password"/>
+                <TextInput style = {styles.TextInput} placeholder = "Email Address" onChangeText={(UserEmail)=> setEmail(UserEmail)}/>
+                <TextInput secureTextEntry={true} style = {styles.TextInput} placeholder = "Password" onChangeText={(password)=> setPassword(password)}/>
                 </View>
                 <TouchableOpacity style={styles.startButton} 
-                    onPress = {() => navigation.navigate('HomeScreen')}>
+                    onPress = {()=> {
+                        LoginAccess(email, password);
+                        navigation.navigate('HomeScreen');
+                    }}>
                     <Text style={styles.ButtonText}>Login</Text>
                 </TouchableOpacity>  
             </View>

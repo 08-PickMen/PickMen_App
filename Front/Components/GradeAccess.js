@@ -1,13 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet , Image} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
 import api from 'axios';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {AsyncStorage} from '@react-native-community/async-storage';
 
-function GradeUpload() {
-    api.post({baseURL : 'http://http://10.0.2.2:8090/auth/test2',})
-} 
 function GradeAccess() {
+    const [image, setImage] = React.useState(null);
+    function ImageUpload() {
+        launchImageLibrary({}, response => {
+            setImage(response.assets[0].uri)
+            console.log(response.assets[0].uri)
+        })
+    }
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -25,9 +30,15 @@ function GradeAccess() {
                 <View>
                     <Text style = {styles.Text}>성적표</Text>
                 </View>
+                <View>
+                    <Image source={{uri : image}} style = {{width : 30, height : 30}}>
+
+                    </Image>
+                </View>
                 <View style = {{flexDirection : 'row'}}>
                 <TextInput style = {styles.TextInput} placeholder = "성적표를 업로드 해주세요."/>
-                <TouchableOpacity style={styles.CheckButton}>
+                <TouchableOpacity style={styles.CheckButton}
+                onPress={()=>ImageUpload()}>
                         <Text style={styles.ButtonText}>업로드</Text>
                 </TouchableOpacity>
                 </View>

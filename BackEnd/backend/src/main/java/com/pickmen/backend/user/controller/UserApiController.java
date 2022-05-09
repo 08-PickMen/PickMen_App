@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,12 @@ public class UserApiController {
   //  @Autowired private HttpSession session;
 
   @PostMapping("auth/joinProc")
-  public @ResponseBody ResponseDto<User> join(@RequestBody User user) {
+  public @ResponseBody ResponseDto<User> join(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email)
+  {
+    User user=new User();
+    user.setUsername(username);
+    user.setPassword(password);
+    user.setEmail(email); 
     try {
       return new ResponseDto<>(HttpStatus.OK.value(), userService.join(user));
     } catch (Exception e) {

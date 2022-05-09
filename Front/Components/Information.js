@@ -3,12 +3,35 @@ import { useState } from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 
 function Information() {
     var [value, setValue] = useState('');
+    var [Password, setPassword] = useState('');
+    var [correctPassword, setCorrectPassword] = useState('');
+    var [correctText, setCorrectText] = useState('');
+    var [sendEmail, setSendEmail] = useState('');
+    var [sendPassword, setSendPassword] = useState('');
+    var count = 0;
     async function returnEmail() {
         var data = await AsyncStorage.getItem('email');
         setValue(data)
+        setSendEmail(data)
+    }
+    async function savePassword(password) {
+        await AsyncStorage.setItem('password',String(password));
+        var data = await AsyncStorage.getItem('password');
+        setSendPassword(data)
+    }
+    async function register(email, password) {
+        await axios.post('http://10.0.2.2:8090/auth/joinProc',
+        null,{ 
+        params: {
+            username : email,
+            password : password,
+        }}).then(function(response) {
+            console.log(response.data)
+        })
     }
     returnEmail();
     return(
@@ -35,14 +58,42 @@ function Information() {
                 </View>
                 <View>
                     <Text style = {styles.Text}>비밀번호 입력</Text>
-                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요."/>
+                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요." onChangeText={Password => setPassword(Password)}/>
                 </View>
                 <View>
                     <Text style = {styles.Text}>비밀번호 재입력</Text>
-                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요."/>
+                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요."onChangeText={CorrectPassword => {
+                        setCorrectPassword(CorrectPassword)
+                    }}/>
+                </View>
+                <View style={{flexDirection : 'row'}}>
+                    <Text style = {styles.CorrectText}>{correctText}</Text>
+                    <TouchableOpacity style={styles.CorrectButton}
+                    onPress = {() =>{
+                        if(Password === correctPassword&& Password !== ''){
+                            setCorrectText('비밀번호가 일치합니다.');
+                            count = 1;
+                        }
+                        else {
+                            setCorrectText('비밀번호가 일치하지 않습니다.');
+                        }
+                        if(count==0) {
+                            styles.CorrectText = styles.FailText;
+                        } else {
+                            styles.CorrectText = styles.backupText;
+                        }
+                        savePassword(Password);
+                    }}>
+                        <Text style={styles.ButtonText}>비밀번호 확인</Text>
+                    </TouchableOpacity>
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.Button}>
+                    <TouchableOpacity style={styles.Button}
+                    onPress={()=> {
+                        console.log(sendEmail, sendPassword);
+                            register(sendEmail, sendPassword);
+
+                    }}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
                 </View>
@@ -60,6 +111,36 @@ const styles = StyleSheet.create({
     marginTop : 60,
     borderRadius:5,
     backgroundColor : "#27BAFF"
+   },
+   CorrectButton:{
+    width : 110, 
+    height : 40,
+    paddingTop : 5, 
+    marginLeft : 'auto',
+    marginRight : 40, 
+    borderRadius:5,
+    backgroundColor : "#27BAFF"
+   },
+   CorrectText: {
+    color : "#27BAFF",
+    fontSize : 15,
+    fontFamily : 'Jalnan',
+    marginTop : 10,
+    marginLeft : 50
+   },
+   backupText: {
+    color : "#27BAFF",
+    fontSize : 15,
+    fontFamily : 'Jalnan',
+    marginTop : 10,
+    marginLeft : 50
+   },
+   FailText: {
+    color : "#ff0000",
+    fontSize : 15,
+    fontFamily : 'Jalnan',
+    marginTop : 10,
+    marginLeft : 20
    },
    ButtonText:{
     color : "white",

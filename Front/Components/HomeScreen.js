@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import {TouchableOpacity, TextInput,Image} from 'react-native';
+import { StyleSheet } from 'react-native';
+import {Image} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-navigation';
 import Home from './Home';
-import Setting from './Setting';
 import MentoProfile from './MentoProfile';
 import Post from './Post';
 import Chat from './Chat';
@@ -13,7 +12,7 @@ import Profile from './Profile';
 
 const Tab = createBottomTabNavigator();
 
-function HomeScreen(route, navigation) {
+function HomeScreen() {
     return(
         
             <NavigationContainer independent={1} >

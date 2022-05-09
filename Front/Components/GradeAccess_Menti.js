@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
 import 'react-navigation'
+
 function GradeAccess_Menti({navigation}) {
     return(
             <View>

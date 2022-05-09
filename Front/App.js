@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
 import React, { Component } from 'react';
 import 'react-native-gesture-handler';
@@ -32,6 +25,7 @@ class App extends Component{
       <stack.Navigator screenOptions={{
         headerShown: false,
       }}>
+                <stack.Screen name="GradeAccess" component={GradeAccess}/>
         <stack.Screen name="Start" component={Start}/>
         <stack.Screen name="Purpose" component={Purpose}/>
         <stack.Screen name="SelectSchool" component={SelectSchool}/>
@@ -39,7 +33,6 @@ class App extends Component{
         <stack.Screen name="Certify" component={Certify}/>
         <stack.Screen name="Certify_Mento" component={Certify_Mento}/>
         <stack.Screen name="Information" component={Information}/>
-        <stack.Screen name="GradeAccess" component={GradeAccess}/>
         <stack.Screen name="GradeAccess_Menti" component={GradeAccess_Menti}/>
         <stack.Screen name="Testpage" component={Testpage}/>
         <stack.Screen name="ResgisterComplete" component={RegisterComplete} />
