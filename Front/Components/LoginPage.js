@@ -13,7 +13,7 @@ function LoginPage({navigation}) {
                 </View>
                 <View>
                 <TextInput style = {styles.TextInput} placeholder = "Email Address"/>
-                <TextInput style = {styles.TextInput} placeholder = "Password"/>
+                <TextInput secureTextEntry={true} style = {styles.TextInput} placeholder = "Password"/>
                 </View>
                 <TouchableOpacity style={styles.startButton} 
                     onPress = {() => navigation.navigate('HomeScreen')}>

@@ -19,7 +19,7 @@ function Chat() {
             <GiftedChat messages={Messages}
                 onSend = {newMessage=> SendEvent(newMessage)}
                 user={{ _id : 1}}
-                messagesContainerStyle={{backgroundColor : '#dff',}}
+                messagesContainerStyle={{backgroundColor : '#9bbbd4',}}
                 >
             </GiftedChat>
     )

@@ -8,7 +8,7 @@ function System() {
             fontFamily : 'Jalnan',
             color : "#27BAFF",
         }}>
-            New Rooms
+            대화방에서는 규정에 따라 적절한 대화를 나누시길 바랍니다.
         </Text>
     )
 }
@@ -17,13 +17,11 @@ const messages = [
     {
         _id : 0,
         text : System(),
-        createdAt : new Date().getTime(),
         system : true
     },
     {
         _id : 1,
         text : 'Hello',
-        createdAt : new Date().getTime(),
         user : {
             _id : 2,
             name : '유저1',

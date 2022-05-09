@@ -32,7 +32,6 @@ class App extends Component{
       <stack.Navigator screenOptions={{
         headerShown: false,
       }}>
-        <stack.Screen name="HomeScreen" component={HomeScreen}/>
         <stack.Screen name="Start" component={Start}/>
         <stack.Screen name="Purpose" component={Purpose}/>
         <stack.Screen name="SelectSchool" component={SelectSchool}/>
@@ -45,6 +44,7 @@ class App extends Component{
         <stack.Screen name="Testpage" component={Testpage}/>
         <stack.Screen name="ResgisterComplete" component={RegisterComplete} />
         <stack.Screen name="LoginPage" component={LoginPage}/>
+        <stack.Screen name="HomeScreen" component={HomeScreen}/>
       </stack.Navigator>
     </NavigationContainer>
   );
