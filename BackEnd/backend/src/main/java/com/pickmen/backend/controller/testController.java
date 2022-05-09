@@ -42,7 +42,7 @@ class testController {
         //     }
         // }
         System.out.println("test2");
-        ocrService.detectText(uploadfile);
+        System.out.println(ocrService.detectText(uploadfile));
         //ocrService.detectText();
         return "Detect Text";
     }
