@@ -26,13 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class UserApiController {
 
-  @Autowired private UserRepository userRepository;
-
   @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired private UserService userService;
-
-  @Autowired private AuthenticationManager authenticationManager;
 
   @Autowired private PrincipalDetailsService principalDetailsService;
   // 전통적인 로그인 방식 ( 사용 안함 )
