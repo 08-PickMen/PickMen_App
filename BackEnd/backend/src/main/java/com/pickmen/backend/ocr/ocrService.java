@@ -63,7 +63,7 @@ public class ocrService {
   }
 
 
-  public boolean detectText(MultipartFile uploadfile) throws IOException {
+  public String detectText(MultipartFile uploadfile) throws IOException {
     List<AnnotateImageRequest> requests = new ArrayList<>();
     String check="";
     Double average=0.0;
@@ -98,7 +98,7 @@ public class ocrService {
       for (AnnotateImageResponse res : responses) {
         if (res.hasError()) {
           System.out.format("Error: %s%n", res.getError().getMessage());
-          return false;
+          return "인증 실패";
         }
 
        
@@ -128,13 +128,13 @@ public class ocrService {
       }
 
       if(count==1)
-      return false;
+      return "인증 실패";
       else{
         count--;
         if(average/count>94)
-        return true;
+        return Double.toString(average/count);
         else
-        return false;
+        return "인증 실패";
       }
   }
 }

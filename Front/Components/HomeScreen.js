@@ -8,6 +8,7 @@ import Home from './Home';
 import MentoProfile from './MentoProfile';
 import Post from './Post';
 import Chat from './Chat';
+import PostList from './PostList';
 import Profile from './Profile';
 
 const Tab = createBottomTabNavigator();
