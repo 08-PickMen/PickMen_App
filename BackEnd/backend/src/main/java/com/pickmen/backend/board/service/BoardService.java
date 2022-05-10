@@ -27,7 +27,7 @@ public class BoardService {
 
   @Transactional(readOnly = true)
   public List<Board> getBoardList() {
-    return boardRepository.findAll();
+    return boardRepository.findAllByOrderByCreateDateDesc();
   }
 
   @Transactional(readOnly = true)

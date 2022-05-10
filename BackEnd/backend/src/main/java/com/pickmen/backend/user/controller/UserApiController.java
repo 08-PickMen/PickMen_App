@@ -1,16 +1,23 @@
 package com.pickmen.backend.user.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpSession;
 
+import com.google.api.Http;
+import com.pickmen.backend.RoleType;
+import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.user.model.User;
-import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.web.server.ServerHttpSecurity.HttpsRedirectSpec;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,9 +46,13 @@ public class UserApiController {
   {
     try {
       UserDetails userDetails=principalDetailsService.loadUserByUsername(username);
-      if(bCryptPasswordEncoder.matches(password, userDetails.getPassword()))
+
+ 
+      if(bCryptPasswordEncoder.matches(password, userDetails.getPassword())){
+        Authentication authentication=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
       return "로그인 성공";
-      
+      }
       return "로그인 실패";
     }
      catch (Exception e) {
@@ -58,6 +69,7 @@ public class UserApiController {
      user.setUsername(username);
      user.setPassword(password);
      user.setEmail(email);
+     user.setRole(RoleType.MENTEE);
      
     try {
       return new ResponseDto<>(HttpStatus.OK.value(), userService.join(user));
