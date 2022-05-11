@@ -55,8 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/images/**", "/chat/**") // chat 허용
         .permitAll()
         // 그 외의 URL은 인증을 해야만 접근 가능
-        .anyRequest()
-        .authenticated()
+        // Test를 위해 잠깐 비활성화
+        //.anyRequest()
+        //.authenticated()
         .and()
         // 로그인 설정
         .formLogin()

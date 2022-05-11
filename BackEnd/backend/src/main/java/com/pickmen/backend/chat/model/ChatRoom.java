@@ -41,9 +41,10 @@ public class ChatRoom {
 	@Column
 	private String roomName;
 
+	/*
 	// ChatRoom 1 : N Chat 
-	@OneToMany(mappedBy = "chatRoom")
-	private List<Chat> chat;
+	@OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
+	private List<Chat> chat;*/
 	
 	// ChatRoom 1 : N User -> 한 개의 채팅방은 여러명의 유저를 가질 수 있음	
 	@OneToMany( // FK가 아니다

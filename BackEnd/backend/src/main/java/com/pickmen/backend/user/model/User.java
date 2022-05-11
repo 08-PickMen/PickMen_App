@@ -63,7 +63,7 @@ public class User {
    // 새로 입력 
 
    @Column(nullable= true)
-   private String ninkname;
+   private String nickname;
  
    @Column(nullable= true)
    private String universityName;
@@ -71,6 +71,7 @@ public class User {
    @Column(nullable= true)
    private String profileImage;
    
+   // "멘토" 에만 추가되는 부분들
    @Column(nullable= true)
    private String reportCard;
  
