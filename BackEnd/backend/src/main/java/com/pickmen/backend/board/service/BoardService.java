@@ -25,10 +25,6 @@ public class BoardService {
     return savedBoard;
   }
 
-  @Transactional(readOnly = true)
-  public List<Board> getBoardList() {
-    return boardRepository.findAll();
-  }
 
   @Transactional(readOnly = true)
   public Page<Board> getBoardList(Pageable pageable) {

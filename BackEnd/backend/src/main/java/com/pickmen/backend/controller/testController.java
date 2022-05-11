@@ -25,7 +25,7 @@ class testController {
         return "Hello World";
     }
 
-    @PostMapping("/auth/test2")
+    @PostMapping("/auth/ImageUpload")
     public String detectText(@RequestParam(value = "file", required = false) MultipartFile uploadfile) throws IOException{
 
 

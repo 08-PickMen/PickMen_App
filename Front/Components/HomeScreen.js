@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import {Image} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-navigation';
 import Home from './Home';
@@ -9,15 +10,19 @@ import MentoProfile from './MentoProfile';
 import Post from './Post';
 import Chat from './Chat';
 import PostList from './PostList';
+import Board from './Board';
 import Profile from './Profile';
+import axios from 'axios';
+import data from './PostList';
 
+const stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function HomeScreen() {
+function HomeScreen({navigation}) {
     return(
         
-            <NavigationContainer independent={1} >
-
+            <NavigationContainer independent={true} >
+            
             <Tab.Navigator screenOptions={{headerShown : false,
                 tabBarStyle : {
                     backgroundColor : '#fff',
@@ -36,7 +41,7 @@ function HomeScreen() {
                         fontFamily : 'Jalnan'
                     }
                 }}/>
-                <Tab.Screen name="Post" component={Post} options={{
+                <Tab.Screen name="Post" component={Board} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Post.source} style={{width :30, height : 30}}/>

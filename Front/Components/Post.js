@@ -2,9 +2,11 @@ import React , {useState} from 'react';
 import { View, Text, StyleSheet , TextInput, TouchableOpacity} from 'react-native';
 import 'react-navigation';
 import axios from 'axios';
+import data from './PostList';
 import { Title } from 'react-native-paper';
+import 'react-navigation'
 
-function WritePost(Title, Content) {
+async function WritePost(Title, Content) {
     axios.post('http://10.0.2.2:8090/board/write',null,{ params: {
         title: Title,
         content: Content
@@ -14,8 +16,23 @@ function WritePost(Title, Content) {
         console.log(error)
     })
 }
-
-function Post() {
+async function reloadBoard() {
+    data.length = 0;
+    await axios.get('http://10.0.2.2:8090/board/list')
+    .then(response => {
+        var count = parseInt(response.data.numberOfElements);
+        count = count-1;
+        for(count;count >=0; count--){
+        data.push({
+            id : response.data.content[count].id,
+            title : response.data.content[count].title,
+        },)
+    }
+    }).catch(error => {
+        console.log(error)
+    })
+}
+function Post({navigation}) {
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
     return(
@@ -30,7 +47,7 @@ function Post() {
                         <Text style = {styles.ExitText}>X</Text>
                     </TouchableOpacity>
                     <Text style = {styles.PostText}>글 쓰기</Text>
-                    <TouchableOpacity style = {styles.Button} onPress={()=>{WritePost(Title,Content)}}>
+                    <TouchableOpacity style = {styles.Button} onPress={()=>{navigation.navigate('PostPage'); WritePost(Title,Content); reloadBoard();}}>
                         <Text style = {styles.ButtonText}>작성</Text>
                     </TouchableOpacity>
                 </View>

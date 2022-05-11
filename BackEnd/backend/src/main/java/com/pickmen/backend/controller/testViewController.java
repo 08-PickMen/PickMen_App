@@ -14,5 +14,11 @@ class testViewController {
         return "testview";
     }
 
+    @GetMapping("/authview")
+    public String getAuth() {
+        System.out.println("test4");
+        return "authview";
+    }
+
 
 }

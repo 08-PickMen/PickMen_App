@@ -3,7 +3,7 @@ import { View, Text, StyleSheet , TextInput, Alert} from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
 import axios  from 'axios';
-
+import data from './PostList'
 
 function LoginPage({navigation}) {
     const  [email, setEmail] = useState('');
@@ -15,7 +15,6 @@ function LoginPage({navigation}) {
             username: email,
             password: password
        }}).then(response => {
-              console.log(response.data)
               if(response.data==true){
                 navigation.navigate('HomeScreen');
               }else{
@@ -26,7 +25,23 @@ function LoginPage({navigation}) {
         console.log(error)
     })
     }
+    async function loadBoard() {
+        await axios.get('http://10.0.2.2:8090/board/list')
+        .then(response => {
+            var count = parseInt(response.data.numberOfElements);
+            count = count-1;
+            for(count;count >=0; count--){
+            data.push({
+                id : response.data.content[count].id,
+                title : response.data.content[count].title,
+            },)
+        }
+        }).catch(error => {
+            console.log(error)
+        })
+    }
     return(
+        data.length = 0,
             <View>
                 <View>
                     <Text style = {styles.Text}>
@@ -40,7 +55,9 @@ function LoginPage({navigation}) {
                 <TouchableOpacity style={styles.startButton} 
                     onPress = {()=> {
                         LoginAccess(email, password);
-                            navigation.navigate('HomeScreen');                    
+                        loadBoard();
+                        navigation.navigate('HomeScreen');
+                        data.length = 0;                    
                     }}>
                     <Text style={styles.ButtonText}>Login</Text>
                 </TouchableOpacity>  

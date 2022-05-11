@@ -16,6 +16,7 @@ import Testpage from './Components/Test'
 import GradeAccess_Menti from './Components/GradeAccess_Menti';
 import RegisterComplete from './Components/RegisterComplete';
 import LoginPage from './Components/LoginPage';
+import Post from './Components/Post';
 const stack = createStackNavigator();
 
 class App extends Component{
@@ -38,6 +39,7 @@ class App extends Component{
         <stack.Screen name="ResgisterComplete" component={RegisterComplete} />
         <stack.Screen name="LoginPage" component={LoginPage}/>
         <stack.Screen name="HomeScreen" component={HomeScreen}/>
+        <stack.Screen name="Post" component={Post}/>
       </stack.Navigator>
     </NavigationContainer>
   );
