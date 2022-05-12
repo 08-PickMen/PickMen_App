@@ -1,22 +1,21 @@
 package com.pickmen.backend.user.controller;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpSession;
 
-import com.google.api.Http;
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
 import com.pickmen.backend.dto.ResponseDto;
-import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.controller.model.User;
+import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.messaging.simp.user.UserRegistryMessageHandler;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.web.server.ServerHttpSecurity.HttpsRedirectSpec;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,11 +37,13 @@ public class UserApiController {
   @Autowired private UserService userService;
 
   @Autowired private PrincipalDetailsService principalDetailsService;
+
+  @Autowired private UserRepository userRepository;
   // 전통적인 로그인 방식 ( 사용 안함 )
   //  @Autowired private HttpSession session;
 
-  @PostMapping("auth/loginProc")
-  public String login(@RequestParam("username") String username, @RequestParam("password") String password)
+  @PostMapping("/login")
+  public @ResponseBody ResponseDto<User> login(@RequestParam("username") String username, @RequestParam("password") String password)
   {
     try {
       UserDetails userDetails=principalDetailsService.loadUserByUsername(username);
@@ -51,18 +52,18 @@ public class UserApiController {
       if(bCryptPasswordEncoder.matches(password, userDetails.getPassword())){
         Authentication authentication=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-      return "로그인 성공";
+        return new ResponseDto<>(HttpStatus.OK.value(),userRepository.findByUsername(userDetails.getUsername()).get());
       }
-      return "로그인 실패";
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
      catch (Exception e) {
       e.printStackTrace();
-      return "로그인 실패";
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
   }
 
 
-  @PostMapping("auth/joinProc")
+  @PostMapping("/signup")
   public @ResponseBody ResponseDto<User> join(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email)
    {
      User user=new User();
@@ -79,21 +80,10 @@ public class UserApiController {
     }
   }
 
-  // 전통적인 로그인 방식 ( 사용 안함 )
-  //  @PostMapping("user/login")
-  //  public @ResponseBody ResponseDto<Integer> userLogin(@RequestBody User user) {
-  //    try {
-  //      User principal = userService.login(user);
-  //      session.setAttribute("principal", principal);
-  //      return new ResponseDto<>(HttpStatus.OK.value(), 1);
-  //    } catch (Exception e) {
-  //      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
-  //    }
-  //  }
-
-  @PutMapping("user")
-  public @ResponseBody ResponseDto<Integer> user(@RequestBody User user, HttpSession session) {
+  @PostMapping("user/update")
+  public @ResponseBody ResponseDto<Integer> user(User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
+      user.setId(principalDetail.getUserId());
       User savedUser = userService.updateUser(user);
 
       return new ResponseDto<>(HttpStatus.OK.value(), 1);

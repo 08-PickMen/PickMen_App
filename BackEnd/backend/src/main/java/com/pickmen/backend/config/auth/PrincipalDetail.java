@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.controller.model.User;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,6 +44,12 @@ public class PrincipalDetail implements UserDetails {
    *
    * @return String password
    */
+
+   public long getUserId(){
+     return user.getId();
+   }
+   
+
   @Override
   public String getPassword() {
     return user.getPassword();

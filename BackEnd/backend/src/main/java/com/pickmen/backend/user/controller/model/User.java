@@ -1,4 +1,4 @@
-package com.pickmen.backend.user.model;
+package com.pickmen.backend.user.controller.model;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.pickmen.backend.RoleType;
+import com.pickmen.backend.SchoolType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -64,7 +65,8 @@ public class User {
    private String ninkname;
  
    @Column(nullable= true)
-   private String universityName;
+   @Enumerated(EnumType.STRING)
+   private SchoolType school;
  
    @Column(nullable= true)
    private String profileImage;

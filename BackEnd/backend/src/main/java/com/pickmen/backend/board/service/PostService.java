@@ -2,9 +2,9 @@ package com.pickmen.backend.board.service;
 
 import java.util.List;
 
-import com.pickmen.backend.board.model.Board;
-import com.pickmen.backend.board.repository.BoardRepository;
-import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.board.model.Post;
+import com.pickmen.backend.board.repository.PostRepository;
+import com.pickmen.backend.user.controller.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,42 +13,45 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class BoardService {
+public class PostService {
 
-  @Autowired private BoardRepository boardRepository;
+  @Autowired private PostRepository PostRepository;
 
   @Transactional
-  public Board write(Board board, User user) {
+  public Post write(Post board, User user) {
     board.setCount(0);
     board.setUser(user);
-    final Board savedBoard = boardRepository.save(board);
+    final Post savedBoard = PostRepository.save(board);
     return savedBoard;
   }
 
   @Transactional(readOnly = true)
-  public List<Board> getBoardList() {
-    return boardRepository.findAllByOrderByCreateDateDesc();
+  public Page<Post> getPostList(Pageable pageable) {
+    return PostRepository.findAll(pageable);
   }
 
   @Transactional(readOnly = true)
-  public Page<Board> getBoardList(Pageable pageable) {
-    return boardRepository.findAll(pageable);
-  }
-
-  @Transactional(readOnly = true)
-  public Board getBoard(long id) {
-    return boardRepository
+  public Post getPost(long id) {
+    return PostRepository
         .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("해당 글은 존재하지 않습니다."));
   }
 
   public void delete(long id) {
-    boardRepository.deleteById(id);
+    PostRepository.deleteById(id);
   }
 
   @Transactional
-  public void update(long id, Board board) {
-    Board findBoard = this.getBoard(id); // 영속화 완료 (영속화 컨텍스트에 보관)
+  public void upcount(long id){
+    Post findBoard = this.getPost(id); // 영속화 완료 (영속화 컨텍스트에 보관)
+    // 영속화된 객체를 수정
+    findBoard.setCount(findBoard.getCount()+1);
+
+  }
+
+  @Transactional
+  public void update(long id, Post board) {
+    Post findBoard = this.getPost(id); // 영속화 완료 (영속화 컨텍스트에 보관)
 
     // 영속화된 객체를 수정
     findBoard.setTitle(board.getTitle());

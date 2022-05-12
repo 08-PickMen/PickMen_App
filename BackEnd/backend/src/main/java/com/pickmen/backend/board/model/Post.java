@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.controller.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -26,14 +26,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "board")
+@Table(name = "post")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Board {
+public class Post {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
