@@ -12,7 +12,6 @@ import data from './PostData';
 async function loadBoard() {
     var data1 = await AsyncStorage.getItem('user_id');
     var data2 = await AsyncStorage.getItem('Compareid');
-    console.log(data1, data2)
     if(data1 == data2){
         return true
     }
@@ -20,7 +19,6 @@ async function loadBoard() {
 }
 
 async function DeletePost(navigation, id) {
-    console.log(id)
     await axios.post('http://10.0.2.2:8090/board/delete',null,{ params: {
         id : parseInt(id),
     } }).then(response => {
@@ -41,7 +39,7 @@ async function DeletePost(navigation, id) {
         [
             {
                 text: '확인',
-                onPress: () => {loadBoard(); navigation.dispatch(CommonActions.reset({
+                onPress: () => { navigation.dispatch(CommonActions.reset({
                     index : 0,
                     routes : [{name : 'PostPage'}]
                 }))},
@@ -51,25 +49,16 @@ async function DeletePost(navigation, id) {
     )
 }
 
-async function EditPost(navigation, id, title, content) {
-    await axios.post('http://10.0.2.2:8090/board/delete',null,{ params: {
-        id : parseInt(id),
-        title : title,
-        content : content,
-    } }).then(response => {
-        console.log(response.data)
-    }).catch(error => {
-        console.log(error)
-    })
+async function EditPost(navigation) {
     Alert.alert(
-        '게시글이 수정 되었습니다',
+        '게시글을 수정하겠습니다.',
         '',
         [
             {
                 text: '확인',
                 onPress: () => {loadBoard(); navigation.dispatch(CommonActions.reset({
                     index : 0,
-                    routes : [{name : 'PostPage'}]
+                    routes : [{name : 'EditPost'}]
                 }))},
 
             }
@@ -89,12 +78,6 @@ async function DeleteToPost(navigation) {
     DeletePost(navigation, data);
 }
 
-async function EditToPost(navigation) {
-    var data1 = await AsyncStorage.getItem('Post_id');
-    var data2 = await AsyncStorage.getItem('title_id');
-    var data3 = await AsyncStorage.getItem('content_id');
-    EditPost(navigation, data1, data2, data3);
-}
 
 function ShowTab({navigation}) {
          if(loadBoard()){
@@ -111,10 +94,8 @@ function ShowTab({navigation}) {
                         <Text style={styles.ButtonText}>삭제</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.Button} onPress={()=> {
-                        EditToPost(navigation);
-                        AsyncStorage.removeItem('Post_id');
-                        AsyncStorage.removeItem('title_id');
-                        AsyncStorage.removeItem('content_id');
+                        EditPost(navigation);
+
                     }}>
                         <Text style={styles.ButtonText}>수정</Text>
                     </TouchableOpacity>

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import PickerBox from 'react-native-picker-select';
 import 'react-navigation'
-
+import Schools from './SchoolLabel'
 function SelectSchool({navigation}) {
     const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
     return(
@@ -23,9 +23,7 @@ function SelectSchool({navigation}) {
                 <PickerBox 
                     selectdValue={selectdValue}
                     onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
-                    items = {[ 
-                    {label : '아주대학교', value : 'AjouUniversity'},
-                    {label : '서울대학교', value : 'SeoulUniversity'}]}
+                    items = {Schools}
                     >
                     </PickerBox>
                     </View>

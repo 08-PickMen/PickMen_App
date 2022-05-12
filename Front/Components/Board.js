@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Post from './Post';
 import PostList from './PostList';
 import ViewPost from './ViewPost';
+import EditPost from './EditPost';
 
 const stack = createStackNavigator();
 
@@ -20,6 +21,8 @@ function Board() {
                 <stack.Screen name="PostPage" component={PostList}/>
                 <stack.Screen name="Post" component={Post}/>
                 <stack.Screen name="ViewPost" component={ViewPost}/>
+                <stack.Screen name="EditPost" component={EditPost}/>
+
             </stack.Navigator>
         </NavigationContainer>
     )

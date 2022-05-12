@@ -1,9 +1,30 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
+import axios from 'axios';
+
+async function DuplicateCheck(nickName) {
+    await axios.get('http://10.0.2.2:8090/DuplicateCheck',{
+        params : {
+            nickname : nickName
+        }
+    }).
+    then(response => {
+        if(response.status == 200) {
+            var data = nickName;
+            AsyncStorage.setItem('nickname', data);
+        }
+    }).catch(error => {
+        console.log(error)
+    })
+}
 
 function GradeAccess_Menti({navigation}) {
+
+    const [nickname, setNickname] = useState('');
+
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -13,8 +34,11 @@ function GradeAccess_Menti({navigation}) {
                     <Text style = {styles.Text}>닉네임</Text>
                 </View>
                 <View style = {{flexDirection : 'row', marginBottom : 100}}>
-                <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요."/>
-                <TouchableOpacity style={styles.CheckButton}>
+                <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요." onChangeText={(NickName)=>setNickname(NickName)}/>
+                <TouchableOpacity style={styles.CheckButton}
+                onPress= {
+                    ()=>{DuplicateCheck(nickname);}
+                }>
                         <Text style={styles.ButtonText}>중복인증</Text>
                 </TouchableOpacity>
                 </View>
