@@ -19,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -118,4 +119,14 @@ public class UserApiController {
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), 1);
     }
   }
+  
+  @GetMapping("user/getMentor")
+  public @ResponseBody ResponseDto<User> getMentor() {
+    try {
+      return new ResponseDto<>(HttpStatus.OK.value(), userRepository.findByRoleOrderByAverageRating("MENTOR").get());
+    } catch (Exception e) {
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    }
+  }
+  
 }
