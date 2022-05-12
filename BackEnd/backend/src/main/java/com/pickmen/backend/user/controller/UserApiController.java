@@ -83,7 +83,7 @@ public class UserApiController {
     }
   }
 
-  @PostMapping("/getProfile")
+  @GetMapping("/getProfile")
   public ResponseEntity<Resource> getProfile(long userid)
   {
     User user=userRepository.getById(userid);
@@ -91,7 +91,7 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam("profile") MultipartFile uploadfile, User user)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "file", required = false) MultipartFile uploadfile, User user)
    {
      System.out.println("회원가입");
      System.out.println(user.getUsername()+" "+user.getPassword());
@@ -113,7 +113,7 @@ public class UserApiController {
   }
 
   @PostMapping("user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<Integer> user(@RequestParam(value = "file", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       user.setId(principalDetail.getUserId());
       user.setProfileImage(imageService.upload(uploadfile));
