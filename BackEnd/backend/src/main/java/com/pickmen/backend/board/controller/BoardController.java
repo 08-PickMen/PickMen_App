@@ -37,7 +37,7 @@ public class BoardController {
   }
 
   @PostMapping("/board/delete")
-  public String boardDelete(long id){
+  public String boardDelete(@RequestParam("id") long id){
     try{
     boardService.delete(id);
     return "삭제 완료";
@@ -50,7 +50,7 @@ public class BoardController {
 
   
   @PostMapping("/board/update")
-  public String boardUpdate(long id,Board board){
+  public String boardUpdate( @RequestParam("id") long id,Board board){
     try{
     boardService.update(id, board);
     return "수정 완료";

@@ -12,9 +12,10 @@ function LoginPage({navigation}) {
     const  [password, setPassword] = useState('');
 
     async function saveUserId(user_id) {
-        await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
-        var data = await AsyncStorage.getItem('user_id');
-        console.log(data);
+        if(user_id)
+            await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
+            var data = await AsyncStorage.getItem('user_id');
+            console.log(data);
     }
     async function LoginAccess(email, password) {
        axios.post('http://10.0.2.2:8090/auth/loginProc',null,{ params: {
@@ -43,6 +44,8 @@ function LoginPage({navigation}) {
             data.push({
                 id : response.data.content[count].id,
                 title : response.data.content[count].title,
+                user : response.data.content[count].user.id,
+                content : response.data.content[count].content,
             },)
         }
         }).catch(error => {

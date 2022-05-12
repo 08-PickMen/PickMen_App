@@ -1,3 +1,3 @@
-var newData = [];
-newData.length = 0;
-export default newData;
+var newPostData = [];
+
+export default newPostData;

@@ -17,6 +17,7 @@ async function loadBoard() {
                 id : response.data.content[0].id,
                 title : response.data.content[0].title,
                 user : response.data.content[0].user.id,
+                content : response.data.content[0].content,
             },)
             console.log(data)
         }
@@ -28,6 +29,7 @@ async function loadBoard() {
                 id : response.data.content[count].id,
                 title : response.data.content[count].title,
                 user : response.data.content[count].user.id,
+                content : response.data.content[0].content,
             },)
     }
     console.log(data)
