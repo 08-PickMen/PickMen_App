@@ -1,37 +1,65 @@
 import React , {useState} from 'react';
-import { View, Text, StyleSheet , TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet , TextInput, TouchableOpacity, Alert} from 'react-native';
 import 'react-navigation';
 import axios from 'axios';
-import data from './PostList';
-import { Title } from 'react-native-paper';
+import data from './PostData';
 import 'react-navigation'
+import { CommonActions } from '@react-navigation/native';
 
-async function WritePost(Title, Content) {
-    axios.post('http://10.0.2.2:8090/board/write',null,{ params: {
-        title: Title,
-        content: Content
-    }}).then(response => {
-        console.log(response.data)
-    }).catch(error => {
-        console.log(error)
-    })
-}
-async function reloadBoard() {
-    data.length = 0;
+
+async function loadBoard() {
     await axios.get('http://10.0.2.2:8090/board/list')
     .then(response => {
-        var count = parseInt(response.data.numberOfElements);
-        count = count-1;
-        for(count;count >=0; count--){
-        data.push({
-            id : response.data.content[count].id,
-            title : response.data.content[count].title,
-        },)
+        var count = parseInt(response.data.totalElements);
+        if(count == 1) {
+            data.length = 0;
+            data.push({
+                id : response.data.content[0].id,
+                title : response.data.content[0].title,
+                user : response.data.content[0].user.id,
+            },)
+            console.log(data)
+        }
+        else if(count > 1){
+            count = count-1;
+            data.length = 0;
+            for(count;count >=0; count--){
+            data.push({
+                id : response.data.content[count].id,
+                title : response.data.content[count].title,
+                user : response.data.content[count].user.id,
+            },)
+    }
+    console.log(data)
     }
     }).catch(error => {
         console.log(error)
     })
 }
+
+async function WritePost(Title,Content,navigation) {
+    axios.post('http://10.0.2.2:8090/board/write',null,{ params: {
+        title : Title,
+        content : Content
+    }}).then(response => {
+        console.log(response.data)
+    })
+    Alert.alert(
+        '게시글이 작성되었습니다',
+        '',
+        [
+            {
+                text: '확인',
+                onPress: () => {loadBoard(); navigation.dispatch(CommonActions.reset({
+                    index : 0,
+                    routes : [{name : 'PostPage'}]
+                }))},
+
+            }
+        ]
+    )
+}
+
 function Post({navigation}) {
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
@@ -47,7 +75,7 @@ function Post({navigation}) {
                         <Text style = {styles.ExitText}>X</Text>
                     </TouchableOpacity>
                     <Text style = {styles.PostText}>글 쓰기</Text>
-                    <TouchableOpacity style = {styles.Button} onPress={()=>{navigation.navigate('PostPage'); WritePost(Title,Content); reloadBoard();}}>
+                    <TouchableOpacity style = {styles.Button} onPress={()=>{WritePost(Title,Content,navigation);}}>
                         <Text style = {styles.ButtonText}>작성</Text>
                     </TouchableOpacity>
                 </View>

@@ -1,21 +1,30 @@
 import React , {useState} from 'react';
 import { View, Text, StyleSheet , TextInput, Alert} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
 import axios  from 'axios';
-import data from './PostList'
+import data from './PostData'
+import newPostData from './newPostData';
 
 function LoginPage({navigation}) {
     const  [email, setEmail] = useState('');
     const  [password, setPassword] = useState('');
 
-    function LoginAccess(email, password) {
-        console.log(email, password)
+    async function saveUserId(user_id) {
+        await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
+        var data = await AsyncStorage.getItem('user_id');
+        console.log(data);
+    }
+    async function LoginAccess(email, password) {
        axios.post('http://10.0.2.2:8090/auth/loginProc',null,{ params: {
             username: email,
-            password: password
+            password: password,
+            email : email,
        }}).then(response => {
-              if(response.data==true){
+              if(response.data.status == 200){
+                console.log(response.data.data.id)
+                saveUserId(response.data.data.id);
                 navigation.navigate('HomeScreen');
               }else{
                 alert('아이디 또는 비밀번호가 틀렸습니다.');

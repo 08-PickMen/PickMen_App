@@ -32,7 +32,7 @@ public class BoardController {
   // 위 코드를 통해 세션에 저장된 사용자 정보를 가져올 수 있다.
 
   @GetMapping("/board/list")
-  public Page<Board> boardList(@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+  public Page<Board> boardList(@PageableDefault(size = 99, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
     return boardService.getBoardList(pageable);
   }
 

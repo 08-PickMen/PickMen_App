@@ -1,21 +1,17 @@
 package com.pickmen.backend.user.controller;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpSession;
 
-import com.google.api.Http;
 import com.pickmen.backend.RoleType;
-import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.web.server.ServerHttpSecurity.HttpsRedirectSpec;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,11 +34,17 @@ public class UserApiController {
   @Autowired private UserService userService;
 
   @Autowired private PrincipalDetailsService principalDetailsService;
+
+  
+  @Autowired private UserRepository userRepository;
+
+  
+
   // 전통적인 로그인 방식 ( 사용 안함 )
   //  @Autowired private HttpSession session;
 
   @PostMapping("auth/loginProc")
-  public boolean login(@RequestParam("username") String username, @RequestParam("password") String password)
+  public @ResponseBody ResponseDto<User> login(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session)
   {
     try {
       UserDetails userDetails=principalDetailsService.loadUserByUsername(username);
@@ -51,13 +53,13 @@ public class UserApiController {
       if(bCryptPasswordEncoder.matches(password, userDetails.getPassword())){
         Authentication authentication=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
-      return true;
+        return new ResponseDto<>(HttpStatus.OK.value(),userRepository.findByUsername(userDetails.getUsername()).get());
       }
-      return false;
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
      catch (Exception e) {
       e.printStackTrace();
-      return false;
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
   }
 

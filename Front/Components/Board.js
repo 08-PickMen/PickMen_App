@@ -6,7 +6,8 @@ import 'react-navigation'
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Post from './Post';
-import CreatePost from './CreatePost';
+import PostList from './PostList';
+import ViewPost from './ViewPost';
 
 const stack = createStackNavigator();
 
@@ -16,8 +17,9 @@ function Board() {
             <stack.Navigator screenOptions={{
                 headerShown : false 
             }}>
-                <stack.Screen name="PostPage" component={CreatePost} />
-                <stack.Screen name="Post" component={Post} />
+                <stack.Screen name="PostPage" component={PostList}/>
+                <stack.Screen name="Post" component={Post}/>
+                <stack.Screen name="ViewPost" component={ViewPost}/>
             </stack.Navigator>
         </NavigationContainer>
     )
