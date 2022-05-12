@@ -106,6 +106,9 @@ public class UserApiController {
   @PostMapping("/signup/mentee")
   public @ResponseBody ResponseDto<User> signupMentee(MultipartFile uploadfile, User user)
    {
+     System.out.println("회원가입");
+     System.out.println(user.getUsername()+" "+user.getPassword());
+     System.out.println(uploadfile.toString());
      User newuser=new User();
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
