@@ -64,12 +64,13 @@ public class UserApiController {
 
 
   @PostMapping("/signup/mentor")
-  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile[] uploadfile,User user)
+  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user)
    {
 
      User newuser=new User();
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
+     newuser.setNickname(user.getNickname());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
      newuser.setRole(RoleType.MENTOR);
@@ -82,7 +83,7 @@ public class UserApiController {
     }
   }
 
-  @PostMapping("user/getProfile")
+  @PostMapping("/getProfile")
   public ResponseEntity<Resource> getProfile(long userid)
   {
     User user=userRepository.getById(userid);
@@ -90,11 +91,12 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam("profile") MultipartFile[] uploadfile, User user)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam("profile") MultipartFile uploadfile, User user)
    {
      User newuser=new User();
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
+     newuser.setNickname(user.getNickname());
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
      newuser.setRole(RoleType.MENTEE);
@@ -108,7 +110,7 @@ public class UserApiController {
   }
 
   @PostMapping("user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile[] uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       user.setId(principalDetail.getUserId());
       user.setProfileImage(imageService.upload(uploadfile));
