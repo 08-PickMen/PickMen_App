@@ -64,18 +64,18 @@ public class UserApiController {
 
 
   @PostMapping("/signup/mentor")
-  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile[] uploadfile,@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email)
+  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile[] uploadfile,User user)
    {
 
-     User user=new User();
-     user.setUsername(username);
-     user.setPassword(password);
-     user.setProfileImage(imageService.upload(uploadfile));     
-     user.setEmail(email);
-     user.setRole(RoleType.MENTOR);
+     User newuser=new User();
+     newuser.setUsername(user.getUsername());
+     newuser.setPassword(user.getPassword());
+     newuser.setProfileImage(imageService.upload(uploadfile));     
+     newuser.setEmail(user.getEmail());
+     newuser.setRole(RoleType.MENTOR);
      
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(user));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -90,17 +90,17 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam("profile") MultipartFile[] uploadfile, @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam("profile") MultipartFile[] uploadfile, User user)
    {
-     User user=new User();
-     user.setUsername(username);
-     user.setPassword(password);
-     user.setProfileImage(imageService.upload(uploadfile));  
-     user.setEmail(email);
-     user.setRole(RoleType.MENTEE);
+     User newuser=new User();
+     newuser.setUsername(user.getUsername());
+     newuser.setPassword(user.getPassword());
+     newuser.setProfileImage(imageService.upload(uploadfile));  
+     newuser.setEmail(user.getEmail());
+     newuser.setRole(RoleType.MENTEE);
      
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(user));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -124,6 +124,18 @@ public class UserApiController {
   public @ResponseBody ResponseDto<User> getMentor() {
     try {
       return new ResponseDto<>(HttpStatus.OK.value(), userRepository.findByRoleOrderByAverageRating("MENTOR").get());
+    } catch (Exception e) {
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    }
+  }
+
+  @GetMapping("DuplicateCheck")
+  public @ResponseBody ResponseDto<Integer> duplicateCheck(@RequestParam("nickname")String nickname) {
+    try {
+      if(userRepository.findByNickname(nickname)==null)
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+      else
+      return new ResponseDto<>(HttpStatus.OK.value(), null);
     } catch (Exception e) {
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }

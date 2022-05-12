@@ -61,7 +61,7 @@ public class User {
    // 새로 입력 
 
    @Column(nullable= true)
-   private String ninkname;
+   private String nickname;
  
    @Column(nullable= true)
    @Enumerated(EnumType.STRING)

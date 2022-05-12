@@ -1,7 +1,6 @@
 package com.pickmen.backend.ocr;
 
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,14 +59,12 @@ public class ocrService {
           System.out.format("Error: %s%n", res.getError().getMessage());
           return "인증 실패";
         }
-
-       
+;
         // For full list of available annotations, see http://g.co/cloud/vision/docs
         for (EntityAnnotation annotation : res.getTextAnnotationsList()) {
          //System.out.printf("text:%s",annotation.getDescription());
          if(annotation.getDescription().indexOf('.')==2 && annotation.getDescription().length()==4){
          try{
-          
            Double stringToDouble=Double.valueOf(annotation.getDescription());
            if(55<=stringToDouble && stringToDouble <=100){
              average+=stringToDouble;
