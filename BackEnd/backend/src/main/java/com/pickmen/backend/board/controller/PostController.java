@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class PostController {
 
-  @Autowired private PostService boardService;
+  @Autowired private PostService postService;
 
   @Autowired private UserRepository userRepository;
 
@@ -33,14 +33,20 @@ public class PostController {
 
   @GetMapping("post/getPost")
   public Page<Post> postList(@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
-    return boardService.getPostList(pageable);
+    return postService.getPostList(pageable);
   }
 
   @PostMapping("post/deletePost")
-  public String postDelete(long id){
+  public String postDelete(@RequestParam("id") long id, @AuthenticationPrincipal PrincipalDetail principalDetail){
     try{
-    boardService.delete(id);
+    Post post=postService.getPost(id);
+    if(post.getUser().getId()==principalDetail.getUserId()){
+    postService.delete(id);
     return "삭제 완료";
+    }
+    else{
+      return "삭제 실패";
+    }
     }
     catch(Exception e){
       e.printStackTrace();
@@ -53,7 +59,7 @@ public class PostController {
   @PostMapping("post/upcountPost")
   public String postUpCount(long id){
     try{
-      boardService.upcount(id);
+      postService.upcount(id);
     return "조회수 수정 성공";
     }
     catch(Exception e){
@@ -66,7 +72,7 @@ public class PostController {
   @PostMapping("post/updatePost")
   public String postUpdate(long id,Post board){
     try{
-    boardService.update(id, board);
+    postService.update(id, board);
     return "수정 완료";
     }
     catch(Exception e){
@@ -81,7 +87,7 @@ public class PostController {
     try{
     Post board=Post.builder().title(title).content(content).build();
     System.out.println(principalDetail.getUsername());
-    boardService.write(board,userRepository.findByUsernameAndPassword(principalDetail.getUsername(),principalDetail.getPassword()).get());
+    postService.write(board,userRepository.findByUsernameAndPassword(principalDetail.getUsername(),principalDetail.getPassword()).get());
    // boardService.write(board, principalDetail.getUser());
     
      return "작성 완료";

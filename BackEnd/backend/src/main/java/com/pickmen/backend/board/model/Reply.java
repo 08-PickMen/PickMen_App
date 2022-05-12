@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.pickmen.backend.user.controller.model.User;
+import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
 

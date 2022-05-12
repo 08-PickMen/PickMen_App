@@ -1,4 +1,4 @@
-package com.pickmen.backend.user.controller.model;
+package com.pickmen.backend.user.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

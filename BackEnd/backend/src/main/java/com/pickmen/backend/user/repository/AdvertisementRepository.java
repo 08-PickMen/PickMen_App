@@ -1,9 +1,6 @@
 package com.pickmen.backend.user.repository;
 
-import java.util.Optional;
-
-import com.pickmen.backend.user.controller.model.Advertisement;
-import com.pickmen.backend.user.controller.model.User;
+import com.pickmen.backend.user.model.Advertisement;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

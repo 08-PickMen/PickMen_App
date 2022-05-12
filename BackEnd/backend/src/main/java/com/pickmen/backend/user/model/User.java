@@ -1,4 +1,4 @@
-package com.pickmen.backend.user.controller.model;
+package com.pickmen.backend.user.model;
 
 import java.time.LocalDateTime;
 
@@ -57,7 +57,6 @@ public class User {
   @CreationTimestamp // Insert 할때 자동으로 날짜가 들어감
   @Column(nullable = false)
   private LocalDateTime createDate; // 생성일
-
 
    // 새로 입력 
 
