@@ -25,20 +25,24 @@ function Information() {
         setSendPassword(data)
     }
     async function register(email, password) {
-        var nickname = await String(AsyncStorage.getItem('nickname'));
+        var nickname = await AsyncStorage.getItem('nickname');
+        var data = new FormData();
+        data = Imagedata;
         console.log(nickname, Imagedata)
-        await axios.post('http://10.0.2.2:8090/signup/mentee',Imagedata, {
+        console.log(password)
+        await axios.post('http://10.0.2.2:8090/signup/mentee',
+        {
             headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }, 
-            {
+                'Content-Type': 'application/json',
+            },
+            params: {
                 username : email,
-                email: email,
                 password: password,
-                nickname: nickname,
-            }
+                nickname: String(nickname),
+                uploadfile : data,
+                email : email,
         
+        }}
            ).then(function(response) {
             console.log(response.data)
         })

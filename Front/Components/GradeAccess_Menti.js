@@ -45,6 +45,7 @@ function GradeAccess_Menti({navigation}) {
                    }
                });
             setTextImage(response.assets[0].uri);
+            console.log(image);
        })
 
    }

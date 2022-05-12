@@ -105,7 +105,7 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile[] uploadfile, @RequestParam("nickname") String nickname, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("username") String username)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile[] uploadfile, @RequestParam(value = "nickname", required = false) String nickname, @RequestParam(value = "email", required = false)  String email, @RequestParam(value = "password", required = false) String password, @RequestParam(value = "username", required = false) String username)
    {
      User newuser=new User();
      newuser.setUsername(username);
