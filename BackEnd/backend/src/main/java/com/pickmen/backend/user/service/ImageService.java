@@ -1,4 +1,4 @@
-package com.pickmen.backend.controller;
+package com.pickmen.backend.user.service;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,22 +16,20 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
-class ImageController{
 
-    @PostMapping("/upload")
-    public String upload(@RequestParam(value = "file", required = false) MultipartFile[] uploadfile){
+@Service
+public class ImageService{
+
+    public String upload(MultipartFile[] uploadfile){
 
         List<FileDto> list=new ArrayList<>();
+        String filename="";
 
 
-        try{
+    try{
         for(MultipartFile file: uploadfile)
         {
             if(!file.isEmpty())
@@ -41,28 +39,41 @@ class ImageController{
                 File newFileName=new File(dto.getUuid()+"_"+dto.getFileName());
                 
                 file.transferTo(newFileName);
-                System.out.println(newFileName);
+                filename=newFileName.toString();
+                System.out.println(filename);
             }
         }
     }
     catch(Exception e){
         e.printStackTrace();
-        return "파일 업로드 실패";
+        return "";
     }
-    return "파일 업로드 성공";
+    return filename;
     
     }
 
-    @GetMapping("/display")
+    public ResponseEntity<Resource> delete(String filename){
+        String path = "C:\\upload\\";
+        String folder = "";
+
+        //파일 형식 붙여야 함.
+        File resource = new File(path + folder + filename);
+
+        if(!resource.exists()) {
+            return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+        }
+        resource.delete();
+        return new ResponseEntity<Resource>(HttpStatus.OK);
+
+    }
+
     public ResponseEntity<Resource> display(String filename) {
         String path = "C:\\upload\\";
         String folder = "";
 
-        filename="1.PNG";
         //파일 형식 붙여야 함.
         Resource resource = new FileSystemResource(path + folder + filename);
         if(!resource.exists()) {
-            System.out.println("이미지 못 찾음");
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
         HttpHeaders header = new HttpHeaders();
@@ -72,6 +83,7 @@ class ImageController{
             header.add("Content-type", Files.probeContentType(filePath));
         }catch(IOException e) {
             e.printStackTrace();
+            return new ResponseEntity<Resource>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
     }

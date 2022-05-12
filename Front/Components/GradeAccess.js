@@ -19,6 +19,7 @@ function GradeAccess() {
                     name : 'image.jpg',
                     type : 'image/jpeg'
                 });
+                console.log(data)
              api.post('http://10.0.2.2:8090/auth/ImageUpload', data, {
                     headers : {
                         'Content-Type' : 'multipart/form-data'

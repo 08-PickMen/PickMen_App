@@ -26,14 +26,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "board")
+@Table(name = "post")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Board {
+public class Post {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

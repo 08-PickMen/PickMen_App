@@ -1,31 +1,21 @@
-package com.pickmen.backend.controller;
+package com.pickmen.backend.ocr;
 
 import java.io.IOException;
 
-import com.pickmen.backend.ocr.ocrService;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-class testController {
+class ocrController {
 
 
     @Autowired
     private ocrService ocrService;
 
-
-    @GetMapping("/auth/test")
-    public String getHello() {
-        System.out.println("test");
-        return "Hello World";
-    }
-
-    @PostMapping("/auth/ImageUpload")
+    @PostMapping("certificate")
     public String detectText(@RequestParam(value = "file", required = false) MultipartFile uploadfile) throws IOException{
 
 

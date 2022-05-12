@@ -6,12 +6,16 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.pickmen.backend.ReportType;
+import com.pickmen.backend.board.model.Post;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -41,10 +45,16 @@ public class Report {
 
     private String description;
 
-    private long reportUser_id;
+    @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
+    @JoinColumn(name = "reportUserId")
+    private User reportUser_id;
 
-    private long targetUser_id;
+    @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
+    @JoinColumn(name = "targetUserId")
+    private User targetUser_id;
 
-    private long targetPost_id;
+    @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
+    @JoinColumn(name = "targetPostId")
+    private Post targetPost_id;
 
 }

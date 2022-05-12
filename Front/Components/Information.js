@@ -4,6 +4,7 @@ import { View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+import Imagedata from './ImageData';
 
 function Information() {
     var [value, setValue] = useState('');
@@ -24,13 +25,21 @@ function Information() {
         setSendPassword(data)
     }
     async function register(email, password) {
-        await axios.post('http://10.0.2.2:8090/auth/joinProc',
-        null,{ 
-        params: {
-            username : email,
-            password : password,
-            email : email
-        }}).then(function(response) {
+        var nickname = await String(AsyncStorage.getItem('nickname'));
+        console.log(nickname, Imagedata)
+        await axios.post('http://10.0.2.2:8090/signup/mentee',Imagedata, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }, 
+            {
+                username : email,
+                email: email,
+                password: password,
+                nickname: nickname,
+            }
+        
+           ).then(function(response) {
             console.log(response.data)
         })
     }

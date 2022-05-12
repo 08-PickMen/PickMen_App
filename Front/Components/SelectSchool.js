@@ -4,6 +4,7 @@ import {TouchableOpacity } from 'react-native';
 import PickerBox from 'react-native-picker-select';
 import 'react-navigation'
 import Schools from './SchoolLabel'
+
 function SelectSchool({navigation}) {
     const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
     return(

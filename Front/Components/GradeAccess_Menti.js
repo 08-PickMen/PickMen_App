@@ -2,8 +2,10 @@ import React ,{useState} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import 'react-navigation'
 import axios from 'axios';
+import Imagedata from './ImageData';
 
 async function DuplicateCheck(nickName) {
     await axios.get('http://10.0.2.2:8090/DuplicateCheck',{
@@ -22,9 +24,30 @@ async function DuplicateCheck(nickName) {
 }
 
 function GradeAccess_Menti({navigation}) {
-
+    
+    var data = new FormData();
     const [nickname, setNickname] = useState('');
+    const [image, setImage] = useState(null);
+    const [textImage, setTextImage] = useState('');
 
+    async function ImageUpload() {
+        launchImageLibrary({}, response => {
+            if(response.assets[0].uri) {
+                console.log(response);
+                   setImage(response.assets[0].uri);
+            }
+              Imagedata.append('file', {
+                   uri : Platform.OS === 'android' ? response.assets[0].uri : 'file://' + response.assets[0].uri,
+                   name : 'image.jpg',
+                   type : 'image/jpeg',
+                   headers : {
+                          'Content-Type' : 'multipart/form-data'
+                   }
+               });
+            setTextImage(response.assets[0].uri);
+       })
+
+   }
     return(
             <View>
                 <View style = {styles.Introduce}>
@@ -42,7 +65,18 @@ function GradeAccess_Menti({navigation}) {
                         <Text style={styles.ButtonText}>중복인증</Text>
                 </TouchableOpacity>
                 </View>
-
+                <View>
+                    <Text style = {styles.Text}>프로필 사진</Text>
+                </View>
+                <View>
+                </View>
+                <View style = {{flexDirection : 'row'}}>
+                <TextInput style = {styles.TextInput} placeholder = {textImage}/>
+                <TouchableOpacity style={styles.CheckButton}
+                onPress={()=>{ImageUpload();}}>
+                        <Text style={styles.ButtonText}>업로드</Text>
+                </TouchableOpacity>
+                </View>
                 <View>
                     <TouchableOpacity style={styles.CorrectButton}
                         onPress={()=> navigation.navigate('Information')}>
