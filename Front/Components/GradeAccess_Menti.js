@@ -25,7 +25,13 @@ async function DuplicateCheck(nickName) {
 
 function GradeAccess_Menti({navigation}) {
     
-    var data = new FormData();
+    var data = [
+        {
+            uri : "",
+            name : "",
+            type : ""
+        }
+    ]
     const [nickname, setNickname] = useState('');
     const [image, setImage] = useState(null);
     const [textImage, setTextImage] = useState('');
@@ -36,16 +42,11 @@ function GradeAccess_Menti({navigation}) {
                 console.log(response);
                    setImage(response.assets[0].uri);
             }
-              Imagedata.append('file', {
-                   uri : Platform.OS === 'android' ? response.assets[0].uri : 'file://' + response.assets[0].uri,
-                   name : 'image.jpg',
-                   type : 'image/jpeg',
-                   headers : {
-                          'Content-Type' : 'multipart/form-data'
-                   }
-               });
-            setTextImage(response.assets[0].uri);
-            console.log(image);
+              data.uri = response.assets[0].uri;
+              data.name = 'image.jpg';
+              data.type = 'image/jpeg';
+              Imagedata.append(data);
+              console.log(data)
        })
 
    }

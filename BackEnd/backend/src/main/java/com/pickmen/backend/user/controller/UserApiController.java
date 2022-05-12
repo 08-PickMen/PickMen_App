@@ -77,13 +77,12 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentor")
-  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile[] uploadfile,User user)
+  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user)
    {
 
      User newuser=new User();
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
-     
      newuser.setNickname(user.getNickname());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
@@ -97,7 +96,7 @@ public class UserApiController {
     }
   }
 
-  @PostMapping("user/getProfile")
+  @PostMapping("/getProfile")
   public ResponseEntity<Resource> getProfile(long userid)
   {
     User user=userRepository.getById(userid);
@@ -105,14 +104,14 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile[] uploadfile, @RequestParam(value = "nickname", required = false) String nickname, @RequestParam(value = "email", required = false)  String email, @RequestParam(value = "password", required = false) String password, @RequestParam(value = "username", required = false) String username)
+  public @ResponseBody ResponseDto<User> signupMentee(MultipartFile uploadfile, User user)
    {
      User newuser=new User();
-     newuser.setUsername(username);
-     newuser.setPassword(password);
-     newuser.setNickname(nickname);
+     newuser.setUsername(user.getUsername());
+     newuser.setPassword(user.getPassword());
+     newuser.setNickname(user.getNickname());
      newuser.setProfileImage(imageService.upload(uploadfile));  
-     newuser.setEmail(email);
+     newuser.setEmail(user.getEmail());
      newuser.setRole(RoleType.MENTEE);
      
     try {
@@ -124,7 +123,7 @@ public class UserApiController {
   }
 
   @PostMapping("user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam(value = "profile", required = false) MultipartFile[] uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       user.setId(principalDetail.getUserId());
       user.setProfileImage(imageService.upload(uploadfile));

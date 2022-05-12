@@ -30,19 +30,18 @@ function Information() {
         data = Imagedata;
         console.log(nickname, Imagedata)
         console.log(password)
-        await axios.post('http://10.0.2.2:8090/signup/mentee',
-        {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            params: {
+        await axios.post('http://10.0.2.2:8090/signup/mentee',{
+            profile : {
+                uploadfile : Imagedata,
+            }
+        },{
+            params : {
                 username : email,
-                password: password,
-                nickname: String(nickname),
-                uploadfile : data,
+                password : password,
+                nickname : nickname,
                 email : email,
-        
-        }}
+            }
+        }
            ).then(function(response) {
             console.log(response.data)
         })

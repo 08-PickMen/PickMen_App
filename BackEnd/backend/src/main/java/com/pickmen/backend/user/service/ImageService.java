@@ -23,15 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageService{
 
-    public String upload(MultipartFile[] uploadfile){
+    public String upload(MultipartFile file){
 
         List<FileDto> list=new ArrayList<>();
         String filename="";
 
 
     try{
-        for(MultipartFile file: uploadfile)
-        {
             if(!file.isEmpty())
             {
                 FileDto dto=new FileDto(UUID.randomUUID().toString(),file.getOriginalFilename(),file.getContentType());
@@ -42,7 +40,6 @@ public class ImageService{
                 filename=newFileName.toString();
                 System.out.println(filename);
             }
-        }
     }
     catch(Exception e){
         e.printStackTrace();
