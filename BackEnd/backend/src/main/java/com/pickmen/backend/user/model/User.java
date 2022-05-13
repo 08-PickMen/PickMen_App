@@ -1,6 +1,8 @@
 package com.pickmen.backend.user.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +11,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.pickmen.backend.RoleType;
+import com.pickmen.backend.chat.model.ChatRoom;
+import com.pickmen.backend.chat.model.UserChatRoom;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -60,7 +67,10 @@ public class User {
   private LocalDateTime createDate; // 생성일
 
 
-   // 새로 입력 
+   // 새로 입력   
+   
+   @OneToMany(mappedBy = "user")
+   private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
    @Column(nullable= true)
    private String nickname;

@@ -48,7 +48,7 @@ public class MentorController {
 	@PutMapping("/mentor/{id}/mentorUpdate")
 	public @ResponseBody ResponseEntity<User> mentorUpdate(@PathVariable long id, @RequestBody User user) {
 		//User savedMentor = mentorService.updateMentor(id, mentorService.getMentor(id));
-		System.out.println(user);
+		//System.out.println(user);
 		return new ResponseEntity<User>(mentorService.updateMentor(id, user), HttpStatus.OK);
 	}
 
