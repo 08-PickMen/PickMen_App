@@ -1,7 +1,9 @@
 package com.pickmen.backend.user.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.pickmen.backend.RoleType;
 import com.pickmen.backend.dto.MentorDto;
 import com.pickmen.backend.user.model.User;
 
@@ -14,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   Optional<User> findByUsername(String username);  
   
+  List<User> findAllByRole(RoleType role);
 
   //  @Query(value = "select * from user where username = ? and password ?", nativeQuery = true)
   //  Optional<User> login(String username, String password);

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pickmen.backend.RoleType;
 import com.pickmen.backend.dto.MentorDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
@@ -32,7 +33,7 @@ public class MentorService {
 	
 	@Transactional(readOnly = true)
 	public List<User> getMentorList() {
-		return userRepository.findAll();
+		return userRepository.findAllByRole(RoleType.MENTOR);
 	}
 	
 	@Transactional(readOnly = true)
