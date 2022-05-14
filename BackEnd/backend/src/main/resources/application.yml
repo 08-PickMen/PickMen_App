@@ -20,8 +20,8 @@ spring:
     generate-ddl: true
   #mvc:
   #  view:
-   #   prefix: /WEB-INF/views/
-   #   suffix: .jsp
+  #    prefix: /WEB-INF/views/
+  #    suffix: .jsp
 
 
   servlet:
