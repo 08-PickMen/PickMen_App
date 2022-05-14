@@ -88,7 +88,7 @@ public class ocrService {
       return "인증 실패";
       else{
         count--;
-        if(average/count>94)
+        if(average/count>80)
         return Double.toString(average/count);
         else
         return "인증 실패";

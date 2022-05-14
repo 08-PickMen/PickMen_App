@@ -8,7 +8,7 @@ import { CommonActions } from '@react-navigation/native';
 
 
 async function loadBoard() {
-    await axios.get('http://10.0.2.2:8090/board/list')
+    await axios.get('http://10.0.2.2:8090/post/getPost')
     .then(response => {
         var count = parseInt(response.data.totalElements);
         if(count == 1) {
@@ -40,7 +40,7 @@ async function loadBoard() {
 }
 
 async function WritePost(Title,Content,navigation) {
-    axios.post('http://10.0.2.2:8090/board/write',null,{ params: {
+    axios.post('http://10.0.2.2:8090/post/writePost',null,{ params: {
         title : Title,
         content : Content
     }}).then(response => {

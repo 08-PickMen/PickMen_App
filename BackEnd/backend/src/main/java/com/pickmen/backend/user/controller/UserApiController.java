@@ -96,19 +96,16 @@ public class UserApiController {
     }
   }
 
-  @PostMapping("/getProfile")
-  public ResponseEntity<Resource> getProfile(long userid)
+  @GetMapping("/getProfile")
+  public ResponseEntity<Resource> getProfile(@RequestParam(value = "userid", required = false) long userid)
   {
     User user=userRepository.getById(userid);
     return imageService.display(user.getProfileImage());
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(MultipartFile uploadfile, User user)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user)
    {
-     System.out.println("회원가입");
-     System.out.println(user.getUsername()+" "+user.getPassword());
-     System.out.println(uploadfile.toString());
      User newuser=new User();
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());

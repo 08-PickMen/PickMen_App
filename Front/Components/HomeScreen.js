@@ -10,6 +10,7 @@ import Chat from './Chat';
 import Board from './Board';
 import Profile from './Profile';
 import axios from 'axios';
+import ViewChat from './Chatboard';
 
 
 const Tab = createBottomTabNavigator();
@@ -25,7 +26,8 @@ function HomeScreen({navigation}) {
                 },
                 tabBarActiveTintColor : '#27BAFF',
                 unmountOnBlur : true,
-                }}>
+                }}
+                initialRouteName = 'Home'>
                 <Tab.Screen name="MentoProfile" component={MentoProfile} options={{
                     tabBarIcon: () => {
                         return(
@@ -62,7 +64,7 @@ function HomeScreen({navigation}) {
                     },
                     unmountOnBlur : true,
                 }}/>
-                <Tab.Screen name="Chat" component={Chat} options={{ 
+                <Tab.Screen name="Chat" component={ViewChat} options={{ 
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Chat.source} style={{width :30, height : 30}}/>

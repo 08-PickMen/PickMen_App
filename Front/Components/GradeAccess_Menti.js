@@ -22,16 +22,17 @@ async function DuplicateCheck(nickName) {
         console.log(error)
     })
 }
+async function ImageSave(image) {
+    await AsyncStorage.setItem('image', JSON.stringify(image));
+}
 
+async function ImageLoad() {
+    var data = await AsyncStorage.getItem('image');
+    console.log(data);
+}
 function GradeAccess_Menti({navigation}) {
     
-    var data = [
-        {
-            uri : "",
-            name : "",
-            type : ""
-        }
-    ]
+    var data = new FormData();
     const [nickname, setNickname] = useState('');
     const [image, setImage] = useState(null);
     const [textImage, setTextImage] = useState('');
@@ -42,11 +43,15 @@ function GradeAccess_Menti({navigation}) {
                 console.log(response);
                    setImage(response.assets[0].uri);
             }
-              data.uri = response.assets[0].uri;
-              data.name = 'image.jpg';
-              data.type = 'image/jpeg';
-              Imagedata.append(data);
-              console.log(data)
+              data.append('profile', {
+                   uri :  response.assets[0].uri,
+                   name : 'image.jpg',
+                   type : 'image/jpeg',
+               });
+            console.log(data)
+            console.log(data)
+            ImageSave(data);
+            ImageLoad();
        })
 
    }

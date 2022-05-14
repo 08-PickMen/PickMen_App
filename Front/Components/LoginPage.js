@@ -6,6 +6,7 @@ import 'react-navigation';
 import axios  from 'axios';
 import data from './PostData'
 import newPostData from './newPostData';
+import auth from '@react-native-firebase/auth';
 
 function LoginPage({navigation}) {
     const  [email, setEmail] = useState('');
@@ -15,17 +16,30 @@ function LoginPage({navigation}) {
         if(user_id)
             await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
             var data = await AsyncStorage.getItem('user_id');
-            console.log(data);
+    }
+    async function firebaseregister(email, password) {
+        try {
+            await auth().createUserWithEmailAndPassword(email, password);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    async function firebaselogin(email, password) {
+        try {
+            await auth().signInWithEmailAndPassword(email, password);
+        } catch (e) {
+            console.log(e);
+        }
     }
     async function LoginAccess(email, password) {
-       axios.post('http://10.0.2.2:8090/auth/loginProc',null,{ params: {
+       axios.post('http://10.0.2.2:8090/login',null,{ params: {
             username: email,
             password: password,
-            email : email,
        }}).then(response => {
               if(response.data.status == 200){
-                console.log(response.data.data.id)
+                console.log(response.data.status)
                 saveUserId(response.data.data.id);
+                firebaselogin(email, password);
                 navigation.navigate('HomeScreen');
               }else{
                 alert('아이디 또는 비밀번호가 틀렸습니다.');
@@ -36,7 +50,7 @@ function LoginPage({navigation}) {
     })
     }
     async function loadBoard() {
-        await axios.get('http://10.0.2.2:8090/board/list')
+        await axios.get('http://10.0.2.2:8090/post/getPost')
         .then(response => {
             var count = parseInt(response.data.numberOfElements);
             count = count-1;
@@ -57,11 +71,12 @@ function LoginPage({navigation}) {
             <View>
                 <View>
                     <Text style = {styles.Text}>
-                        PickMen 로그인하기
+                        PickMen
                     </Text>
                 </View>
                 <View>
-                <TextInput style = {styles.TextInput} placeholder = "Email Address" onChangeText={(UserEmail)=> setEmail(UserEmail)}/>
+                <TextInput style = {styles.TextInput} placeholder = "ID" onChangeText={(UserEmail)=> setEmail(UserEmail)} >
+                </TextInput>
                 <TextInput secureTextEntry={true} style = {styles.TextInput} placeholder = "Password" onChangeText={(password)=> setPassword(password)}/>
                 </View>
                 <TouchableOpacity style={styles.startButton} 
@@ -80,7 +95,7 @@ const styles = StyleSheet.create({
    startButton:{
     width : 280, 
     height : 40,
-    paddingTop : 5, 
+    paddingTop : 5,
     marginLeft : 'auto',
     marginRight : 'auto', 
     marginTop : 100,
@@ -109,14 +124,16 @@ const styles = StyleSheet.create({
 },
     TextInput: {
         width : 320,
-        height: 40,
+        height: 50,
         margin: 12,
+        borderColor : '#d3d3d3',
         borderWidth: 1,
         padding: 10,
-        borderRadius : 5,
+        paddingLeft : 20,
+        borderRadius : 50,
         marginLeft : 'auto',
         marginRight : 'auto',
-        marginBottom : 20
+        marginBottom : 5,
     },
   });
 

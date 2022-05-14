@@ -19,7 +19,7 @@ async function loadBoard() {
 }
 
 async function DeletePost(navigation, id) {
-    await axios.post('http://10.0.2.2:8090/board/delete',null,{ params: {
+    await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
         id : parseInt(id),
     } }).then(response => {
         console.log(response.data)

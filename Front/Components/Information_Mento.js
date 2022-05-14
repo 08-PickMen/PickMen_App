@@ -8,7 +8,7 @@ import Imagedata from './ImageData';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-navigation'
 
-function Information({navigation}) {
+function Information_Mento({navigation}) {
     var [value, setValue] = useState('');
     var [Password, setPassword] = useState('');
     var [correctPassword, setCorrectPassword] = useState('');
@@ -37,7 +37,7 @@ function Information({navigation}) {
             name : "image.jpg",
             type : 'image/jpeg',
         })
-        await axios.post('http://10.0.2.2:8090/signup/mentee',InputImage,{
+        await axios.post('http://10.0.2.2:8090/signup/mentor',InputImage,{
             headers : {
                 "Content-Type" : "multipart/form-data",
             },
@@ -225,4 +225,4 @@ const styles = StyleSheet.create({
 }
   });
 
-export default Information;
+export default Information_Mento;

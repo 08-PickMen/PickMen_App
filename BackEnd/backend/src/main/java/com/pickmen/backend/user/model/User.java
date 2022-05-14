@@ -15,6 +15,7 @@ import com.pickmen.backend.RoleType;
 import com.pickmen.backend.SchoolType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

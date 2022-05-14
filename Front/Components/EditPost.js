@@ -8,7 +8,7 @@ import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 
 async function updatePost(id, Title, Content) {
-    await axios.post('http://10.0.2.2:8090/board/update',null, {
+    await axios.post('http://10.0.2.2:8090/post/updatePost',null, {
         params : {
             id : id,
             title : Title,
@@ -33,6 +33,7 @@ async function BoardEdit(navigation,newTitle, newContent) {
             data[index] = {
                 id : data[count].id,
                 title : newTitle,
+                content : newContent,
                 user : data2,
             }
             break;
