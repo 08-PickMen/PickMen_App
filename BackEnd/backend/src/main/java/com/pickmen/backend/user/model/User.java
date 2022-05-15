@@ -1,6 +1,8 @@
 package com.pickmen.backend.user.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +11,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.SchoolType;
+import com.pickmen.backend.chat.model.ChatRoom;
+import com.pickmen.backend.chat.model.UserChatRoom;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,12 +61,18 @@ public class User {
   // @ColumnDefault("'USER'") -> 별로 안좋음
   @Enumerated(EnumType.STRING) // DB 는 RoleType 이 없기 때문에 String 타입이라고 알려줘야 함
   private RoleType role; // ENUM을 쓰는것이 좋다.
+  
+  
 
   @CreationTimestamp // Insert 할때 자동으로 날짜가 들어감
   @Column(nullable = false)
   private LocalDateTime createDate; // 생성일
 
-   // 새로 입력 
+
+   // 새로 입력   
+   
+   @OneToMany(mappedBy = "user")
+   private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
    @Column(nullable= true)
    private String nickname;
@@ -71,6 +84,7 @@ public class User {
    @Column(nullable= true)
    private String profileImage;
    
+   // "멘토" 에만 추가되는 부분들
    @Column(nullable= true)
    private String reportCard;
  

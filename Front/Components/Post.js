@@ -7,6 +7,7 @@ import 'react-navigation'
 import { CommonActions } from '@react-navigation/native';
 
 
+
 async function loadBoard() {
     await axios.get('http://10.0.2.2:8090/post/getPost')
     .then(response => {
@@ -18,6 +19,8 @@ async function loadBoard() {
                 title : response.data.content[0].title,
                 user : response.data.content[0].user.id,
                 content : response.data.content[0].content,
+                count : response.data.content[0].count,
+                nickname : response.data.content[0].user.nickname,
             },)
             console.log(data)
         }
@@ -29,7 +32,9 @@ async function loadBoard() {
                 id : response.data.content[count].id,
                 title : response.data.content[count].title,
                 user : response.data.content[count].user.id,
-                content : response.data.content[0].content,
+                content : response.data.content[count].content,
+                count : response.data.content[count].count,
+                nickname : response.data.content[count].user.nickname,
             },)
     }
     console.log(data)
@@ -39,7 +44,8 @@ async function loadBoard() {
     })
 }
 
-async function WritePost(Title,Content,navigation) {
+function WritePost(Title,Content,navigation) {
+    console.log(Title,Content)
     axios.post('http://10.0.2.2:8090/post/writePost',null,{ params: {
         title : Title,
         content : Content

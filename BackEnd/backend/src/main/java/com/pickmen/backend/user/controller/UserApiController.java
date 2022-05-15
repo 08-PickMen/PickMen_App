@@ -67,14 +67,25 @@ public class UserApiController {
   @GetMapping("DuplicateCheck")
   public @ResponseBody ResponseDto<Integer> duplicateCheck(@RequestParam("nickname")String nickname) {
     try {
+      System.out.println(userRepository.findByNickname(nickname).get().getNickname());
       if(userRepository.findByNickname(nickname)==null)
-      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
-      else
       return new ResponseDto<>(HttpStatus.OK.value(), null);
+      else
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     } catch (Exception e) {
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
   }
+
+  @GetMapping("/user/myprofile")
+  public @ResponseBody ResponseDto<User> myProfile(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+    try {
+      return new ResponseDto<>(HttpStatus.OK.value(), userRepository.findByUsername(principalDetail.getUsername()).get());
+    } catch (Exception e) {
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    }
+  }
+  
 
   @PostMapping("/signup/mentor")
   public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user)
@@ -84,6 +95,9 @@ public class UserApiController {
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
+     newuser.setAverageRating(3);
+     newuser.setTeachSector(user.getTeachSector());
+     newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
      newuser.setRole(RoleType.MENTOR);
@@ -107,9 +121,11 @@ public class UserApiController {
   public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user)
    {
      User newuser=new User();
+     System.out.println(user.getUsername());
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
+     newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
      newuser.setRole(RoleType.MENTEE);

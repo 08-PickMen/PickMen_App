@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-navigation'
+import status from '../utils/status';
+
 async function DuplicateCheck(nickName) {
     await axios.get('http://10.0.2.2:8090/DuplicateCheck',{
         params : {
@@ -16,6 +18,9 @@ async function DuplicateCheck(nickName) {
         if(response.status == 200) {
             var data = nickName;
             AsyncStorage.setItem('nickname', data);
+            AsyncStorage.setItem('status', 'true');
+        } else {
+            console.log(response.data)
         }
     }).catch(error => {
         console.log(error)
@@ -25,6 +30,7 @@ async function DuplicateCheck(nickName) {
 async function ImageSave(image) {
     await AsyncStorage.setItem('image', JSON.stringify(image));
 }
+
 
 async function ImageLoad() {
     var data = await AsyncStorage.getItem('image');
@@ -36,8 +42,16 @@ function GradeAccess({navigation}) {
     const [nickName, setNickName] = useState('');
     const [image, setImage] = React.useState(null);
     const [profileImage, setprofileImage] = React.useState(null);
+    const [checkText, setCheckText] = React.useState('');
+    const [CorrectText, setCorrectText] = React.useState('');
+    const [Gradefile, setGradefile] = React.useState('');
+    async function CheckStatus() {
+        var data = await AsyncStorage.getItem('status');
+        status.length = 0;
+        status.push(data);
+    }
     async function ImageUpload() {
-         launchImageLibrary({}, response => {
+         launchImageLibrary({}, async function(response){
              if(response.assets[0].uri) {
                  console.log(response);
                     setImage(response.assets[0].uri);
@@ -48,8 +62,7 @@ function GradeAccess({navigation}) {
                     name : 'image.jpg',
                     type : 'image/jpeg'
                 });
-                console.log(data)
-             axios.post('http://10.0.2.2:8090/certificate', data, {
+                axios.post('http://10.0.2.2:8090/certificate', data, {
                     headers : {
                         'Content-Type' : 'multipart/form-data'
                     }
@@ -85,11 +98,18 @@ function GradeAccess({navigation}) {
                 <View>
                     <Text style = {styles.Text}>닉네임</Text>
                 </View>
-                <View style = {{flexDirection : 'row', marginBottom : 100}}>
+                <View style = {{flexDirection : 'row'}}>
                 <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요." onChangeText={(nickName)=> setNickName(nickName)}/>
-                <TouchableOpacity style={styles.CheckButton} onPress = {()=> {DuplicateCheck(nickName)}}>
+                <TouchableOpacity style={styles.CheckButton} onPress = {()=> {DuplicateCheck(nickName); CheckStatus(); {
+                    if(status[0]=='true') {
+                        setCorrectText('사용가능한 닉네임입니다.');
+                    }
+                }}}>
                         <Text style={styles.ButtonText}>중복인증</Text>
                 </TouchableOpacity>
+                </View>
+                <View>
+                    <Text style = {styles.CorrectText}>{CorrectText}</Text>
                 </View>
                 <View>
                     <Text style = {styles.Text}>성적표</Text>
@@ -97,16 +117,13 @@ function GradeAccess({navigation}) {
                 <View>
                 </View>
                 <View style = {{flexDirection : 'row'}}>
-                <TextInput style = {styles.TextInput} placeholder = "성적표를 업로드 해주세요."/>
+                <TextInput style = {styles.TextInput} placeholder = "성적표를 업로드 해주세요." editable = {false}/>
                 <TouchableOpacity style={styles.CheckButton}
-                onPress={()=>{ImageUpload();}}>
+                onPress={()=>{ImageUpload(); {
+                   
+                }}}>
                         <Text style={styles.ButtonText}>업로드</Text>
                 </TouchableOpacity>
-                </View>
-                <View>
-                    <TouchableOpacity style={styles.AccessButton}>
-                        <Text style={styles.ButtonText}>인증하기</Text>
-                    </TouchableOpacity>
                 </View>
                 <View>
                     <Text style = {styles.Text}>프로필 사진</Text>
@@ -114,7 +131,7 @@ function GradeAccess({navigation}) {
                 <View>
                 </View>
                 <View style = {{flexDirection : 'row'}}>
-                <TextInput style = {styles.TextInput}/>
+                <TextInput style = {styles.TextInput} placeholder = "프로필을 업로드 해주세요." editable = {false}/>
                 <TouchableOpacity style={styles.CheckButton}
                 onPress={()=>{ProfileUpload();}}>
                         <Text style={styles.ButtonText}>업로드</Text>
@@ -137,14 +154,15 @@ const styles = StyleSheet.create({
     paddingTop : 5, 
     marginLeft : 'auto',
     marginRight : 'auto', 
+    marginTop : 100,
     borderRadius:5,
     backgroundColor : "#27BAFF"
    },
    AccessButton:{
-    width : 320, 
+    width : 220, 
     height : 40,
     paddingTop : 5, 
-    marginLeft : 'auto',
+    marginLeft : 50,
     marginRight : 'auto', 
     borderRadius:5,
     backgroundColor : "#27BAFF"
@@ -157,6 +175,18 @@ const styles = StyleSheet.create({
     marginTop : 12,
     borderRadius:5,
     backgroundColor : "#27BAFF"
+   },
+   CorrectText: {
+    color : "#27BAFF",
+    fontSize : 15,
+    fontFamily : 'Jalnan',
+    marginLeft : 40,
+   },
+   FailText: {
+    color : '#F00',
+    fontSize : 15,
+    fontFamily : 'Jalnan',
+    marginLeft : 40,
    },
    ButtonText:{
     color : "white",

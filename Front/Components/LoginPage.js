@@ -7,6 +7,21 @@ import axios  from 'axios';
 import data from './PostData'
 import newPostData from './newPostData';
 import auth from '@react-native-firebase/auth';
+import myprofile from './MyProfile';
+
+async function loadprofile() {
+    await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function(response) {
+        myprofile.length = 0;
+        myprofile.push({
+            id : response.data.data.id,
+            nickname : response.data.data.nickname,
+            email : response.data.data.email,
+            role : response.data.data.role,
+            teachSector : response.data.data.teachSector,
+        })
+    })
+}
+
 
 function LoginPage({navigation}) {
     const  [email, setEmail] = useState('');
@@ -40,6 +55,7 @@ function LoginPage({navigation}) {
                 console.log(response.data.status)
                 saveUserId(response.data.data.id);
                 firebaselogin(email, password);
+                loadprofile();
                 navigation.navigate('HomeScreen');
               }else{
                 alert('아이디 또는 비밀번호가 틀렸습니다.');
@@ -60,6 +76,8 @@ function LoginPage({navigation}) {
                 title : response.data.content[count].title,
                 user : response.data.content[count].user.id,
                 content : response.data.content[count].content,
+                count : response.data.content[count].count,
+                nickname : response.data.content[count].user.nickname,
             },)
         }
         }).catch(error => {

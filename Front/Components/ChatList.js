@@ -4,7 +4,7 @@ import {List, Divider} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
 import chatdata from './ChatData';
-
+import {Card} from 'react-native-paper';
 
 async function saveChatList(chatlist) {
     if(chatlist)
@@ -53,11 +53,13 @@ function ChatList({navigation}) {
                 renderItem = {({item}) => (                  
                     <View>
                     <TouchableOpacity onPress={()=> navigation.navigate('Chat')}>
+                    <Card style = {style.cards}>
                     <List.Item
                         style = {{borderBottomColor : '#27BAFF'}}
                         titleStyle = {style.ChatTitle}
                         title={item.name}
                         description='Chat room'/>
+                        </Card>
                         </TouchableOpacity>
                         </View>
                 )}/>
@@ -67,6 +69,15 @@ function ChatList({navigation}) {
 }
 
 const style = StyleSheet.create({
+    cards : {
+        borderRadius : 10,
+        width : 400,
+        marginTop : 5,
+        borderWidth : 1,
+        marginLeft : 'auto',
+        marginRight : 'auto',
+        marginBottom : 10,
+    },
     ChatTitle : {
         fontSize : 20,
         color : '#27BAFF',

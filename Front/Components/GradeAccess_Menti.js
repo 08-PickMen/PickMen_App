@@ -6,6 +6,7 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import 'react-navigation'
 import axios from 'axios';
 import Imagedata from './ImageData';
+import status from '../utils/status'
 
 async function DuplicateCheck(nickName) {
     await axios.get('http://10.0.2.2:8090/DuplicateCheck',{
@@ -36,7 +37,12 @@ function GradeAccess_Menti({navigation}) {
     const [nickname, setNickname] = useState('');
     const [image, setImage] = useState(null);
     const [textImage, setTextImage] = useState('');
-
+    const [CorrectText, setCorrectText] = useState('');
+    async function CheckStatus() {
+        var data = await AsyncStorage.getItem('status');
+        status.length = 0;
+        status.push(data);
+    }
     async function ImageUpload() {
         launchImageLibrary({}, response => {
             if(response.assets[0].uri) {
@@ -63,14 +69,24 @@ function GradeAccess_Menti({navigation}) {
                 <View>
                     <Text style = {styles.Text}>닉네임</Text>
                 </View>
-                <View style = {{flexDirection : 'row', marginBottom : 100}}>
+                <View style = {{flexDirection : 'row',}}>
                 <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요." onChangeText={(NickName)=>setNickname(NickName)}/>
                 <TouchableOpacity style={styles.CheckButton}
                 onPress= {
-                    ()=>{DuplicateCheck(nickname);}
+                    ()=>{DuplicateCheck(nickname);
+                        CheckStatus(); {
+                            console.log(status[0])
+                            if(status[0]=='true') {
+                                setCorrectText('사용가능한 닉네임입니다.');
+                            }
+                        }
+                    }
                 }>
                         <Text style={styles.ButtonText}>중복인증</Text>
                 </TouchableOpacity>
+                </View>
+                 <View>
+                    <Text style = {styles.CorrectText}>{CorrectText}</Text>
                 </View>
                 <View>
                     <Text style = {styles.Text}>프로필 사진</Text>
@@ -104,6 +120,13 @@ const styles = StyleSheet.create({
     marginTop : 220,
     borderRadius:5,
     backgroundColor : "#27BAFF"
+   },
+   CorrectText: {
+    color : "#27BAFF",
+    fontSize : 15,
+    fontFamily : 'Jalnan',
+    marginLeft : 50,
+    marginBottom : 40,
    },
    AccessButton:{
     width : 320, 

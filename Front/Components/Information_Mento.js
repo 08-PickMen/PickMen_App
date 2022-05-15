@@ -16,6 +16,9 @@ function Information_Mento({navigation}) {
     var [sendEmail, setSendEmail] = useState('');
     var [sendPassword, setSendPassword] = useState('');
     var [count, setCount] = useState(0);
+    var [teachSector, setTeachSector] = useState('');
+    var [userName, setUserName] = useState('');
+
     async function returnEmail() {
         var data = await AsyncStorage.getItem('email');
         setValue(data)
@@ -27,7 +30,7 @@ function Information_Mento({navigation}) {
 
         setSendPassword(data)
     }
-    async function register(email, password) {
+    async function register(username, email, password, teachSector) {
         var nickname = await AsyncStorage.getItem('nickname');
         var data2 = await AsyncStorage.getItem('image');
         var changeImage = JSON.parse(data2)._parts
@@ -42,10 +45,11 @@ function Information_Mento({navigation}) {
                 "Content-Type" : "multipart/form-data",
             },
             params : {
-                username : email,
+                username : username,
                 password : password,
                 nickname : nickname,
-                email : email
+                email : email,
+                teachSector : teachSector
             }
         }
            ).then(function(response) {
@@ -59,19 +63,17 @@ function Information_Mento({navigation}) {
                     <Text style = {styles.Introduce}>개인정보 입력</Text>
                 </View>
                 <View>
-                    <Text style = {styles.Text}>이름</Text>
-                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요."/>
+                    <Text style = {styles.Text}>ID</Text>
+                    <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요." onChangeText={(username)=>{setUserName(username)}}/>
                 </View>
                 <View>
-                    <Text style = {styles.Text}>주민등록번호</Text>
+                    <Text style = {styles.Text}>멘토 분야</Text>
                 </View>
                 <View style = {{flexDirection : 'row', marginLeft : 'auto', marginRight : 'auto', marginBottom : 20}}>
-                    <TextInput style = {styles.RRNumberText} placeholder = "내용을 입력해주세요."/>
-                    <Text style = {styles.RRText}>-</Text>
-                    <TextInput style = {styles.RRNumberText} placeholder = "내용을 입력해주세요."/>
+                    <TextInput style = {styles.RRNumberText} placeholder = "내용을 입력해주세요." onChangeText={(teachSector)=>{setTeachSector(teachSector)}}/>
                 </View>
                 <View>
-                    <Text style = {styles.Text}>이메일 주소(ID)</Text>
+                    <Text style = {styles.Text}>이메일 주소</Text>
                     <TextInput style = {styles.TextInput} placeholder = {String(value)} editable={false} selectTextOnFocus={false}
                     backgroundColor ='gray' placeholderTextColor='white'/>
                 </View>
@@ -113,7 +115,7 @@ function Information_Mento({navigation}) {
                         console.log(sendEmail, sendPassword);
                             if(count==1) {
                             console.log(count)
-                            register(sendEmail, sendPassword);
+                            register(userName, sendEmail, sendPassword, teachSector);
                             navigation.navigate('RegisterComplete')
                             }
 
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
     marginBottom : 20
   },
   RRNumberText: {
-    width : 135,
+    width : 320,
     height: 40,
     margin: 12,
     borderWidth: 1,

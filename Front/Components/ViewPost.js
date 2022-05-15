@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { View, Text, StyleSheet , TextInput, TouchableOpacity, Alert} from 'react-native';
+import { View, Text, StyleSheet , TextInput, TouchableOpacity, Alert, Image} from 'react-native';
 import 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import { BackHandler } from 'react-native';
 import 'react-navigation'
 import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
+import writeicon from '../icons/writing.png';
+import deleteicon from '../icons/delete.png';
 
 async function loadBoard() {
     var data1 = await AsyncStorage.getItem('user_id');
@@ -65,11 +67,12 @@ async function EditPost(navigation) {
         ]
     )
 }
-async function restBoard(id, title, content) {
+async function restBoard(id, nickname, title, content) {
     if(id && title && content) {
         await AsyncStorage.setItem('Post_id', JSON.stringify(id));
         await AsyncStorage.setItem('title_id', JSON.stringify(title));
         await AsyncStorage.setItem('content_id', JSON.stringify(content));
+        await AsyncStorage.setItem('nickname_id', JSON.stringify(nickname));
     }
 }
 
@@ -88,16 +91,16 @@ function ShowTab({navigation}) {
                     flexDirection : 'row',
                     marginTop : 5,
                 }}>
-                    <TouchableOpacity style={styles.DeleteButton} onPress={()=> {
+                    <TouchableOpacity onPress={()=> {
                         DeleteToPost(navigation);
                     }}>
-                        <Text style={styles.ButtonText}>삭제</Text>
+                        <Image source= {deleteicon} style = {{width : 55, height : 55, marginRight : 20,}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.Button} onPress={()=> {
+                    <TouchableOpacity onPress={()=> {
                         EditPost(navigation);
 
                     }}>
-                        <Text style={styles.ButtonText}>수정</Text>
+                        <Image source= {writeicon} style = {{width : 45, height : 45,marginTop : 5,}}/>
                     </TouchableOpacity>
                 </View>
             ) 
@@ -118,7 +121,7 @@ function ViewPost({navigation}, newData) {
     data = newPostData.slice();
     newPostData.length = 0;
     saveCurrentId(data[0].user);
-    restBoard(data[0].id, data[0].title, data[0].content);
+    restBoard(data[0].id, data[0].title, data[0].content, data[0].nickname);
     return(
         <View>
             <View style= {{flexDirection:'row'}}>
@@ -129,6 +132,12 @@ function ViewPost({navigation}, newData) {
                     borderBottomWidth : 1,
                 }}></View>
                 <View>
+                    <View>
+                        <Text style = {{marginTop : 20, marginLeft : 20}}>작성자 : {' '}  
+                          {JSON.stringify(data[0].nickname).replace(/\"/gi,"").replace(/\\n/gi,"")}</Text>
+                    </View>
+               </View>
+                <View>
                     <Text style ={styles.TitleText}>
                         {JSON.stringify(data[0].title).replace(/\"/gi,"").replace(/\\n/gi,"")}
                     </Text>
@@ -136,6 +145,11 @@ function ViewPost({navigation}, newData) {
                <View>
                    <Text style = {styles.ContentText}>
                         {JSON.stringify(data[0].content).replace(/\"/gi,"").replace(/\\n/gi,"")}
+                   </Text>
+               </View>
+               <View>
+                   <Text style = {styles.CountText}>
+                        조회수  {JSON.stringify(data[0].count).replace(/\"/gi,"").replace(/\\n/gi,"")}
                    </Text>
                </View>
             </View>
@@ -176,20 +190,30 @@ const styles = StyleSheet.create({
 
     },
     ContentText: {
+        color : "#a0a0a0",
+        marginTop : 20, 
+        marginLeft : 20,
+        marginBottom : 10,
+        fontSize : 15,
+        fontFamily : 'Jalnan',
+
+    },
+    CountText: {
         color : "black",
-        marginTop : 10,
-        marginLeft : 10,
+        marginTop : 20, 
+        marginLeft : 'auto',
+        marginRight : 20,
         marginBottom : 10,
         fontSize : 15,
         fontFamily : 'Jalnan',
 
     },
     TitleText: {
-        color : "#27BAFF",
-        marginTop : 10,
-        marginLeft : 10,
+        color : "black",
+        marginTop : 20, 
+        marginLeft : 20,
         marginBottom : 10,
-        fontSize : 25,
+        fontSize : 20,
         fontFamily : 'Jalnan',
 
     },

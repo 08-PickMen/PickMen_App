@@ -11,7 +11,7 @@ function Start({navigation}) {
                 </View>
                 <TouchableOpacity style={styles.startButton} 
                     onPress = {() => navigation.navigate('Purpose')}>
-                    <Text style={styles.Text}>시작하기</Text>
+                    <Text style={styles.Text}>가입하기</Text>
                 </TouchableOpacity>
                 
                 <View style={{flexDirection : 'row', marginTop : 10}}>

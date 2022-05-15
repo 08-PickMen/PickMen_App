@@ -35,6 +35,8 @@ async function BoardEdit(navigation,newTitle, newContent) {
                 title : newTitle,
                 content : newContent,
                 user : data2,
+                nickname : data[count].nickname,
+                count : data[count].count,
             }
             break;
         }

@@ -45,6 +45,8 @@ public class Post {
   @Lob // 대용량 데이터를 쓸때 사용
   private String content;
 
+  
+  private String nickname;
   // @ColumnDefault("0")
   private long count; // 조회
 

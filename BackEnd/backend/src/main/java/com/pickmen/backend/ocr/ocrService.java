@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
-
 @Service
 public class ocrService {
 
@@ -56,7 +55,7 @@ public class ocrService {
 
       for (AnnotateImageResponse res : responses) {
         if (res.hasError()) {
-          System.out.format("Error: %s%n", res.getError().getMessage());
+          //System.out.format("Error: %s%n", res.getError().getMessage());
           return "인증 실패";
         }
 ;
@@ -70,7 +69,7 @@ public class ocrService {
              average+=stringToDouble;
              count++;
              
-        System.out.println(annotation.getDescription()+" "+count);
+           System.out.println(annotation.getDescription()+" "+count);
            }
          }
          catch(Exception e){

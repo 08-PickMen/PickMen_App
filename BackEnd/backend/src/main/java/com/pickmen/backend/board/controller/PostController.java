@@ -1,10 +1,11 @@
 package com.pickmen.backend.board.controller;
 
-import java.util.List;
+import javax.transaction.Transactional;
 
 import com.pickmen.backend.board.model.Post;
 import com.pickmen.backend.board.service.PostService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
+import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class PostController {
   }
 
 
-  
+  @Transactional
   @PostMapping("post/upcountPost")
   public String postUpCount(long id){
     try{
@@ -70,8 +71,9 @@ public class PostController {
 
   
   @PostMapping("post/updatePost")
-  public String postUpdate(long id,Post board){
+  public String postUpdate(long id,Post board,@AuthenticationPrincipal PrincipalDetail principalDetail){
     try{
+    board.setNickname(userRepository.getById(principalDetail.getUserId()).getNickname());
     postService.update(id, board);
     return "수정 완료";
     }
@@ -85,9 +87,10 @@ public class PostController {
   @PostMapping("post/writePost")
   public String postWrite(@RequestParam("title") String title,@RequestParam("content")  String content, @AuthenticationPrincipal PrincipalDetail principalDetail){
     try{
-    Post board=Post.builder().title(title).content(content).build();
-    System.out.println(principalDetail.getUsername());
-    postService.write(board,userRepository.findByUsernameAndPassword(principalDetail.getUsername(),principalDetail.getPassword()).get());
+
+    User user=userRepository.getById(principalDetail.getUserId());
+    Post board=Post.builder().title(title).content(content).nickname(user.getNickname()).build();
+    postService.write(board,user);
    // boardService.write(board, principalDetail.getUser());
     
      return "작성 완료";
