@@ -18,7 +18,7 @@ function Information_Mento({navigation}) {
     var [count, setCount] = useState(0);
     var [userName, setUserName] = useState('');
     var [test, newTest] = useState('');
-    var test2;
+    
     async function returnEmail() {
         var data = await AsyncStorage.getItem('email');
         setValue(data)
