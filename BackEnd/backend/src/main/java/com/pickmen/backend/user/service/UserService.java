@@ -40,12 +40,15 @@ public class UserService {
     if (null != user.getPassword() && !"".equals(user.getPassword())) {
       findUser.setPassword(passwordEncoder.encode(user.getPassword()));
     }
-    if (null != user.getEmail() && !"".equals(user.getEmail())) {
-      findUser.setEmail(user.getEmail());
-    }
-
+    // if (null != user.getEmail() && !"".equals(user.getEmail())) {
+    //   System.out.println("hello");
+    //   findUser.setEmail(user.getEmail());
+    // }
+    //이메일 수정은 안됨
+    
     return userRepository.save(findUser);
   }
 
+  
 
 }

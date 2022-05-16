@@ -23,7 +23,7 @@ import com.pickmen.backend.user.service.MentorService;
 
 @RestController
 // /user 로 들어오는 URL
-@RequestMapping("/user") 
+//@RequestMapping("/user") 
 public class MentorController {
 	
 	@Autowired

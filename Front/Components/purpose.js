@@ -6,7 +6,7 @@ function Purpose({navigation}) {
     return(
             <View style = {{}}>
                 <View style = {{marginBottom : 100}}>
-                    <Text style = {styles.Introduce}>당신의 가입 목적은 무엇인가요?</Text>
+                    <Text style = {styles.Introduce}>당신의 가입 유형은 무엇인가요?</Text>
                 </View>
                 <TouchableOpacity style={styles.Button}
                     onPress = {()=> navigation.navigate('SelectSchool_Mento')}>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     marginLeft : 'auto',
     marginRight : 'auto', 
     marginTop : 60,
-    borderRadius:5,
+    borderRadius:20,
 
     backgroundColor : "#27BAFF"
    },

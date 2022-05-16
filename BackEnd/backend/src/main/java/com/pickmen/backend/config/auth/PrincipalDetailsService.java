@@ -25,7 +25,7 @@ public class PrincipalDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     log.info("[PrincipalDetailsService] Compare account.");
     Optional<User> optionalUser = userRepository.findByUsername(username);
-
+    System.out.println("Hello");
     final User principal =
         optionalUser
             // 계정이 없으면 Exception 발생
@@ -33,6 +33,7 @@ public class PrincipalDetailsService implements UserDetailsService {
             () -> new UsernameNotFoundException("Not found user. username: " + username));
 
     // context holder 에 세션이 저장됨
+
     return new PrincipalDetail(principal);
   }
 }

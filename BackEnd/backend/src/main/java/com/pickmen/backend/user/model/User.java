@@ -17,10 +17,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.pickmen.backend.RoleType;
+import com.pickmen.backend.SchoolType;
 import com.pickmen.backend.chat.model.ChatRoom;
 import com.pickmen.backend.chat.model.UserChatRoom;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -76,7 +78,8 @@ public class User {
    private String nickname;
  
    @Column(nullable= true)
-   private String universityName;
+   @Enumerated(EnumType.STRING)
+   private SchoolType school;
  
    @Column(nullable= true)
    private String profileImage;

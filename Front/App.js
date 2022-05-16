@@ -1,10 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
 
 import React, { Component } from 'react';
 import 'react-native-gesture-handler';
@@ -23,6 +16,8 @@ import Testpage from './Components/Test'
 import GradeAccess_Menti from './Components/GradeAccess_Menti';
 import RegisterComplete from './Components/RegisterComplete';
 import LoginPage from './Components/LoginPage';
+import Post from './Components/Post';
+import Information_Mento from './Components/Information_Mento';
 const stack = createStackNavigator();
 
 class App extends Component{
@@ -39,12 +34,14 @@ class App extends Component{
         <stack.Screen name="Certify" component={Certify}/>
         <stack.Screen name="Certify_Mento" component={Certify_Mento}/>
         <stack.Screen name="Information" component={Information}/>
+        <stack.Screen name="Information_Mento" component={Information_Mento}/>
         <stack.Screen name="GradeAccess" component={GradeAccess}/>
         <stack.Screen name="GradeAccess_Menti" component={GradeAccess_Menti}/>
-        <stack.Screen name="HomeScreen" component={HomeScreen}/>
         <stack.Screen name="Testpage" component={Testpage}/>
-        <stack.Screen name="ResgisterComplete" component={RegisterComplete} />
+        <stack.Screen name="RegisterComplete" component={RegisterComplete} />
         <stack.Screen name="LoginPage" component={LoginPage}/>
+        <stack.Screen name="HomeScreen" component={HomeScreen}/>
+        <stack.Screen name="Post" component={Post}/>
       </stack.Navigator>
     </NavigationContainer>
   );

@@ -1,8 +1,8 @@
 import React from 'react';
 import {useState} from 'react';
 import { View, Text, StyleSheet ,Alert} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
 import api from 'axios';
 
@@ -13,7 +13,6 @@ function Certify_Mento({navigation}) {
     const [InfoText2, setMailText2] = useState('');
     const [CorrectNum, setCorrectNum] = useState('');
     const [data, setData] = useState([]);
-
 
     async function SendMail(text) {
         await api.post('http://10.0.2.2:8090/auth/send',null, { params: {
@@ -27,7 +26,6 @@ function Certify_Mento({navigation}) {
         }
         )
     }
-
     async function saveEmail(email) {
         await AsyncStorage.setItem('email',String(email));
     }
@@ -47,8 +45,7 @@ function Certify_Mento({navigation}) {
                 <TextInput style = {styles.TextInput} placeholder = "인증번호를 입력해주세요"
                         onChangeText={CorrectNum=> setCorrectNum(CorrectNum)}/>
                 <TouchableOpacity style={styles.CorrectButton}
-                onPress={()=>{if(CorrectNum == data && CorrectNum != '') {
-                    console.log(CorrectNum)
+                onPress={()=>{if((CorrectNum == data && CorrectNum != '')) {
                     navigation.navigate('GradeAccess');
                 }else{
                     setMailText2('인증번호가 틀렸습니다.')
