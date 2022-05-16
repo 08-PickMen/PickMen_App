@@ -83,5 +83,5 @@ public class ChatRoomController {
 		return chatService.findById(room_id);
 	}
 
-	// Jira Test 5/16
+	// Slack Test 5/16 second test
 }
