@@ -13,7 +13,7 @@ function Information() {
     var [correctText, setCorrectText] = useState('');
     var [sendEmail, setSendEmail] = useState('');
     var [sendPassword, setSendPassword] = useState('');
-
+    let testJira;
     var count = 0;
     async function returnEmail() {
         var data = await AsyncStorage.getItem('email');
