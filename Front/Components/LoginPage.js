@@ -5,9 +5,35 @@ import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
 import axios  from 'axios';
 import data from './PostData'
-import newPostData from './newPostData';
+import profiledata from './ProfileData'
 import auth from '@react-native-firebase/auth';
 import myprofile from './MyProfile';
+
+async function Test() {
+    try{
+    await axios.get('http://10.0.2.2:8090/mentors').then(async function(response){
+        var data = response.data;
+        console.log(data.length)
+        for(var i=0;i<data.length;i++) {
+            await AsyncStorage.setItem('data'+i, JSON.stringify(data[i]));
+        }      
+    })
+    }catch(error) {
+        console.log(error);
+    }
+}
+async function loadData() {
+    await axios.get('http://10.0.2.2:8090/mentors').then(async function(response){
+        var data = response.data;
+        var maxcount = data.length;
+        profiledata.length = 0;
+        for(var i=0;i<maxcount;i++) {
+            var data2 = await AsyncStorage.getItem('data'+i);
+            var newData = JSON.parse(data2);
+            profiledata.push(newData);
+        } }
+    )
+}
 
 async function loadprofile() {
     await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function(response) {
@@ -100,6 +126,9 @@ function LoginPage({navigation}) {
                 <TouchableOpacity style={styles.startButton} 
                     onPress = {()=> {
                         LoginAccess(email, password);
+                        Test();
+                        loadData();
+                        loadprofile();
                         loadBoard();
                         navigation.navigate('HomeScreen');
                         data.length = 0;                    
