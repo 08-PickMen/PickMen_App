@@ -6,6 +6,44 @@ import newPostData from './newPostData';
 import {Card} from 'react-native-paper'
 import writeIcon from '../icons/writing.png';
 
+async function loadBoard() {
+  await axios.get('http://10.0.2.2:8090/post/getPost')
+  .then(response => {
+      var count = parseInt(response.data.totalElements);
+      if(count == 1) {
+          console.log(data);
+          data.length = 0;
+          data.push({
+              id : response.data.content[0].id,
+              title : response.data.content[0].title,
+              user : response.data.content[0].user.id,
+              content : response.data.content[0].content,
+              count : response.data.content[0].count,
+              nickname : response.data.content[0].user.nickname,
+          },)
+          console.log(data)
+      }
+      else if(count > 1){
+          count = count-1;
+          data.length = 0;
+          for(count;count >=0; count--){
+          data.push({
+              id : response.data.content[count].id,
+              title : response.data.content[count].title,
+              user : response.data.content[count].user.id,
+              content : response.data.content[count].content,
+              count : response.data.content[count].count,
+              nickname : response.data.content[count].user.nickname,
+          },)
+  }
+  console.log(data)
+  }
+  }).catch(error => {
+      console.log(error)
+  })
+}
+
+
 function PostList({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => {
@@ -62,7 +100,7 @@ function PostList({navigation}) {
         <View>
         <View style = {{flexDirection : 'row', marginTop : 10}}>
           <Text style = {styles.MainTitle}>게시글 목록</Text>
-          <TouchableOpacity onPress = {()=>{navigation.reset({routes : [{name : 'Post'}]})}}>
+          <TouchableOpacity onPress = {()=>{navigation.reset({ index : 1, routes : [{name : 'Post'}]});}}>
             <Image source = {writeIcon} style = {{width : 40, height : 40, marginLeft : 260}}/>
           </TouchableOpacity>
         </View>

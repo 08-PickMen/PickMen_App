@@ -11,24 +11,10 @@ import Board from './Board';
 import Profile from './Profile';
 import axios from 'axios';
 import ViewChat from './Chatboard';
-import myprofile from './MyProfile';
 import AsyncStorage from '@react-native-community/async-storage';
 
-async function loadprofile() {
-    await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function(response) {
-        myprofile.length = 0;
-        myprofile.push({
-            id : response.data.data.id,
-            nickname : response.data.data.nickname,
-            email : response.data.data.email,
-            role : response.data.data.role,
-            teachSector : response.data.data.teachSector,
-        })
-    })
-}
-
 const Tab = createBottomTabNavigator();
-loadprofile();
+
 function HomeScreen({navigation}) {
     return(
         
@@ -39,7 +25,6 @@ function HomeScreen({navigation}) {
                     backgroundColor : '#fff',
                 },
                 tabBarActiveTintColor : '#27BAFF',
-                unmountOnBlur : true,
                 }}
                 initialRouteName = 'Home'>
                 <Tab.Screen name="MentoProfile" component={MentoProfile} options={{
@@ -52,7 +37,7 @@ function HomeScreen({navigation}) {
                         fontSize : 10,
                         fontFamily : 'Jalnan'
                     },
-                    unmountOnBlur : true,
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
                 <Tab.Screen name="Post" component={Board} options={{
                     tabBarIcon: () => {
@@ -64,7 +49,7 @@ function HomeScreen({navigation}) {
                         fontSize : 10,
                         fontFamily : 'Jalnan'
                     },
-                    unmountOnBlur : true,
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
                 <Tab.Screen name="Home" component={Home} options={{
                     tabBarIcon: () => {
@@ -76,7 +61,7 @@ function HomeScreen({navigation}) {
                         fontSize : 10,
                         fontFamily : 'Jalnan'
                     },
-                    unmountOnBlur : true,
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
                 <Tab.Screen name="Chat" component={ViewChat} options={{ 
                     tabBarIcon: () => {
@@ -88,7 +73,7 @@ function HomeScreen({navigation}) {
                         fontSize : 10,
                         fontFamily : 'Jalnan'
                     },
-                    unmountOnBlur : true,
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }} />
                 <Tab.Screen name="MyProfile" component={Profile} options={{
                     tabBarIcon: () => {
@@ -100,7 +85,7 @@ function HomeScreen({navigation}) {
                         fontSize : 10,
                         fontFamily : 'Jalnan'
                     },
-                    unmountOnBlur : true,
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
             </Tab.Navigator>
             </NavigationContainer>
