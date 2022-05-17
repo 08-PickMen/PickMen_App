@@ -13,30 +13,30 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PostService {
 
-  @Autowired private PostRepository PostRepository;
+  @Autowired private PostRepository postRepository;
 
   @Transactional
   public Post write(Post post, User user) {
     post.setCount(0);
     post.setUser(user);
-    final Post savedBoard = PostRepository.save(post);
+    final Post savedBoard = postRepository.save(post);
     return savedBoard;
   }
 
   @Transactional(readOnly = true)
   public Page<Post> getPostList(Pageable pageable) {
-    return PostRepository.findAll(pageable);
+    return postRepository.findAll(pageable);
   }
 
   @Transactional(readOnly = true)
   public Post getPost(long id) {
-    return PostRepository
+    return postRepository
         .findById(id)
         .orElseThrow(() -> new IllegalArgumentException("해당 글은 존재하지 않습니다."));
   }
 
   public void delete(long id) {
-    PostRepository.deleteById(id);
+    postRepository.deleteById(id);
   }
 
   @Transactional
