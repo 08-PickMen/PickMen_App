@@ -5,43 +5,7 @@ import data from './PostData';
 import newPostData from './newPostData';
 import {Card} from 'react-native-paper'
 import writeIcon from '../icons/writing.png';
-
-async function loadBoard() {
-  await axios.get('http://10.0.2.2:8090/post/getPost')
-  .then(response => {
-      var count = parseInt(response.data.totalElements);
-      if(count == 1) {
-          console.log(data);
-          data.length = 0;
-          data.push({
-              id : response.data.content[0].id,
-              title : response.data.content[0].title,
-              user : response.data.content[0].user.id,
-              content : response.data.content[0].content,
-              count : response.data.content[0].count,
-              nickname : response.data.content[0].user.nickname,
-          },)
-          console.log(data)
-      }
-      else if(count > 1){
-          count = count-1;
-          data.length = 0;
-          for(count;count >=0; count--){
-          data.push({
-              id : response.data.content[count].id,
-              title : response.data.content[count].title,
-              user : response.data.content[count].user.id,
-              content : response.data.content[count].content,
-              count : response.data.content[count].count,
-              nickname : response.data.content[count].user.nickname,
-          },)
-  }
-  console.log(data)
-  }
-  }).catch(error => {
-      console.log(error)
-  })
-}
+import {CommonActions} from '@react-navigation/native';
 
 
 function PostList({navigation}) {
@@ -55,8 +19,6 @@ function PostList({navigation}) {
   }, []);
   async function updateCount(item,id) {
     await axios.post('http://10.0.2.2:8090/post/upcountPost?id='+id).then(response => {
-        item.count = item.count+1;
-        console.log(item.count);
   })
   }
     const Item = ({ item, onPress, style }) => (
@@ -73,7 +35,7 @@ function PostList({navigation}) {
     );
   const [selectedId, setSelectedId] = useState(null)
   
-  function loadPost(id) {
+  function loadPost(item, id) {
     var count = data.length;
     for(count= count-1; count >= 0; count--){
         if(data[count].id == id){
@@ -81,15 +43,25 @@ function PostList({navigation}) {
             break;
         }
     }
-    navigation.navigate('ViewPost');
+  }
+  function datacountUp(id) {
+    var count = data.length;
+    for(count= count-1; count >= 0; count--){
+      if(data[count].id == id){
+          data[count].count = data[count].count + 1;
+          break;
+      }
+  }
   }
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
-  
     return (
       <Item
         item={item}
-        onPress={() => {setSelectedId(item.id); updateCount(item, item.id); loadPost(item.id)}}
+        onPress={() => {setSelectedId(item.id); loadPost(item, item.id); updateCount(item, item.id); datacountUp(item.id); navigation.dispatch(CommonActions.reset({
+          index : 0,
+          routes : [{name : 'PostPage'},{name : 'ViewPost'},]
+      }))}}
         style={{ backgroundColor }}
       />
     )
