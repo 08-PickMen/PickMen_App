@@ -16,20 +16,8 @@ import myprofile from './MyProfile';
 
 const Tab = createBottomTabNavigator();
 
-async function loadprofile() {
-    await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function(response) {
-        myprofile.length = 0;
-        myprofile.push({
-            id : response.data.data.id,
-            nickname : response.data.data.nickname,
-            email : response.data.data.email,
-            role : response.data.data.role,
-            teachSector : response.data.data.teachSector,
-        })
-    })
-}
+
 function HomeScreen({navigation}) {
-    loadprofile();
     return(
         
             <NavigationContainer independent={true} >

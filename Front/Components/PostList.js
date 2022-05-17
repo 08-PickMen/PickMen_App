@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet ,Image, StatusBar, RefreshControl} from 'react-native';
+import { View, TouchableOpacity, FlatList, Text, StyleSheet ,Image, RefreshControl,ActivityIndicator } from 'react-native';
+import {Searchbar} from 'react-native-paper';
+import filter from 'lodash.filter';
 import data from './PostData';
 import newPostData from './newPostData';
-import {Card} from 'react-native-paper'
+import {Card, TextInput} from 'react-native-paper'
 import writeIcon from '../icons/writing.png';
 import {CommonActions} from '@react-navigation/native';
 
 
 function PostList({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [query, setQuery] = React.useState('');
+  const [fullData, setFullData] = React.useState([]);
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
+  const onChangeSearch = query => setQuery(query);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -72,8 +77,14 @@ function PostList({navigation}) {
         <View>
         <View style = {{flexDirection : 'row', marginTop : 10}}>
           <Text style = {styles.MainTitle}>게시글 목록</Text>
+          <Searchbar
+            placeholder='Search'
+            onChangeText={onChangeSearch}
+            onIconPress={() => setQuery('new')}
+            value={query}
+            style = {{marginLeft : 20,width : 230, height : 40,}}></Searchbar>
           <TouchableOpacity onPress = {()=>{navigation.reset({ index : 1, routes : [{name : 'Post'}]});}}>
-            <Image source = {writeIcon} style = {{width : 40, height : 40, marginLeft : 260}}/>
+            <Image source = {writeIcon} style = {{width : 40, height : 40, marginLeft : 20,}}/>
           </TouchableOpacity>
         </View>
         <View style ={{flex : 1, borderBottomColor : 'black', borderBottomWidth : .5,marginBottom : 20}}></View>

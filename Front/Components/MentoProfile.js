@@ -7,6 +7,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 import profiledata from './ProfileData';
 import { CommonActions } from '@react-navigation/native';
+import CreateRoom from './CreateRoom';
 
 async function Test() {
     try{
@@ -36,39 +37,26 @@ async function loadData() {
 
 function MentoProfile({navigation}) {
     function createChatRoom(item) {
-        console.log(item.nickname)
-        firestore().collection('THREADS').get().then(snp => {
-        var  count = snp.docs.length;
-        
-        firestore()
-       .collection('THREADS')
-       .add({
-           id : count,
-           name : item.nickname+'와의 Chat Room',
-       })
-    })
-    Alert.alert(
-        '채팅방이 생성되었습니다. 이동하시겠습니까?',
-        '',
-        [
-            {
-                text: '확인',
-                onPress: () => {navigation.dispatch(CommonActions.reset({
-                    index : 0,
-                    routes : [{name : 'Chat'}]
-                }))},
-            },
-            {
-                text: '취소',
-                onPress: () => {navigation.dispatch(CommonActions.reset({
-                    index : 0,
-                    routes : [{name : 'MentoProfile'}]
-                }))},
-            }
-        ]
-    )
-    }
+        Alert.alert(
+            '채팅방이 생성되었습니다. 이동하시겠습니까?',
+            '',
+            [
+                {
+                    text: '확인',
+                    onPress: () => { CreateRoom();},
+                },
+                {
+                    text: '취소',
+                    onPress: () => {navigation.dispatch(CommonActions.reset({
+                        index : 0,
+                        routes : [{name : 'MentoProfile'}]
+                    }))},
+                }
+            ]
+        )
+        }
     const renderCard = ({ item }) => {
+        console.log(item)
         return (
             <Card style = {styles.cards}>
                 <Card.Title title = "멘토 정보" subtitle = "Mento Profile" titleStyle = {styles.MainTitle} subtitleStyle={styles.subtitle}/>
@@ -77,21 +65,23 @@ function MentoProfile({navigation}) {
             <Card.Content> 
                 <View style = {{flexDirection : 'row'}}>
                 <Image source = {{uri :'http://10.0.2.2:8090/getProfile?userid='+ Number(item.id)}}style = {{width : 130, height : 130}}></Image>
+                <View style={{flexDirection : 'row'}}>
                     <View style={{marginLeft : 20}}>
                     <Title style = {styles.MentoName}>멘토 닉네임</Title>
                     <Title style = {styles.MentoName}>{item.nickname}</Title>
                     <View style = {{flexDirection : 'row'}}>
                     </View>
-                    <Title style = {styles.MentoName}>Teach Sector</Title>
-                    <Title style = {styles.MentoName}>{item.teachSector}</Title>
-                    </View>
+                    </View> 
                     <View>
-                    <Title style = {styles.MentoGrade}>평가 점수</Title>
-                    <Title style = {styles.MentoGrade}>3.0</Title>
-                    
-                    </View>
-                    
+                        <Title style = {styles.MentoGrade}>평가 점수</Title>
+                        <Title style = {styles.MentoGrade}>3.0</Title>     
+                    </View>        
                 </View>
+                </View>
+                <View>
+                    <Title style = {styles.teachSector}>Teach Sector</Title>
+                    <Title style = {styles.teachSector}>{item.teachSector}</Title>
+                    </View>
             </Card.Content>
             <Card.Actions>
                 <TouchableOpacity style = {{marginLeft : 10}} onPress={()=>{createChatRoom(item)}}>
@@ -143,6 +133,13 @@ const styles = StyleSheet.create({
         marginBottom : 10,
         fontSize : 14,
     },
+    teachSector : {
+        fontFamily: 'Jalnan',
+        marginBottom : 10,
+        marginLeft : 150,
+        marginBottom : 20,
+        fontSize : 14,
+    },
     nickName : {
         fontFamily: 'Jalnan',
         marginBottom : 10,
@@ -151,9 +148,9 @@ const styles = StyleSheet.create({
     },
     MentoGrade : {
         fontFamily: 'Jalnan',
-        marginBottom : 10,
         fontSize : 14,
-        marginLeft : 30,
+        marginLeft : 50,
+        marginRight : 'auto'
     },
     Title : {
         fontFamily: 'Jalnan',

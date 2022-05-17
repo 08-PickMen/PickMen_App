@@ -70,10 +70,8 @@ function ChatList({navigation}) {
 
 const style = StyleSheet.create({
     cards : {
-        borderRadius : 10,
         width : 400,
         marginTop : 5,
-        borderWidth : 1,
         marginLeft : 'auto',
         marginRight : 'auto',
         marginBottom : 10,
