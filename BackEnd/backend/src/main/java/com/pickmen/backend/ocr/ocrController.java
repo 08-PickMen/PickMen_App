@@ -33,6 +33,7 @@ class ocrController {
         // }
         System.out.println("test2");
         return ocrService.detectText(uploadfile);
+        //ocrService.detectText();
     }
 
 

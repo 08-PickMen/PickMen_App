@@ -1,4 +1,5 @@
 
+
 server:
   port: 8090
 
@@ -12,7 +13,7 @@ spring:
       suffix: .html
 
   datasource:
-    url: jdbc:mysql://localhost:3306/PickMen?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/pickmen?serverTimezone=UTC
     username: root
     password: cjswo1591
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,6 +26,11 @@ spring:
       hibernate:
         format_sql: true
     generate-ddl: true
+  #mvc:
+  #  view:
+  #    prefix: /WEB-INF/views/
+  #    suffix: .jsp
+
 
   servlet:
     multipart:

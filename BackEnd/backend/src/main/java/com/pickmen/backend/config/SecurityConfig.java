@@ -49,11 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    System.out.println("Hello2");
     http.csrf()
         .disable() // csrf 토큰 비활성화 (테스트시)
         .authorizeRequests()
         .antMatchers("/user/**")
-        .hasAnyRole("MENTEE")
+        .hasAnyRole("MENTEE","MENTOR","ADMIN","ADVERTISER")
         .anyRequest()
         .permitAll()
         // .antMatchers("/", "/auth/**", "/js/**", "/css/**", "/images/**")

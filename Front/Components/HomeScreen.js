@@ -1,55 +1,93 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import {TouchableOpacity, TextInput,Image} from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
+import {Image} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-navigation';
 import Home from './Home';
-import Setting from './Setting';
 import MentoProfile from './MentoProfile';
-import Post from './Post';
 import Chat from './Chat';
+import Board from './Board';
 import Profile from './Profile';
+import axios from 'axios';
+import ViewChat from './Chatboard';
+import AsyncStorage from '@react-native-community/async-storage';
+import myprofile from './MyProfile';
+
 const Tab = createBottomTabNavigator();
 
-function HomeScreen(route, navigation) {
+
+function HomeScreen({navigation}) {
     return(
+        
             <NavigationContainer independent={true} >
-            <Tab.Navigator screenOptions={{headerShown : false}}>
+            
+            <Tab.Navigator screenOptions={{headerShown : false,
+                tabBarStyle : {
+                    backgroundColor : '#fff',
+                },
+                tabBarActiveTintColor : '#27BAFF',
+                }}
+                initialRouteName = 'Home'>
                 <Tab.Screen name="MentoProfile" component={MentoProfile} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Profile.source} style={{width :30, height : 30}}/>
                         )
-                    }
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
+                    },
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
-                <Tab.Screen name="Post" component={Post} options={{
+                <Tab.Screen name="Post" component={Board} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Post.source} style={{width :30, height : 30}}/>
                         )
-                    }
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
+                    },
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
                 <Tab.Screen name="Home" component={Home} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Home.source} style={{width :30, height : 30}}/>
                         )
-                    }
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
+                    },
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
-                <Tab.Screen name="Chat" component={Chat} options={{
+                <Tab.Screen name="Chat" component={ViewChat} options={{ 
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Chat.source} style={{width :30, height : 30}}/>
                         )
-                    }
-                }}/>
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
+                    },
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
+                }} />
                 <Tab.Screen name="MyProfile" component={Profile} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.MyProfile.source} style={{width :30, height : 30}}/>
                         )
-                    }
+                    },
+                    tabBarLabelStyle : {
+                        fontSize : 10,
+                        fontFamily : 'Jalnan'
+                    },
+                    unmountOnBlur : Platform.OS === 'ios' ? false : true,
                 }}/>
             </Tab.Navigator>
             </NavigationContainer>

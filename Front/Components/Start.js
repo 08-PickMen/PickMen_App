@@ -1,13 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet , Image} from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import 'react-navigation';
+import logo from '../icons/PickMenLogo.png';
 function Start({navigation}) {
     return(
             <View>
+                <View>
+                <Image source={logo} style={styles.logoStyle}></Image>
+                </View>
                 <TouchableOpacity style={styles.startButton} 
                     onPress = {() => navigation.navigate('Purpose')}>
-                    <Text style={styles.Text}>시작하기</Text>
+                    <Text style={styles.Text}>가입하기</Text>
                 </TouchableOpacity>
                 
                 <View style={{flexDirection : 'row', marginTop : 10}}>
@@ -25,19 +29,28 @@ function Start({navigation}) {
                     color : '#27BAFF',
                     marginRight : 'auto',
                     fontFamily : 'Jalnan',
-                }}>로그인하기</Text>
+                }} onPress={()=> navigation.navigate('LoginPage')}>로그인하기</Text>
                 </View>  
             </View>
     )
 }
 const styles = StyleSheet.create({
+   logoStyle: {
+       width : 300,
+       height : 300,
+       marginLeft : 'auto',
+       marginRight : 'auto',
+       marginTop : 70,
+       borderRadius : 90,
+       borderColor : '#27BAFF',
+   },
    startButton:{
     width : 280, 
     height : 40,
     paddingTop : 5, 
     marginLeft : 'auto',
     marginRight : 'auto', 
-    marginTop : 600,
+    marginTop : 200,
     borderRadius:5,
 
     backgroundColor : "#27BAFF"

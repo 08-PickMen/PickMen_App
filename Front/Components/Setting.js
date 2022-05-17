@@ -5,7 +5,7 @@ import 'react-navigation';
 function Setting() {
     return(
             <View style={{flex : 1, justifyContent : 'center', alignItems : 'center'}}>
-                <Text></Text>
+                <Text>안녕</Text>
             </View>
     )
 }

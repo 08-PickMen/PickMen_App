@@ -1,22 +1,60 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {useState} from 'react';
+import { View, Text, StyleSheet ,Alert} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
+import api from 'axios';
+
+
 function Certify({navigation}) {
+    const [UserEmail, setState] = useState('');
+    const [InfoText, setMailText] = useState('');
+    const [InfoText2, setMailText2] = useState('');
+    const [CorrectNum, setCorrectNum] = useState('');
+    const [data, setData] = useState([]);
+
+    async function SendMail(text) {
+        await api.post('http://10.0.2.2:8090/auth/send',null, { params: {
+            email: text
+        }})
+        .then((response)=>{
+            setData(response.data);
+        }
+        ).catch(function(error){
+            console.log(error)
+        }
+        )
+    }
+    async function saveEmail(email) {
+        await AsyncStorage.setItem('email',String(email));
+    }
+
     return(
             <View>
                 <View style = {styles.Introduce}>
                     <Text style = {styles.Introduce}>인증하기</Text>
                 </View>
-                <TextInput style = {styles.TextInput} placeholder = "email을 입력해주세요"/>
-                <TouchableOpacity style={styles.CertifyButton}>
+                <TextInput style = {styles.TextInput} placeholder = "email을 입력해주세요"
+                onChangeText={UserEmail=> setState(UserEmail)}/>
+                <TouchableOpacity style={styles.CertifyButton}
+                    onPress={()=>{SendMail(UserEmail); setMailText('인증번호가 전송되었습니다.'); saveEmail(UserEmail)}}>
                     <Text style={styles.Text}>인증번호 전송</Text>
                 </TouchableOpacity>
-                <TextInput style = {styles.TextInput} placeholder = "인증번호를 입력해주세요"/>
+                <Text style={styles.CorrectMailText}>{InfoText}</Text>
+                <TextInput style = {styles.TextInput} placeholder = "인증번호를 입력해주세요"
+                        onChangeText={CorrectNum=> setCorrectNum(CorrectNum)}/>
                 <TouchableOpacity style={styles.CorrectButton}
-                 onPress = {() => navigation.navigate('Test')}>
+                onPress={()=>{if((CorrectNum == data && CorrectNum != '')) {
+                    navigation.navigate('GradeAccess_Menti');
+                }else{
+                    setMailText2('인증번호가 틀렸습니다.')
+                }}}>
                     <Text style={styles.Text}>확인</Text>
                 </TouchableOpacity>
+                <View>
+                    <Text style = {styles.FalseMailText}>{InfoText2}</Text>
+                </View>
             </View>
     )
 }
@@ -31,8 +69,26 @@ const styles = StyleSheet.create({
     marginTop : 2.5,
     borderRadius: 5,
     backgroundColor : "#27BAFF",
-    marginBottom : 80
+    marginBottom : 10
    },
+   CorrectMailText: {
+       color : "#27BAFF",
+       marginTop : 5,
+       marginLeft : 60,
+       paddingLeft : 10,
+       paddingRight : 10,
+       fontSize : 15,
+       fontFamily: 'Jalnan',
+   },
+   FalseMailText: {
+    color : "#FF0000",
+    marginTop : 5,
+    marginLeft : 60,
+    paddingLeft : 10,
+    paddingRight : 10,
+    fontSize : 15,
+    fontFamily: 'Jalnan',
+    },
    TextInput: {
     width : 300,
     height: 40,

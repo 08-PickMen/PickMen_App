@@ -54,6 +54,7 @@ public class PostService {
     // 영속화된 객체를 수정
     findBoard.setTitle(post.getTitle());
     findBoard.setContent(post.getContent());
+    findBoard.setNickname(post.getNickname());
 
     // Transactional 에 의해 마지막에 commit 되면서,
     // 영속화 컨텍스트에 위치한 객체가 업데이트 됨 -> 더티 체킹에 의해 flush 됨
