@@ -32,8 +32,9 @@ public class MentorService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<User> getMentorList() {
-		return userRepository.findAllByRole(RoleType.MENTOR);
+	public List<User> getMentorList(String teachSector) {
+		return userRepository.MentorFindByTeachSector(teachSector);
+		// return userRepository.findAllByRole(RoleType.MENTOR);
 	}
 	
 	@Transactional(readOnly = true)

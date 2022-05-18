@@ -1,5 +1,7 @@
 package com.pickmen.backend.user.controller;
 
+import java.util.List;
+
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
@@ -21,8 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
