@@ -71,11 +71,19 @@ public class User {
 
    // 새로 입력   
    
+  // 관심 카테고리 입력 받기(멘티)
+   @Column(nullable = true)
+   private String category;
+   
    @OneToMany(mappedBy = "user")
    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
    @Column(nullable= true)
    private String nickname;
+   
+   // 전공 입력 추가(프론트에서 리스트에서 선택하여 String으로 전달해주는 식으로)
+   @Column(nullable= true)
+   private String major;
  
    @Column(nullable= true)
    @Enumerated(EnumType.STRING)

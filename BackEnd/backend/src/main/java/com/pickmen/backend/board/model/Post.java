@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.pickmen.backend.category.model.Category;
 import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -64,5 +65,10 @@ public class Post {
   // @JoinColumn(name = "replyId") -> 필요없음. -> 1정규화 원자성에 어긋남
   private List<Reply> reply = new ArrayList<>();
 
+  // 카테고리 추가 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "categoryId")
+  private Category category;
+  
   @CreationTimestamp private LocalDateTime createDate;
 }
