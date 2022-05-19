@@ -42,8 +42,8 @@ public class MentorController {
 	// Mentor 프로필 리스트 출력	
 	// /user/mentors
 	@GetMapping("/mentors")
-	public @ResponseBody ResponseEntity<List<User>> mentorList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
-		return new ResponseEntity<List<User>>(mentorService.getMentorList(principalDetail.getTeachSector()), HttpStatus.OK);
+	public @ResponseBody ResponseEntity<List<User>> mentorList() {
+		return new ResponseEntity<List<User>>(mentorService.getMentorList(),HttpStatus.OK);
 	}
 	
 	// Mentor 프로필 업데이트
