@@ -8,11 +8,11 @@ import newPostData from './newPostData';
 import {Card, TextInput} from 'react-native-paper'
 import writeIcon from '../icons/writing.png';
 import {CommonActions} from '@react-navigation/native';
-
+import moment from 'moment';
+import 'moment/locale/ko';
 
 function PostList({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
-  var [fullData, setFullData] = React.useState([]);
   var [data, setData] = React.useState([]);
   const [search, setSearch] = React.useState(null);
 
@@ -51,11 +51,20 @@ useEffect(() => {
     const Item = ({ item, onPress, style }) => (
         <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
           <Card style = {styles.cards}>
-            <Card.Title title={item.title}/>
-            <Card.Content style = {{flexDirection : 'row'}}>
-              <Text>작성자 : {item.nickname}</Text>
-              <Text style={{marginLeft : 'auto'}}>조회 수 {item.count}</Text>
-            </Card.Content>
+            <View style ={{flexDirection : 'row'}}>
+            <Image source = {{uri :'http://10.0.2.2:8090/getProfile?userid='+ Number(item.user)}} style={{marginLeft : 15,marginTop : 20,width : 60, height :60,borderRadius : 90}}/>
+            <Text style={styles.nickname}>{item.nickname}</Text>
+            </View>
+            <View>
+              <Text style = {styles.title}>{item.title}</Text>
+            </View>
+            <View>
+              <Text style ={styles.content}>{item.content}</Text>
+            </View>
+            <View style={{flexDirection : 'row'}}>
+            <Text style={{marginLeft : 15,marginTop : 80,}}>조회 수 {item.count}</Text>
+            <Text style={{marginLeft : 15,marginTop : 80}}>댓글</Text>
+            </View>
           </Card>
         </TouchableOpacity>
 
@@ -148,9 +157,17 @@ function updateSearch(text) {
     cards : {
       borderRadius : 10,
       width : 400,
-      height : 80,
+      height : 300,
       borderWidth : 1,
       marginBottom : 10,
+  },
+  nickname : {
+    fontSize : 14,
+      fontFamily : 'Jalnan',
+      marginTop : 20,
+      marginBottom : 10,
+      marginLeft : 10,
+      color : 'black'
   },
     MainTitle : {
       color : "#27BAFF",
@@ -169,6 +186,18 @@ function updateSearch(text) {
       title: {
         fontSize: 18,
         fontFamily : 'NanumSquareRoundB',
+        marginTop : 20,
+        marginBottom : 10,
+        marginLeft : 10,
+        color : 'black'
+      },
+      content: {
+        fontSize: 18,
+        fontFamily : 'NanumSquareRoundB',
+        marginTop : 20,
+        marginBottom : 10,
+        marginLeft : 10,
+        color : '#a0a0a0'
       },
       Button : {
         width : 80,

@@ -52,6 +52,7 @@ function Information_Mento({navigation}) {
         }
            ).then(function(response) {
             console.log(response.data)
+            AsyncStorage.removeItem('image');
         })
     }
     returnEmail();
