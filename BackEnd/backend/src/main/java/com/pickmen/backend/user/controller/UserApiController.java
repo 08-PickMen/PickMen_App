@@ -139,7 +139,7 @@ public class UserApiController {
   }
 
   @PostMapping("user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<Integer> user(@RequestParam(value = "file", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       user.setId(principalDetail.getUserId());
       user.setProfileImage(imageService.upload(uploadfile));

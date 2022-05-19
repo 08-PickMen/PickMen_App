@@ -59,34 +59,23 @@ function MentoProfile({navigation}) {
         console.log(item)
         return (
             <Card style = {styles.cards}>
-                <Card.Title title = "멘토 정보" subtitle = "Mento Profile" titleStyle = {styles.MainTitle} subtitleStyle={styles.subtitle}/>
                 <Card.Content style = {{flexDirection : 'row'}}>
                 </Card.Content>
             <Card.Content> 
-                <View style = {{flexDirection : 'row'}}>
-                <Image source = {{uri :'http://10.0.2.2:8090/getProfile?userid='+ Number(item.id)}}style = {{width : 130, height : 130}}></Image>
-                <View style={{flexDirection : 'row'}}>
-                    <View style={{marginLeft : 20}}>
-                    <Title style = {styles.MentoName}>멘토 닉네임</Title>
-                    <Title style = {styles.MentoName}>{item.nickname}</Title>
-                    <View style = {{flexDirection : 'row'}}>
-                    </View>
-                    </View> 
-                    <View>
-                        <Title style = {styles.MentoGrade}>평가 점수</Title>
-                        <Title style = {styles.MentoGrade}>3.0</Title>     
-                    </View>        
-                </View>
+                <View>
+                <Image source = {{uri :'http://10.0.2.2:8090/getProfile?userid='+ Number(item.id)}}style = {{marginLeft : 'auto',marginRight : 'auto',width : 80, height : 80, borderRadius : 120}}></Image>
+                <View style={{flexDirection : 'column'}}>
+                    <Text style={styles.MainTitle}>멘토</Text>
+                    <Text style ={styles.nickName}>{item.nickname}</Text>              
                 </View>
                 <View>
-                    <Title style = {styles.teachSector}>Teach Sector</Title>
-                    <Title style = {styles.teachSector}>{item.teachSector}</Title>
-                    </View>
+                    <Text style = {styles.teachSector}>멘토 분야 :</Text>
+                    <Text style = {styles.teachSector}></Text>
+                    <Text style = {styles.MentoGrade}>학점 : </Text>
+                </View>
+                </View>
             </Card.Content>
             <Card.Actions>
-                <TouchableOpacity style = {{marginLeft : 10}} onPress={()=>{createChatRoom(item)}}>
-                    <Text style = {styles.ButtonText}>채팅 연결하기</Text>
-                </TouchableOpacity>
             </Card.Actions>
             </Card>
         )
@@ -94,16 +83,18 @@ function MentoProfile({navigation}) {
     Test();
     loadData();
     return(
-            <View style={{flex : 1, backgroundColor : '#fff'}}>
+            <View style={{flex : 2, backgroundColor : '#fff'}}>
                 <View>
                     <Text style = {styles.Title}>
                         멘토 프로필 리스트
                     </Text>
                 </View>
-                <View style = {{borderBottomColor : 'black', borderBottomWidth : .5, marginBottom : 20,}}/>
-                <FlatList
+                <View style = {{borderBottomColor : 'black', borderBottomWidth : .5, marginBottom : 10,}}/>
+                <FlatList          
                     data = {profiledata}
                     renderItem={renderCard}
+                    keyExtractor={item => item.id}
+                    numColumns = {2}
                 >
                 </FlatList>
             </View>
@@ -112,21 +103,22 @@ function MentoProfile({navigation}) {
 
 const styles = StyleSheet.create({
     cards : {
-        borderRadius : 10,
-        width : 400,
-        borderWidth : 1,
+        width : 194,
+        height : 250,
         marginLeft : 'auto',
         marginRight : 'auto',
-        marginBottom : 10,
     },
     MainTitle : {
         fontSize : 17,
         fontFamily: 'Jalnan',
-        color : "#27BAFF",
+        color : '#27BAFF',
+        marginLeft : 'auto',
+        marginRight : 'auto',
+        marginTop : 20,
     },
     subtitle : {  
         fontFamily: 'Jalnan',
-        color : "black"
+        color : "black",
     },
     MentoName : {
         fontFamily: 'Jalnan',
@@ -135,22 +127,23 @@ const styles = StyleSheet.create({
     },
     teachSector : {
         fontFamily: 'Jalnan',
-        marginBottom : 10,
-        marginLeft : 150,
-        marginBottom : 20,
+        marginTop : 10,
+        marginRight : 'auto',
         fontSize : 14,
+        color :'black'
     },
     nickName : {
         fontFamily: 'Jalnan',
-        marginBottom : 10,
+        marginLeft : 'auto',
+        marginRight : 'auto',
         fontSize : 14,
-        color : '#a0a0a0'
+        color :'black'
     },
     MentoGrade : {
         fontFamily: 'Jalnan',
         fontSize : 14,
-        marginLeft : 50,
-        marginRight : 'auto'
+        marginRight : 'auto',
+        color :'black'
     },
     Title : {
         fontFamily: 'Jalnan',

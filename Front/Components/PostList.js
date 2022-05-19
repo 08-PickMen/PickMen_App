@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet ,Image, RefreshControl,ActivityIndicator } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import filter from 'lodash.filter';
-import data from './PostData';
+import postdata from './PostData';
 import newPostData from './newPostData';
 import {Card, TextInput} from 'react-native-paper'
 import writeIcon from '../icons/writing.png';
@@ -12,12 +12,34 @@ import {CommonActions} from '@react-navigation/native';
 
 function PostList({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
-  const [query, setQuery] = React.useState('');
-  const [fullData, setFullData] = React.useState([]);
+  var [fullData, setFullData] = React.useState([]);
+  var [data, setData] = React.useState([]);
+  const [search, setSearch] = React.useState(null);
+
+useEffect(() => {
+  axios.get('http://10.0.2.2:8090/post/getPost')
+  .then(response => {
+      var count = parseInt(response.data.numberOfElements);
+      var newData = [];
+      count = count-1;
+      for(count;count >=0; count--){
+      newData.push({
+          id : response.data.content[count].id,
+          title : response.data.content[count].title,
+          user : response.data.content[count].user.id,
+          content : response.data.content[count].content,
+          count : response.data.content[count].count,
+          nickname : response.data.content[count].user.nickname,
+      },)
+    }
+    setData(newData)
+  }).catch(error => {
+      console.log(error)
+  })
+  },[]);
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
-  const onChangeSearch = query => setQuery(query);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
@@ -49,6 +71,7 @@ function PostList({navigation}) {
         }
     }
   }
+
   function datacountUp(id) {
     var count = data.length;
     for(count= count-1; count >= 0; count--){
@@ -58,6 +81,22 @@ function PostList({navigation}) {
       }
   }
   }
+
+function updateSearch(text) {
+   if(text) {
+       const newData = postdata.filter(function (item) {
+       const itemData = (item.title ? item.title.toUpperCase() : ''.toUpperCase());
+       const contentData = (item.content ? item.content.toUpperCase() : ''.toUpperCase());
+       const textData = text.toUpperCase();
+       return itemData.indexOf(textData) > -1 || contentData.indexOf(textData) > -1;
+     });
+    setData(newData);
+    setSearch(text);
+   } else {
+     setData(postdata);
+     setSearch(text);
+  }
+}
   const renderItem = ({ item }) => {
     const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
     return (
@@ -78,11 +117,11 @@ function PostList({navigation}) {
         <View style = {{flexDirection : 'row', marginTop : 10}}>
           <Text style = {styles.MainTitle}>게시글 목록</Text>
           <Searchbar
-            placeholder='Search'
-            onChangeText={onChangeSearch}
-            onIconPress={() => setQuery('new')}
-            value={query}
-            style = {{marginLeft : 20,width : 230, height : 40,}}></Searchbar>
+          placeholder="Search"
+          onChangeText={(text)=> updateSearch(text)}
+          value={search}
+          style = {{marginLeft : 30, width : 200, height : 40}}
+        />
           <TouchableOpacity onPress = {()=>{navigation.reset({ index : 1, routes : [{name : 'Post'}]});}}>
             <Image source = {writeIcon} style = {{width : 40, height : 40, marginLeft : 20,}}/>
           </TouchableOpacity>
@@ -92,7 +131,6 @@ function PostList({navigation}) {
           data = {data}
           renderItem={renderItem}
           keyExtractor = {item => item.id}
-          windowSize = {99}
           onEndReachedThreshold={0.6}
           contentContainerStyle = {{flex : 1}}
           refreshControl={
