@@ -1,17 +1,11 @@
-import React, {useEffect, useState, useCallback}from 'react';
+import React, {useEffect, useRef}from 'react';
+import SockJS from 'sockjs-client';
 import 'react-navigation'
-import axios from 'axios';
 
-function CreateRoom({navigation}) {
-    const [RoomName, setRoomName] = useState('');
-    useEffect(()=> {
-        axios.post({
-            baseURL : 'http://10.0.2.2:8090/chat/room',
-            params : {
-                name : RoomName
-            }
-        })        
-    })
+var stompClient = null;
+
+function CreateRoom() {
+    const socket = new SockJS('http://10.0.2.2:8090/chat');
 
 }
 

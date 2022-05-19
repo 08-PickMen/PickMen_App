@@ -17,7 +17,7 @@ function Board() {
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{
                 headerShown : false 
-            }}>
+            }} initialRouteName = "PostPage">
                 <stack.Screen name="PostPage" component={PostList}/>
                 <stack.Screen name="Post" component={Post}/>
                 <stack.Screen name="ViewPost" component={ViewPost}/>

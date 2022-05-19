@@ -11,14 +11,6 @@ import data from './PostData';
 import writeicon from '../icons/writing.png';
 import deleteicon from '../icons/delete.png';
 
-async function loadBoard() {
-    var data1 = await AsyncStorage.getItem('user_id');
-    var data2 = await AsyncStorage.getItem('Compareid');
-    if(data1 == data2){
-        return true
-    }
-    
-}
 
 async function DeletePost(navigation, id) {
     await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
@@ -83,7 +75,20 @@ async function DeleteToPost(navigation) {
 
 
 function ShowTab({navigation}) {
-         if(loadBoard()){
+    const [checkstatus, setCheckstatus] = useState(false);
+    async function loadBoard() {
+        var data1 = await AsyncStorage.getItem('user_id');
+        var data2 = await AsyncStorage.getItem('Compareid');
+        console.log(data1, data2)
+        if(data1 == data2) {
+            setCheckstatus(true);
+        } else {
+            setCheckstatus(false);
+        }
+    }
+    loadBoard(checkstatus);
+    console.log(checkstatus)
+         if(checkstatus == true){
             return(
                 <View style={{
                     marginLeft : 'auto',
@@ -104,23 +109,26 @@ function ShowTab({navigation}) {
                     </TouchableOpacity>
                 </View>
             ) 
-    } else return (
-        <View></View>
-    )
+    }else {
+        return (
+            <View>
+            </View>
+        )
+    }
 }
 
 
 function ViewPost({navigation}, newData) {
     async function saveCurrentId(user_id) {
-        if(user_id)
-            await AsyncStorage.setItem('Compareid', JSON.stringify(user_id));
+        await AsyncStorage.setItem('Compareid', JSON.stringify(user_id));
     }
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
     var data = []
+
     data = newPostData.slice();
+    saveCurrentId(newPostData[0].user);
     newPostData.length = 0;
-    saveCurrentId(data[0].user);
     restBoard(data[0].id, data[0].title, data[0].content, data[0].nickname);
     return(
         <View>
