@@ -3,7 +3,7 @@ import axios from 'axios';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet ,Image, RefreshControl,ActivityIndicator } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import filter from 'lodash.filter';
-import data from './PostData';
+import postdata from './PostData';
 import newPostData from './newPostData';
 import {Card, TextInput} from 'react-native-paper'
 import writeIcon from '../icons/writing.png';
@@ -14,6 +14,8 @@ function PostList({navigation}) {
   const [refreshing, setRefreshing] = React.useState(false);
   const [query, setQuery] = React.useState('');
   const [fullData, setFullData] = React.useState([]);
+  var [data, setData] = React.useState([]);
+  data = postdata;
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
@@ -72,7 +74,6 @@ function PostList({navigation}) {
     )
   };
   return (
-  
   <View style = {{flex : 10, backgroundColor : '#fff', height : 2080}}>
         <View>
         <View style = {{flexDirection : 'row', marginTop : 10}}>
@@ -82,7 +83,7 @@ function PostList({navigation}) {
             onChangeText={onChangeSearch}
             onIconPress={() => setQuery('new')}
             value={query}
-            style = {{marginLeft : 20,width : 230, height : 40,}}></Searchbar>
+            style = {{marginLeft : 20,width : 210, height : 40,}}></Searchbar>
           <TouchableOpacity onPress = {()=>{navigation.reset({ index : 1, routes : [{name : 'Post'}]});}}>
             <Image source = {writeIcon} style = {{width : 40, height : 40, marginLeft : 20,}}/>
           </TouchableOpacity>
@@ -109,7 +110,7 @@ function PostList({navigation}) {
   const styles = StyleSheet.create({
     cards : {
       borderRadius : 10,
-      width : 400,
+      width : 380,
       height : 80,
       borderWidth : 1,
       marginBottom : 10,
