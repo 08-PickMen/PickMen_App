@@ -3,11 +3,16 @@ package com.pickmen.backend.user.controller;
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
+import com.pickmen.backend.dto.LectureDto;
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.ImageService;
 import com.pickmen.backend.user.service.UserService;
+
+import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -20,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -118,7 +124,8 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user,
+		  @RequestParam List<Long> lectureList)
    {
      User newuser=new User();
      System.out.println(user.getUsername());
@@ -131,7 +138,7 @@ public class UserApiController {
      newuser.setRole(RoleType.MENTEE);
      
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.joinTest(newuser, lectureList));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -151,7 +158,15 @@ public class UserApiController {
     }
   }
   
+  @GetMapping("/user/getLectureList")
+	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(principalDetail.getUserId()), HttpStatus.OK);
+	}
   
+  @GetMapping("/getLectureListTest/{user_id}")
+	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@PathVariable long user_id) {
+		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(user_id), HttpStatus.OK);
+	}
 }
 
 
