@@ -4,11 +4,12 @@ import PickerBox from 'react-native-picker-select';
 import 'react-navigation';
 
 
-function Major({navigation}){
+function Attention({navigation}){
     const [selectdValue, setSelectdValue] = React.useState('관심 분야를 선택하세요');
     return(
         <View>
-            <View style = {{borderBottomColor : '#a0a0a0', borderBottomWidth : 1, marginTop : 50,}}/>
+            <Text style = {styles.MainTitle}>관심 분야 선택</Text>
+            <View style = {{borderBottomColor : '#a0a0a0', borderBottomWidth : 1, marginTop : 20,}}/>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 분야 1</Text>
             </View>
@@ -37,7 +38,7 @@ function Major({navigation}){
             </View>
             <View>
                 <TouchableOpacity style = {styles.Button}
-                    onPress = {()=>{navigation.navigate('Certify_Mento')}}>
+                    onPress = {()=>{navigation.navigate('Certify')}}>
                     <Text style = {styles.Text}>
                         확인
                     </Text>
@@ -59,6 +60,13 @@ const styles = StyleSheet.create({
  
      backgroundColor : "#27BAFF"
     },
+    MainTitle : {
+        fontSize : 20,
+        fontFamily : 'Jalnan',
+        marginTop : 20,
+        marginLeft : 20,
+        color : 'black',
+    },
     Sector : {
         fontFamily : 'Jalnan',
         fontSize : 15,
@@ -78,4 +86,4 @@ const styles = StyleSheet.create({
    });
  
 
-export default Major;
+export default Attention;
