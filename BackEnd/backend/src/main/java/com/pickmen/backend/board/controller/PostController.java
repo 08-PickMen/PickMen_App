@@ -3,6 +3,7 @@ package com.pickmen.backend.board.controller;
 import javax.transaction.Transactional;
 
 import com.pickmen.backend.board.model.Post;
+import com.pickmen.backend.board.repository.PostRepository;
 import com.pickmen.backend.board.service.PostService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.user.model.User;
@@ -28,6 +29,8 @@ public class PostController {
   @Autowired private PostService postService;
 
   @Autowired private UserRepository userRepository;
+
+  @Autowired private PostRepository postRepository;
 
   // @AuthenticationPrincipal PrincipalDetail principalDetail
   // 위 코드를 통해 세션에 저장된 사용자 정보를 가져올 수 있다.
@@ -55,8 +58,6 @@ public class PostController {
     }
   }
 
-<<<<<<< HEAD
-=======
 
   @GetMapping("post/findByNickname")
   public Page<Post> postByNickname(String nickname,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
@@ -75,7 +76,6 @@ public class PostController {
   public Page<Post> postByTitle(String title,String content,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
     return postRepository.findByTitleOrContentContaining(title,content,pageable);
   }
->>>>>>> 7c492319a66a3a7d7132b9597c2925434a81ee7f
 
   @Transactional
   @PostMapping("post/upcountPost")

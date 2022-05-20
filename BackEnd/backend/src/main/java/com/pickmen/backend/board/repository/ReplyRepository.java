@@ -13,10 +13,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     public List<Reply> findAllByBoardOrderByCreateDate(long boardId);
 
-
-
-
-
-
     
 }

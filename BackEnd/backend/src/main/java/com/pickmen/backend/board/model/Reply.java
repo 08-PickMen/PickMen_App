@@ -37,11 +37,13 @@ public class Reply {
   @Column(nullable = false, length = 200)
   private String content;
 
+  private String nickname;
+
   @CreationTimestamp private LocalDateTime createDate;
 
   // Reply N : 1 Board -> 한개의 게시물에는 답변이 여러개 달릴 수 있음
   @ManyToOne
-  @JoinColumn(name = "boardId")
+  @JoinColumn(name = "postId")
   private Post board;
 
   // Reply N : 1 User -> 한명의 사용자는 여러개의 답변을 달 수 있음

@@ -52,6 +52,12 @@ public class PrincipalDetail implements UserDetails {
    public String getTeachSector(){
      return user.getTeachSector();
    }
+
+
+   public String getNickName(){
+     return user.getNickname();
+   }
+
    
 
   @Override

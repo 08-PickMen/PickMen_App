@@ -11,7 +11,7 @@ import data from './PostData';
 import writeicon from '../icons/writing.png';
 import deleteicon from '../icons/delete.png';
 
-async function loadBoard() {
+async function loadPost() {
     await axios.get('http://10.0.2.2:8090/post/getPost')
     .then(response => {
         var count = parseInt(response.data.totalElements);
@@ -25,7 +25,6 @@ async function loadBoard() {
                 count : response.data.content[0].count,
                 nickname : response.data.content[0].user.nickname,
             },)
-            console.log(data)
         }
         else if(count > 1){
             count = count-1;
@@ -40,7 +39,6 @@ async function loadBoard() {
                 nickname : response.data.content[count].user.nickname,
             },)
     }
-    console.log(data)
     }
     }).catch(error => {
         console.log(error)
@@ -86,7 +84,7 @@ async function EditPost(navigation) {
         [
             {
                 text: '확인',
-                onPress: () => {loadBoard(); navigation.dispatch(CommonActions.reset({
+                onPress: () => {loadPost(); navigation.dispatch(CommonActions.reset({
                     index : 0,
                     routes : [{name : 'EditPost'}]
                 }))},
@@ -115,7 +113,6 @@ function ShowTab({navigation}) {
     async function loadBoard() {
         var data1 = await AsyncStorage.getItem('user_id');
         var data2 = await AsyncStorage.getItem('Compareid');
-        console.log(data1, data2)
         if(data1 == data2) {
             setCheckstatus(true);
         } else {
@@ -123,7 +120,6 @@ function ShowTab({navigation}) {
         }
     }
     loadBoard(checkstatus);
-    console.log(checkstatus)
          if(checkstatus == true){
             return(
                 <View style={{
@@ -196,6 +192,12 @@ function ViewPost({navigation}, newData) {
                         조회수  {JSON.stringify(data[0].count).replace(/\"/gi,"").replace(/\\n/gi,"")}
                    </Text>
                </View>
+               <View style = {{flexDirection : 'row'}}>
+                   <TextInput style = {styles.TextInput}></TextInput>
+                   <TouchableOpacity style = {{marginTop : 12,marginRight : 10,width : 70, height : 40, backgroundColor : '#27BAFF', borderRadius : 5}}>
+                       <Text style = {{color : '#fff',fontFamily : 'Jalnan', marginLeft : 'auto', marginRight : 'auto',marginTop : 'auto', marginBottom : 'auto'}}>작성</Text>
+                   </TouchableOpacity>
+               </View>
             </View>
 
     )
@@ -213,14 +215,13 @@ const styles = StyleSheet.create({
          marginBottom : 20
      },
      TextInput: {
-        width : 350,
-        height: 350,
+        width : 300,
         margin: 12,
+        height : 40,
         borderWidth: 1,
-        padding: 10,
+        borderColor : "#a0a0a0",
         borderRadius : 5,
-        marginLeft : 'auto',
-        marginRight : 'auto',
+        marginLeft : 20,
         marginBottom : 20
 
     },
