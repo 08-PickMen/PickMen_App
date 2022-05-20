@@ -37,6 +37,8 @@ public class Reply {
   @Column(nullable = false, length = 200)
   private String content;
 
+  private String nickname;
+
   @CreationTimestamp private LocalDateTime createDate;
 
   // Reply N : 1 Board -> 한개의 게시물에는 답변이 여러개 달릴 수 있음

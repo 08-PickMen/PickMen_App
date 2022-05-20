@@ -53,7 +53,7 @@ public class ReplyController {
     public ResponseDto<Reply> postReply(long boardId, @AuthenticationPrincipal PrincipalDetail principalDetail, String content){
 
         try {
-            Reply newReply=new Reply().builder().content(content).user(userRepository.getById(principalDetail.getUserId())).board(postRepository.getById(boardId)).build();
+            Reply newReply=new Reply().builder().content(content).nickname(principalDetail.getNickName()).user(userRepository.getById(principalDetail.getUserId())).board(postRepository.getById(boardId)).build();
             return new ResponseDto<Reply>(HttpStatus.OK.value(),replyRepository.save(newReply));
              } catch (Exception e) {
             e.printStackTrace();
