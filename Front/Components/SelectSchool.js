@@ -29,7 +29,7 @@ function SelectSchool({navigation}) {
                     </PickerBox>
                     </View>
                      <TouchableOpacity style={styles.startButton}
-                       onPress = {() => navigation.navigate('Certify')}>
+                       onPress = {() => navigation.navigate('Attention')}>
                     <Text style={styles.Text}>다음</Text>
                 </TouchableOpacity>
             </View>
