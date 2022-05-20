@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -60,9 +61,13 @@ public class Post {
       // 데이터가 여러개이므로, 가지고 올 때 같이 가지고 오는게 낫지만 (-> LAZY),
       // 반드시 필요하기 때문에 Eager 전략 사용
       fetch = FetchType.EAGER,
-      mappedBy = "board") // FK 가 아님 -> 컬럼을 만들지 말아야 함
-  // @JoinColumn(name = "replyId") -> 필요없음. -> 1정규화 원자성에 어긋남
+      mappedBy = "board",cascade = {CascadeType.ALL}) // FK 가 아님 -> 컬럼을 만들지 말아야 함
   private List<Reply> reply = new ArrayList<>();
+
+  public void addReply(Reply reply){
+    this.getReply().add(reply);
+    reply.setBoard(this);
+  }
 
   @CreationTimestamp private LocalDateTime createDate;
 }
