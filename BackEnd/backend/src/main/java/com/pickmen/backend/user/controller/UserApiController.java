@@ -1,5 +1,7 @@
 package com.pickmen.backend.user.controller;
 
+import java.util.List;
+
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
@@ -21,8 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -121,8 +121,6 @@ public class UserApiController {
   public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user)
    {
      User newuser=new User();
-     System.out.println(user.getUsername());
-     newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
      newuser.setCreateDate(user.getCreateDate());

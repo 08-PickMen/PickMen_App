@@ -9,6 +9,7 @@ import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
@@ -27,6 +28,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
   List<User> findAllByRoleAndMajor(RoleType role, Major major);
 
   Optional<User> findByNickname(String nickname);
+  
+  @Query(value = "select * from user where role = MENTOR and teach_sector like '%?%'", nativeQuery = true)
+  List<User> MentorFindByTeachSector(String teachSector);
+
+
 
   //  @Query(value = "select * from user where username = ? and password ?", nativeQuery = true)
   //  Optional<User> login(String username, String password);

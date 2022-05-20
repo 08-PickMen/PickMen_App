@@ -55,6 +55,27 @@ public class PostController {
     }
   }
 
+<<<<<<< HEAD
+=======
+
+  @GetMapping("post/findByNickname")
+  public Page<Post> postByNickname(String nickname,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByNickname(nickname,pageable);
+  }
+
+  @GetMapping("post/findByTitle")
+  public Page<Post> postByTitle(String title,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByTitleContaining(title,pageable);
+  }
+  @GetMapping("post/findByContent")
+  public Page<Post> postByContent(String content,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByContentContaining(content,pageable);
+  }
+  @GetMapping("post/findByTitleOrContent")
+  public Page<Post> postByTitle(String title,String content,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByTitleOrContentContaining(title,content,pageable);
+  }
+>>>>>>> 7c492319a66a3a7d7132b9597c2925434a81ee7f
 
   @Transactional
   @PostMapping("post/upcountPost")

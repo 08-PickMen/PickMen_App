@@ -13,9 +13,9 @@ spring:
       suffix: .html
 
   datasource:
-    url: jdbc:mysql://localhost:3306/PickMen2?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/pickmen?serverTimezone=UTC
     username: root
-    password: '@Altmxpfl12'
+    password: cjswo1591
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
