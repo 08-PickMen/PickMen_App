@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.dto.MentorDto;
+import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.User;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
   Optional<User> findByUsername(String username);
 
   List<User> findAllByRole(RoleType role);
+  
+  List<User> findAllByRoleAndMajor(RoleType role, Major major);
 
   Optional<User> findByNickname(String nickname);
 

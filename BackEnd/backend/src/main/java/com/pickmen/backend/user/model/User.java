@@ -8,12 +8,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.pickmen.backend.RoleType;
@@ -71,11 +73,25 @@ public class User {
 
    // 새로 입력   
    
+  // 관심 카테고리 입력 받기(멘티)
+   @Column(nullable = true)
+   private String category;
+   
    @OneToMany(mappedBy = "user")
    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
    @Column(nullable= true)
    private String nickname;
+   
+   // 전공 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
+   @ManyToOne
+   @JoinColumn(name = "majorId")
+   private Major major;
+   
+   // 관심 강의 입력 추가(프론트에서 전달해줌)
+   // User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
+   @OneToMany(mappedBy = "user")
+   private List<UserLecture> userLectures = new ArrayList<>();
  
    @Column(nullable= true)
    @Enumerated(EnumType.STRING)
