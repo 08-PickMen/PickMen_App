@@ -6,6 +6,7 @@ import com.pickmen.backend.board.model.Post;
 import com.pickmen.backend.board.repository.PostRepository;
 import com.pickmen.backend.board.service.PostService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
+import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 
@@ -14,8 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +41,16 @@ public class PostController {
   @GetMapping("post/getPost")
   public Page<Post> postList(@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
     return postService.getPostList(pageable);
+  }
+
+  @GetMapping("post/getPost/{id}")
+  public ResponseDto<Post> postList(@PathVariable Long id){
+    try {
+      return new ResponseDto<Post>(HttpStatus.OK.value(),postRepository.findById(id).get());
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseDto<Post>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
+    }
   }
 
   @PostMapping("post/deletePost")
