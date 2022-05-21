@@ -200,7 +200,7 @@ function ViewPost({navigation}) {
         var data = await AsyncStorage.getItem('user_id');
         if(user_id==data) {
             axios.post('http://10.0.2.2:8090/Reply/Delete/'+Reply_id, null, { params : {
-                
+                postId : post_id,
             }}).then(response => {
                 console.log(response.data)
             }).catch(error => {
@@ -248,7 +248,7 @@ function ViewPost({navigation}) {
                 </View>
                 <View>
                     <TouchableOpacity style = {{marginLeft : 'auto'}} onPress={()=>deleteReply(item.user.id, item.id, id)}>
-                        <Text>Test용</Text>
+                        <Image source= {deleteicon} style = {styles.ReplyDelete}/>
                     </TouchableOpacity>
                 </View>
             </Card>
@@ -470,6 +470,13 @@ const styles = StyleSheet.create({
         height : 40,
         borderRadius : 40,
         marginLeft : 15,
+    },
+    ReplyDelete : {
+        width : 35,
+        height : 35,
+        marginRight : 10,
+        marginLeft : 'auto',
+        marginBottom : 20,
     }
    });
 
