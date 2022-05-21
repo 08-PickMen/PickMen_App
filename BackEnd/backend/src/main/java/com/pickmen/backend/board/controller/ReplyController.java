@@ -60,10 +60,11 @@ public class ReplyController {
         try {
             List<Reply> replylist=postRepository.getById(postId).getReply();
 
+
             for(Reply reply:replylist){
                 LocalDateTime localDateTime=reply.getCreateDate();
                 if(reply.getCreateDateTime()!=""){
-                reply.setCreateDateTime(localDateTime.format(DateTimeFormatter.ofPattern("yy년 MM월 dd일 HH:mm")));
+                reply.setCreateDateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm")));
                 }
             }
         return new ResponseDto<List<Reply>>(HttpStatus.OK.value(),replylist);
@@ -74,12 +75,28 @@ public class ReplyController {
     } 
 
 
+    @Transactional
     @PostMapping("Reply/Delete/{replyId}")
-    public ResponseDto<Reply> deleteReply(@PathVariable long replyId){
+    public ResponseDto<Reply> deleteReply(@PathVariable long replyId,long postId){
 
         try {
-            Reply reply=replyRepository.findById(replyId).get();
-            replyRepository.delete(reply);
+            List<Reply> list=postRepository.getById(postId).getReply();
+            Reply removeReply=new Reply();
+            for(Reply reply:list){
+                //System.out.println(reply.getId());
+                if(reply.getId()==replyId)
+                {
+                    removeReply=reply;
+                    break;
+                }
+            }
+            list.remove(removeReply);
+
+          
+            replyRepository.delete(replyRepository.findById(replyId).get());
+
+
+
             
         return new ResponseDto<Reply>(HttpStatus.OK.value(),null);
              } catch (Exception e) {
