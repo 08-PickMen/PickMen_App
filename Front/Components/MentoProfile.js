@@ -70,6 +70,7 @@ function MentoProfile({navigation}) {
     }
     const renderCard = ({ item }) => {
         return (
+            <TouchableOpacity onPress={() => alert('ㅎㅇ')}>
             <Card style = {styles.cards}>
                 <Card.Title title = "멘토 정보" subtitle = "Mento Profile" titleStyle = {styles.MainTitle} subtitleStyle={styles.subtitle}/>
                 <Card.Content style = {{flexDirection : 'row'}}>
@@ -99,6 +100,7 @@ function MentoProfile({navigation}) {
                 </TouchableOpacity>
             </Card.Actions>
             </Card>
+            </TouchableOpacity>
         )
     };
     Test();

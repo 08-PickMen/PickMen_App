@@ -158,7 +158,8 @@ public class UserApiController {
     }
   }
   
-  @GetMapping("/user/getLectureList")
+  // 유저의 관심 강의 리스트를 프론트로 반환하는 URL
+  @GetMapping("/getLectureList")
 	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
 		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(principalDetail.getUserId()), HttpStatus.OK);
 	}
