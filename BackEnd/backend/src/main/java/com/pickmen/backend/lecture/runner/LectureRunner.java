@@ -22,9 +22,10 @@ public class LectureRunner implements ApplicationRunner {
 
     @Autowired LectureRepository lectureRepository;
 
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(lectureRepository.findById(new Long(1))==null){
+        if(lectureRepository.count()==0){
         FileInputStream fis = new FileInputStream(new File("C:\\input.xlsx"));
         //excel 파일 위치 설정 필요함.
         XSSFWorkbook workbook = new XSSFWorkbook(fis);

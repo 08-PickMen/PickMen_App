@@ -21,7 +21,7 @@ public class MajorRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         
-        if(majorRepository.getById(new Long(1))==null){
+        if(majorRepository.count()==0){
         try {
             Document document = Jsoup.connect("https://namu.wiki/w/%EC%95%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90/%ED%95%99%EB%B6%80").userAgent("Chrome/41.0.2228.0").get();
            
