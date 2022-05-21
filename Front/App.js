@@ -41,7 +41,6 @@ class App extends Component{
         <stack.Screen name="RegisterComplete" component={RegisterComplete} />
         <stack.Screen name="LoginPage" component={LoginPage}/>
         <stack.Screen name="HomeScreen" component={HomeScreen}/>
-        <stack.Screen name="Post" component={Post}/>
       </stack.Navigator>
     </NavigationContainer>
   );

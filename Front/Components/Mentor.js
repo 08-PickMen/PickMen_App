@@ -1,27 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet ,Item, StatusBar} from 'react-native';
-import data from './PostList';
 import 'react-navigation'
 import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import Post from './Post';
-import PostList from './PostList';
-import ViewPost from './ViewPost';
-import EditPost from './EditPost';
+import MentorProfileDetail from './MentorProfileDetail';
+import MentorProfile from './MentorProfile';
 
 const stack = createStackNavigator();
 
-function Board() {
+function Mentor() {
     return (
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{
                 headerShown : false 
-            }} initialRouteName = "PostPage">
-                <stack.Screen name="PostPage" component={PostList}/>
-                <stack.Screen name="Post" component={Post}/>
-                <stack.Screen name="ViewPost" component={ViewPost}/>
-                <stack.Screen name="EditPost" component={EditPost}/>
+            }} initialRouteName = "MentorPage">
+                <stack.Screen name="MentorProfilePage" component={MentorProfile}/>
+                <stack.Screen name="MentorProfileDetailPage" component={MentorProfileDetail}/>                
 
             </stack.Navigator>
         </NavigationContainer>
@@ -71,4 +66,4 @@ const styles = StyleSheet.create({
   },
   });
   
-export default Board;
+export default Mentor;
