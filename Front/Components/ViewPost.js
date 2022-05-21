@@ -10,7 +10,8 @@ import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 import writeicon from '../icons/writing.png';
 import deleteicon from '../icons/delete.png';
-import { Button } from 'react-native-paper';
+import { Button, Card} from 'react-native-paper';
+
 
 async function loadPost() {
     await axios.get('http://10.0.2.2:8090/post/getPost').then(response => {
@@ -152,9 +153,18 @@ function ShowTab({navigation}) {
 
 const renderTweets = ({item}) => {
     return (
-        <View>
-            <Text>{item.content}</Text>
-        </View>
+        <Card style = {{borderWidth : .5}}>
+            <View style = {{flexDirection : 'row', marginTop : 10,}}>
+                <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user.id}} style = {styles.ReplyImage}/>
+                <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
+            </View>
+            <View>
+                <Text style = {styles.ReplyContent}>{item.content}</Text>
+            </View>
+            <View>
+                <Text style = {styles.ReplyCreateDate}>작성한 날 : {item.createDate}</Text>
+            </View>
+        </Card>
     )
 }
 
@@ -196,7 +206,7 @@ function ViewPost({navigation}) {
             [
                 {
                     text: '확인',
-                    onPress: () => {},
+                    onPress: () => {loadReply(post_id)},
     
                 }
             ]
@@ -231,7 +241,7 @@ function ViewPost({navigation}) {
     saveCurrentId(user);
     restBoard(id, title, content, nickName);
  return(
-        <View>
+        <View style ={{backgroundColor : '#fff', flex :1,}}>
             <View style= {{flexDirection:'row'}}>
                 <Text style = {styles.Text}>게시글</Text>
                 <ShowTab navigation={navigation}/></View>
@@ -263,18 +273,16 @@ function ViewPost({navigation}) {
                <View style = {{flexDirection : 'row'}}>
                    <TextInput style = {styles.TextInput} onChangeText = {text => setTweets(text)}value = {tweets}></TextInput>
                    <TouchableOpacity style = {{marginTop : 12,marginRight : 10,width : 70, height : 40, backgroundColor : '#27BAFF', borderRadius : 5}}
-                        onPress = {()=>{setTweets(''); subscribeReply(id,tweets,navigation); loadReply(id);}}>
+                        onPress = {()=>{setTweets(''); subscribeReply(id,tweets,navigation);}}>
                        <Text style = {{color : '#fff',fontFamily : 'Jalnan', marginLeft : 'auto', marginRight : 'auto',marginTop : 'auto', marginBottom : 'auto'}}>작성</Text>
                    </TouchableOpacity>
                </View>
-               <View>
                    <FlatList
                     data = {ListTweets}
                     renderItem = {renderTweets}
                     onEndReachedThreshold={0.6}
                    >
                    </FlatList>
-               </View>
             </View>
 
     )
@@ -391,7 +399,35 @@ const styles = StyleSheet.create({
         marginLeft : 30,
         fontSize : 15,
         fontFamily : 'Jalnan',
-
+    },
+    ReplyContent : {
+        marginLeft : 20,
+        marginTop : 15,
+        fontFamily : 'Jalnan',
+        fontSize : 14,
+        color : 'black'
+    },
+    ReplyCreateDate : {
+        marginLeft : 20,
+        marginTop : 15,
+        marginBottom : 15,
+        fontFamily : 'Jalnan',
+        fontSize : 14,
+        color : 'black'
+    },
+    ReplyNickName : {
+        fontSize : 14,
+        marginTop : 'auto',
+        marginBottom : 'auto',
+        marginLeft : 15,
+        fontFamily : 'Jalnan',
+        color : 'black'
+    },
+    ReplyImage : {
+        width : 40,
+        height : 40,
+        borderRadius : 40,
+        marginLeft : 15,
     }
    });
 
