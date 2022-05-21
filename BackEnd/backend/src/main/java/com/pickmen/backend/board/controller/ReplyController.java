@@ -1,5 +1,7 @@
 package com.pickmen.backend.board.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -52,11 +54,18 @@ public class ReplyController {
         }
     } 
 
-    
-    @GetMapping("Reply/Get/{boardId}")
-    public ResponseDto<List<Reply>> getReply(@PathVariable long boardId){
+    @Transactional
+    @GetMapping("Reply/Get/{postId}")
+    public ResponseDto<List<Reply>> getReply(@PathVariable long postId){
         try {
-            List<Reply> replylist=postRepository.getById(boardId).getReply();
+            List<Reply> replylist=postRepository.getById(postId).getReply();
+
+            for(Reply reply:replylist){
+                LocalDateTime localDateTime=reply.getCreateDate();
+                if(reply.getCreateDateTime()!=""){
+                reply.setCreateDateTime(localDateTime.format(DateTimeFormatter.ofPattern("yy년 MM월 dd일 HH:mm")));
+                }
+            }
         return new ResponseDto<List<Reply>>(HttpStatus.OK.value(),replylist);
              } catch (Exception e) {
             e.printStackTrace();

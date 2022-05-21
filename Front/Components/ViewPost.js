@@ -151,23 +151,6 @@ function ShowTab({navigation}) {
 }
 
 
-const renderTweets = ({item}) => {
-    return (
-        <Card style = {{borderWidth : .5}}>
-            <View style = {{flexDirection : 'row', marginTop : 10,}}>
-                <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user.id}} style = {styles.ReplyImage}/>
-                <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
-            </View>
-            <View>
-                <Text style = {styles.ReplyContent}>{item.content}</Text>
-            </View>
-            <View>
-                <Text style = {styles.ReplyCreateDate}>작성한 날 : {item.createDate}</Text>
-            </View>
-        </Card>
-    )
-}
-
 function ViewPost({navigation}) {
     async function saveCurrentId(user_id) {
         await AsyncStorage.setItem('Compareid', String(user_id));
@@ -210,6 +193,65 @@ function ViewPost({navigation}) {
     
                 }
             ]
+        )
+    }
+
+    async function deleteReply(user_id, Reply_id, post_id) {
+        var data = await AsyncStorage.getItem('user_id');
+        if(user_id==data) {
+            axios.post('http://10.0.2.2:8090/Reply/Delete/'+Reply_id, null, { params : {
+                
+            }}).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+    
+            })
+            Alert.alert(
+                '댓글이 삭제되었습니다',
+                '',
+                [
+                    {
+                        text: '확인',
+                        onPress: () => {loadReply(post_id)},
+        
+                    }
+                ]
+            )
+        } else {
+            Alert.alert(
+                '댓글 작성자가 아닙니다.',
+                '',
+                [
+                    {
+                        text: '확인',
+                        onPress: () => {},
+        
+                    }
+                ]
+            )
+        }
+    }
+    
+    
+    const renderTweets = ({item}) => {
+        return (
+            <Card style = {{borderWidth : .5}}>
+                <View style = {{flexDirection : 'row', marginTop : 10,}}>
+                    <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user.id}} style = {styles.ReplyImage}/>
+                    <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
+                </View>
+                <View>
+                    <Text style = {styles.ReplyContent}>{item.content}</Text>
+                </View>
+                <View>
+                    <Text style = {styles.ReplyCreateDate}>20{item.createDateTime}</Text>
+                </View>
+                <View>
+                    <TouchableOpacity style = {{marginLeft : 'auto'}} onPress={()=>deleteReply(item.user.id, item.id, id)}>
+                        <Text>Test용</Text>
+                    </TouchableOpacity>
+                </View>
+            </Card>
         )
     }
 
