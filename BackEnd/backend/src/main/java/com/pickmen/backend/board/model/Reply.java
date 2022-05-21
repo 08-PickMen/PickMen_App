@@ -41,6 +41,8 @@ public class Reply {
 
   @CreationTimestamp private LocalDateTime createDate;
 
+  private String createDateTime;
+
   // Reply N : 1 Board -> 한개의 게시물에는 답변이 여러개 달릴 수 있음
   @ManyToOne
   @JoinColumn(name = "postId")

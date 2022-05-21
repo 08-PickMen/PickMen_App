@@ -11,8 +11,7 @@ import org.jsoup.select.Elements;
 public class JsoupTest {
 
     public static void getStockPriceList() {
-  
-      final String stockList = "https://finance.naver.com/sise/sise_market_sum.nhn?&page=1";
+      final String stockList = "https://namu.wiki/w/%EC%95%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90/%ED%95%99%EB%B6%80";
       Connection conn = Jsoup.connect(stockList);
   
       try {
@@ -27,10 +26,10 @@ public class JsoupTest {
     }
   
     public static String getStockHeader(Document document) {
-      Elements stockTableBody = document.select("table.type_2 thead tr");
+      Elements stockTableBody = document.select("table.pjOoC8wo tbody tr");
       StringBuilder sb = new StringBuilder();
       for (Element element : stockTableBody) {
-        for (Element td : element.select("th")) {
+        for (Element td : element.select("td")) {
           sb.append(td.text());
           sb.append("   ");
         }
