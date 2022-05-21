@@ -4,8 +4,15 @@ import {TouchableOpacity } from 'react-native';
 import PickerBox from 'react-native-picker-select';
 import 'react-navigation'
 import Schools from './SchoolLabel'
+import AsyncStorage from '@react-native-community/async-storage';
 function SelectSchool_Mento({navigation}) {
     const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
+    async function saveSchool() {
+        try {
+            await AsyncStorage.setItem('school', selectdValue);
+        } catch (e) {
+        }
+    }
     return(
             <View>
                 <View>
@@ -28,7 +35,7 @@ function SelectSchool_Mento({navigation}) {
                     </PickerBox>
                     </View>
                      <TouchableOpacity style={styles.startButton}
-                       onPress = {() => navigation.navigate('Major')}>
+                       onPress = {() => {saveSchool(); navigation.navigate('Major')}}>
                     <Text style={styles.Text}>다음</Text>
                 </TouchableOpacity>
             </View>

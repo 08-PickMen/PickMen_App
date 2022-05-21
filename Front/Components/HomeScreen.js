@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import 'react-navigation';
 import Home from './Home';
-import MentoProfile from './MentoProfile';
+import MentoProfile from './MentorProfile';
 import Chat from './Chat';
 import Board from './Board';
 import Profile from './Profile';
@@ -13,6 +13,7 @@ import axios from 'axios';
 import ViewChat from './Chatboard';
 import AsyncStorage from '@react-native-community/async-storage';
 import myprofile from './MyProfile';
+import Mentor from './Mentor';
 
 const Tab = createBottomTabNavigator();
 
@@ -29,7 +30,7 @@ function HomeScreen({navigation}) {
                 tabBarActiveTintColor : '#27BAFF',
                 }}
                 initialRouteName = 'Home'>
-                <Tab.Screen name="MentoProfile" component={MentoProfile} options={{
+                <Tab.Screen name="MentorProfile" component={Mentor} options={{
                     tabBarIcon: () => {
                         return(
                         <Image source={IconStyles.Profile.source} style={{width :30, height : 30}}/>

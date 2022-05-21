@@ -36,6 +36,7 @@ function GradeAccess_Menti({navigation}) {
     var data = new FormData();
     const [nickname, setNickname] = useState('');
     const [image, setImage] = useState(null);
+    const [profileImage, setprofileImage] = useState('');
     const [textImage, setTextImage] = useState('');
     const [CorrectText, setCorrectText] = useState('');
     async function CheckStatus() {
@@ -48,7 +49,8 @@ function GradeAccess_Menti({navigation}) {
             if(response.assets[0].uri) {
                 console.log(response);
                    setImage(response.assets[0].uri);
-            }
+                   setprofileImage(response.assets[0].fileName.substring(0, 30)+'...');
+            } 
               data.append('profile', {
                    uri :  response.assets[0].uri,
                    name : 'image.jpg',
@@ -94,7 +96,7 @@ function GradeAccess_Menti({navigation}) {
                 <View>
                 </View>
                 <View style = {{flexDirection : 'row'}}>
-                <TextInput style = {styles.TextInput} placeholder = {textImage}/>
+                <TextInput style = {styles.TextInput} value = {profileImage} editable={false} maxLength={33}/>
                 <TouchableOpacity style={styles.CheckButton}
                 onPress={()=>{ImageUpload();}}>
                         <Text style={styles.ButtonText}>업로드</Text>

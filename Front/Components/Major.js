@@ -1,24 +1,45 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
 import PickerBox from 'react-native-picker-select';
 import 'react-navigation';
 
 
+
 function Major({navigation}){
-    const [selectdValue, setSelectdValue] = React.useState('관심 분야를 선택하세요');
+    const [selectedValue, setSelectedValue] = useState('전공분야를 선택하세요.');
+    const [selectedValue2, setSelectedValue2] = useState('전공분야를 선택하세요.');
+    const [major, setMajor] = useState('');
+    const [major2, setMajor2] = useState('');
+
+    async function saveMajor() {
+        try {
+            await AsyncStorage.setItem('major1', String(major));
+            await AsyncStorage.setItem('major2', String(major2));
+            await AsyncStorage.setItem('majorText1', String(selectedValue));
+            await AsyncStorage.setItem('majorText2', String(selectedValue2));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     return(
         <View>
             <Text style = {styles.MainTitle}>전공 분야 선택</Text>
-            <View style = {{borderBottomColor : '#a0a0a0', borderBottomWidth : 1, marginTop : 20,}}/>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>전공 분야 1</Text>
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
-                    selectdValue={selectdValue}
-                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
+                    selectedValue={selectedValue}
+                    onValueChange={(itemValue, itemIndex) => {setSelectedValue(itemValue); setMajor(itemIndex)}}
                     items={[
-                        { label: 'Test용', value: '테스트용' },
+                        { label: '컴퓨터구조', value: 1 },
+                        { label: '소프트웨어공학', value: 2 },
+                        { label: 'SW캡스톤디자인', value: 3 },
+                        { label: '예술이란 무엇인가?', value: 4 },
+                        { label: '인공지능', value: 5 },
+                        { label: '알고리즘', value: 6 },
                     ]}
                     >
             </PickerBox>
@@ -28,17 +49,31 @@ function Major({navigation}){
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
-                    selectdValue={selectdValue}
-                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
+                    selectedValue={selectedValue2}
+                    onValueChange={(itemValue, itemIndex) => {setSelectedValue2(itemValue); setMajor2(itemIndex)}}
                     items={[
-                        { label: 'Test용', value: '테스트용' },
+                        { label: '컴퓨터구조', value: 1 },
+                        { label: '소프트웨어공학', value: 2 },
+                        { label: 'SW캡스톤디자인', value: 3 },
+                        { label: '예술이란 무엇인가?', value: 4 },
+                        { label: '인공지능', value: 5 },
+                        { label: '알고리즘', value: 6 },
                     ]}
                     >
             </PickerBox>
             </View>
             <View>
                 <TouchableOpacity style = {styles.Button}
-                    onPress = {()=>{navigation.navigate('Certify_Mento')}}>
+                    onPress = {()=>{
+                        if(selectedValue== selectedValue2) {
+                            Alert.alert('전공 분야는 다르게 선택해주세요.');
+                        }
+                        else {
+                            console.log(major,major2);
+                            saveMajor();
+                            navigation.navigate('Certify_Mento');
+                        }
+                        }}>
                     <Text style = {styles.Text}>
                         확인
                     </Text>

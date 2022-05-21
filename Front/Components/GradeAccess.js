@@ -41,7 +41,6 @@ function GradeAccess({navigation}) {
     const [nickName, setNickName] = useState('');
     const [image, setImage] = React.useState(null);
     const [profileImage, setprofileImage] = React.useState(null);
-    const [checkText, setCheckText] = React.useState('');
     const [CorrectText, setCorrectText] = React.useState('');
     const [Gradefile, setGradefile] = React.useState('');
     async function CheckStatus() {
@@ -52,8 +51,8 @@ function GradeAccess({navigation}) {
     async function ImageUpload() {
          launchImageLibrary({}, async function(response){
              if(response.assets[0].uri) {
-                 console.log(response);
-                    setImage(response.assets[0].uri);
+                setImage(response.assets[0].uri);
+                setGradefile(response.assets[0].fileName.substring(0, 30)+'...');
              }
              var data = new FormData();
                 data.append('file', {
@@ -75,7 +74,7 @@ function GradeAccess({navigation}) {
         launchImageLibrary({}, response => {
             if(response.assets[0].uri) {
                 console.log(response);
-                setprofileImage(response.assets[0].uri);
+                setprofileImage(response.assets[0].fileName.substring(0, 30)+'...');
             }
               data.append('profile', {
                    uri :  response.assets[0].uri,
@@ -116,7 +115,7 @@ function GradeAccess({navigation}) {
                 <View>
                 </View>
                 <View style = {{flexDirection : 'row'}}>
-                <TextInput style = {styles.TextInput} placeholder = "성적표를 업로드 해주세요." editable = {false}/>
+                <TextInput style = {styles.TextInput} value = {Gradefile} editable = {false} maxLength={33}/>
                 <TouchableOpacity style={styles.CheckButton}
                 onPress={()=>{ImageUpload(); {
                    
@@ -130,7 +129,7 @@ function GradeAccess({navigation}) {
                 <View>
                 </View>
                 <View style = {{flexDirection : 'row'}}>
-                <TextInput style = {styles.TextInput} placeholder = "프로필을 업로드 해주세요." editable = {false}/>
+                <TextInput style = {styles.TextInput} value = {profileImage} editable = {false} maxLength={33}/>
                 <TouchableOpacity style={styles.CheckButton}
                 onPress={()=>{ProfileUpload();}}>
                         <Text style={styles.ButtonText}>업로드</Text>

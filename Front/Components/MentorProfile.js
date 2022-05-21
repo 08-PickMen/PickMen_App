@@ -35,7 +35,7 @@ async function loadData() {
     )
 }
 
-function MentoProfile({navigation}) {
+function MentorProfile({navigation}) {
     function createChatRoom(item) {
         Alert.alert(
             '채팅방이 생성되었습니다. 이동하시겠습니까?',
@@ -55,52 +55,52 @@ function MentoProfile({navigation}) {
             ]
         )
         }
-    const renderCard = ({ item }) => {
-        return (
-            <TouchableOpacity onPress={() => alert('ㅎㅇ')}>
-            <Card style = {styles.cards}>
-                <Card.Content style = {{flexDirection : 'row'}}>
+        const renderCard = ({ item }) => {
+            return (
+                <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', {item_id: item.id})}>
+                <Card style = {styles.cards}>
+                    <Card.Content style = {{flexDirection : 'row'}}>
+                    </Card.Content>
+                <Card.Content> 
+                    <View>
+                    <Image source = {{uri :'http://10.0.2.2:8090/getProfile?userid='+ Number(item.id)}}style = {{marginLeft : 'auto',marginRight : 'auto',width : 80, height : 80, borderRadius : 120}}></Image>
+                    <View style={{flexDirection : 'column'}}>
+                        <Text style={styles.MainTitle}>멘토</Text>
+                        <Text style ={styles.nickName}>{item.nickname}</Text>              
+                    </View>
+                    <View>
+                        <Text style = {styles.teachSector}>멘토 분야 :</Text>
+                        <Text style = {styles.teachSector}></Text>
+                        <Text style = {styles.MentoGrade}>학점 : </Text>
+                    </View>
+                    </View>
                 </Card.Content>
-            <Card.Content> 
-                <View>
-                <Image source = {{uri :'http://10.0.2.2:8090/getProfile?userid='+ Number(item.id)}}style = {{marginLeft : 'auto',marginRight : 'auto',width : 80, height : 80, borderRadius : 120}}></Image>
-                <View style={{flexDirection : 'column'}}>
-                    <Text style={styles.MainTitle}>멘토</Text>
-                    <Text style ={styles.nickName}>{item.nickname}</Text>              
+                <Card.Actions>
+                </Card.Actions>
+                </Card>
+                </TouchableOpacity>
+            )
+        };
+        Test();
+        loadData();
+        return(
+                <View style={{flex : 2, backgroundColor : '#fff'}}>
+                    <View>
+                        <Text style = {styles.Title}>
+                            멘토 프로필 리스트
+                        </Text>
+                    </View>
+                    <View style = {{borderBottomColor : 'black', borderBottomWidth : .5, marginBottom : 10,}}/>
+                    <FlatList          
+                        data = {profiledata}
+                        renderItem={renderCard}
+                        keyExtractor={item => item.id}
+                        numColumns = {2}
+                    >
+                    </FlatList>
                 </View>
-                <View>
-                    <Text style = {styles.teachSector}>멘토 분야 :</Text>
-                    <Text style = {styles.teachSector}></Text>
-                    <Text style = {styles.MentoGrade}>학점 : </Text>
-                </View>
-                </View>
-            </Card.Content>
-            <Card.Actions>
-            </Card.Actions>
-            </Card>
-            </TouchableOpacity>
         )
-    };
-    Test();
-    loadData();
-    return(
-            <View style={{flex : 2, backgroundColor : '#fff'}}>
-                <View>
-                    <Text style = {styles.Title}>
-                        멘토 프로필 리스트
-                    </Text>
-                </View>
-                <View style = {{borderBottomColor : 'black', borderBottomWidth : .5, marginBottom : 10,}}/>
-                <FlatList          
-                    data = {profiledata}
-                    renderItem={renderCard}
-                    keyExtractor={item => item.id}
-                    numColumns = {2}
-                >
-                </FlatList>
-            </View>
-    )
-}
+    }
 
 const styles = StyleSheet.create({
     cards : {
@@ -161,4 +161,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MentoProfile;
+export default MentorProfile;

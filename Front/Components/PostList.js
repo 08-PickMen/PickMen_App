@@ -63,7 +63,6 @@ useEffect(() => {
             </View>
             <View style={{flexDirection : 'row'}}>
             <Text style={{marginLeft : 15,marginTop : 80,}}>조회 수 {item.count}</Text>
-            <Text style={{marginLeft : 15,marginTop : 80}}>댓글</Text>
             </View>
           </Card>
         </TouchableOpacity>

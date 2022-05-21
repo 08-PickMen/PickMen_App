@@ -1,5 +1,6 @@
 package com.pickmen.backend.user.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,5 +38,5 @@ public class Major {
 	private String name;
 	
 	@OneToMany(mappedBy = "major", cascade = CascadeType.ALL)
-	private List<User> users;
+	private List<User> users = new ArrayList<>();
 }

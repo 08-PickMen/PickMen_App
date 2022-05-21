@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.SchoolType;
 import com.pickmen.backend.chat.model.ChatRoom;
@@ -90,6 +91,7 @@ public class User {
    
    // 관심 강의 입력 추가(프론트에서 전달해줌)
    // User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
+   @JsonManagedReference
    @OneToMany(mappedBy = "user")
    private List<UserLecture> userLectures = new ArrayList<>();
  

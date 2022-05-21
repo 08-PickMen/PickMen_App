@@ -1,5 +1,5 @@
 import React, {useEffect, useRef}from 'react';
-import SockJS from 'sockjs-client';
+//import SockJS from 'sockjs-client';
 import 'react-navigation'
 
 var stompClient = null;

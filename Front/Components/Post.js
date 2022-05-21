@@ -21,8 +21,8 @@ async function loadBoard() {
                 content : response.data.content[0].content,
                 count : response.data.content[0].count,
                 nickname : response.data.content[0].user.nickname,
+                Reply : response.data.content[0].reply.length
             },)
-            console.log(data)
         }
         else if(count > 1){
             count = count-1;
@@ -35,9 +35,9 @@ async function loadBoard() {
                 content : response.data.content[count].content,
                 count : response.data.content[count].count,
                 nickname : response.data.content[count].user.nickname,
+                Reply : response.data.content[count].reply.length
             },)
     }
-    console.log(data)
     }
     }).catch(error => {
         console.log(error)

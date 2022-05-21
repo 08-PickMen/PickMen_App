@@ -35,6 +35,11 @@ function Information_Mento({navigation}) {
         var data2 = await AsyncStorage.getItem('image');
         console.log(JSON.parse(data2)._parts)
         var changeImage = JSON.parse(data2)._parts
+        var major1 = await AsyncStorage.getItem('major');
+        var major2 = await AsyncStorage.getItem('major2');
+        var majorText1 = await AsyncStorage.getItem('majorText1');
+        var majorText2 = await AsyncStorage.getItem('majorText2');
+        
         var InputImage = new FormData();
         var time = Date.now();
         InputImage.append('profile', {
@@ -51,7 +56,6 @@ function Information_Mento({navigation}) {
                 password : password,
                 nickname : nickname,
                 email : email,
-                teachSector : teachSector
             }
         }
            ).then(function(response) {

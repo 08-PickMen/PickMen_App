@@ -2,23 +2,39 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
 import PickerBox from 'react-native-picker-select';
 import 'react-navigation';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 function Attention({navigation}){
     const [selectdValue, setSelectdValue] = React.useState('관심 분야를 선택하세요');
+    const [selectdValue2, setSelectdValue2] = React.useState('관심 분야를 선택하세요');
+    const [lecture1, setLecture1] = React.useState('');
+    const [lecture2, setLecture2] = React.useState('');
+
+    async function saveLecture() {
+        try {
+            await AsyncStorage.setItem('lecture1', String(lecture1));
+            await AsyncStorage.setItem('lecture2', String(lecture2));
+        } catch (e) {
+            console.log(e);
+        }
+    }
     return(
         <View>
             <Text style = {styles.MainTitle}>관심 분야 선택</Text>
-            <View style = {{borderBottomColor : '#a0a0a0', borderBottomWidth : 1, marginTop : 20,}}/>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 분야 1</Text>
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
                     selectdValue={selectdValue}
-                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => {setSelectdValue(itemValue); setLecture1(itemIndex)}}
                     items={[
-                        { label: 'Test용', value: '테스트용' },
+                        { label: '컴퓨터구조', value: 1 },
+                        { label: '소프트웨어공학', value: 2 },
+                        { label: 'SW캡스톤디자인', value: 3 },
+                        { label: '예술이란 무엇인가?', value: 4 },
+                        { label: '인공지능', value: 5 },
+                        { label: '알고리즘', value: 6 },
                     ]}
                     >
             </PickerBox>
@@ -28,17 +44,29 @@ function Attention({navigation}){
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
-                    selectdValue={selectdValue}
-                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
+                    selectdValue={selectdValue2}
+                    onValueChange={(itemValue, itemIndex) => {setSelectdValue2(itemValue); setLecture2(itemIndex)}}
                     items={[
-                        { label: 'Test용', value: '테스트용' },
+                        { label: '컴퓨터구조', value: 1 },
+                        { label: '소프트웨어공학', value: 2 },
+                        { label: 'SW캡스톤디자인', value: 3 },
+                        { label: '예술이란 무엇인가?', value: 4 },
+                        { label: '인공지능', value: 5 },
+                        { label: '알고리즘', value: 6 },
                     ]}
                     >
             </PickerBox>
             </View>
             <View>
                 <TouchableOpacity style = {styles.Button}
-                    onPress = {()=>{navigation.navigate('Certify')}}>
+                    onPress = {()=>{
+                        if(selectdValue == selectdValue2){
+                            Alert.alert('중복된 분야 선택');
+                        }
+                        else {
+                            saveLecture();
+                            navigation.navigate('Certify')}
+                        }}>
                     <Text style = {styles.Text}>
                         확인
                     </Text>
