@@ -3,7 +3,6 @@ package com.pickmen.backend.dto;
 import java.time.LocalDateTime;
 
 import com.pickmen.backend.RoleType;
-import com.pickmen.backend.SchoolType;
 import com.pickmen.backend.user.model.User;
 
 import lombok.AllArgsConstructor;
