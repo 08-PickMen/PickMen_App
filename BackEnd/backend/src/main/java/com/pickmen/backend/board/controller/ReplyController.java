@@ -1,5 +1,7 @@
 package com.pickmen.backend.board.controller;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import com.pickmen.backend.board.model.Post;
@@ -12,6 +14,7 @@ import com.pickmen.backend.dto.ResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +39,8 @@ public class ReplyController {
         try {
             Reply reply=replyRepository.findById(replyId).get();
             reply.setContent(content);
+
+            
             
         return new ResponseDto<Reply>(HttpStatus.OK.value(),null);
              } catch (Exception e) {
@@ -44,6 +49,18 @@ public class ReplyController {
             return new ResponseDto<Reply>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
        
 
+        }
+    } 
+
+    
+    @GetMapping("Reply/Get/{boardId}")
+    public ResponseDto<List<Reply>> getReply(@PathVariable long boardId){
+        try {
+            List<Reply> replylist=postRepository.getById(boardId).getReply();
+        return new ResponseDto<List<Reply>>(HttpStatus.OK.value(),replylist);
+             } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseDto<List<Reply>>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
         }
     } 
 
