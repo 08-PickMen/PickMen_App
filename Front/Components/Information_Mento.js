@@ -30,16 +30,31 @@ function Information_Mento({navigation}) {
 
         setSendPassword(data)
     }
-    async function register(username, email, password, teachSector) {
+    async function register(username, email, password) {
         var nickname = await AsyncStorage.getItem('nickname');
         var data2 = await AsyncStorage.getItem('image');
         console.log(JSON.parse(data2)._parts)
         var changeImage = JSON.parse(data2)._parts
-        var major1 = await AsyncStorage.getItem('major');
+        /*var major1 = await AsyncStorage.getItem('major');
         var major2 = await AsyncStorage.getItem('major2');
         var majorText1 = await AsyncStorage.getItem('majorText1');
-        var majorText2 = await AsyncStorage.getItem('majorText2');
-        
+        var majorText2 = await AsyncStorage.getItem('majorText2');*/
+        var department = await AsyncStorage.getItem('department');
+        console.log(department)
+        var departmentValue = await AsyncStorage.getItem('departmentValue');
+        var school = await AsyncStorage.getItem('school');
+        var schoolValue = await AsyncStorage.getItem('schoolValue');
+
+        const major = {
+            id : departmentValue,
+            name : department,
+        }
+
+        const schoolInfo = {
+            id : schoolValue,
+            name : school,
+        }
+
         var InputImage = new FormData();
         var time = Date.now();
         InputImage.append('profile', {
@@ -56,6 +71,8 @@ function Information_Mento({navigation}) {
                 password : password,
                 nickname : nickname,
                 email : email,
+                major : Number(departmentValue),
+                school : Number(schoolValue),
             }
         }
            ).then(function(response) {
@@ -122,7 +139,7 @@ function Information_Mento({navigation}) {
                         console.log(sendEmail, sendPassword);
                             if(count==1) {
                             console.log(count)
-                            register(userName, sendEmail, sendPassword, teachSector);
+                            register(userName, sendEmail, sendPassword);
                            // navigation.navigate('RegisterComplete')
                             }
                     }}>

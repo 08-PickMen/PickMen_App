@@ -9,15 +9,31 @@ import 'react-navigation';
 function Major({navigation}){
     const [selectedValue, setSelectedValue] = useState('전공분야를 선택하세요.');
     const [selectedValue2, setSelectedValue2] = useState('전공분야를 선택하세요.');
+    const [department, setDepartment] = useState('');
+    const [departmentValue, setDepartmentValue] = useState('');
     const [major, setMajor] = useState('');
     const [major2, setMajor2] = useState('');
-
+    const items = [
+        { label: '소프트웨어학과', value: 1 },
+        { label: '전자공학과', value: 2 },
+    ]
+    const majoritems = [
+        { label: '컴퓨터구조', value: 1 },
+        { label: '소프트웨어공학', value: 2 },
+        { label: 'SW캡스톤디자인', value: 3 },
+        { label: '예술이란 무엇인가?', value: 4 },
+        { label: '인공지능', value: 5 },
+        { label: '알고리즘', value: 6 },
+    ]
     async function saveMajor() {
         try {
             await AsyncStorage.setItem('major1', String(major));
             await AsyncStorage.setItem('major2', String(major2));
             await AsyncStorage.setItem('majorText1', String(selectedValue));
             await AsyncStorage.setItem('majorText2', String(selectedValue2));
+            await AsyncStorage.setItem('department', String(department));
+            await AsyncStorage.setItem('departmentValue', String(departmentValue));
+            console.log(selectedValue, selectedValue2);
         } catch (e) {
             console.log(e);
         }
@@ -26,42 +42,40 @@ function Major({navigation}){
     return(
         <View>
             <Text style = {styles.MainTitle}>전공 분야 선택</Text>
+            <View style ={{marginTop : 50,}}>
+                <Text style = {styles.Sector}>전공 선택</Text>
+            </View>
+            <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
+            <PickerBox 
+                    selectedValue={department}
+                    onValueChange={(itemValue, itemIndex) => {setDepartment(items[itemIndex-1].label); setDepartmentValue(itemValue)}}
+                    items={items}
+                    >
+            </PickerBox>
+            </View>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>전공 분야 1</Text>
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
                     selectedValue={selectedValue}
-                    onValueChange={(itemValue, itemIndex) => {setSelectedValue(itemValue); setMajor(itemIndex)}}
-                    items={[
-                        { label: '컴퓨터구조', value: 1 },
-                        { label: '소프트웨어공학', value: 2 },
-                        { label: 'SW캡스톤디자인', value: 3 },
-                        { label: '예술이란 무엇인가?', value: 4 },
-                        { label: '인공지능', value: 5 },
-                        { label: '알고리즘', value: 6 },
-                    ]}
+                    onValueChange={(itemData, itemIndex) => {setSelectedValue(majoritems[itemIndex-1].label); setMajor(itemIndex)}}
+                    items={majoritems}
                     >
             </PickerBox>
             </View>
-            <View style ={{marginTop : 140,}}>
+            <View style ={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>전공 분야 2</Text>
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
                     selectedValue={selectedValue2}
-                    onValueChange={(itemValue, itemIndex) => {setSelectedValue2(itemValue); setMajor2(itemIndex)}}
-                    items={[
-                        { label: '컴퓨터구조', value: 1 },
-                        { label: '소프트웨어공학', value: 2 },
-                        { label: 'SW캡스톤디자인', value: 3 },
-                        { label: '예술이란 무엇인가?', value: 4 },
-                        { label: '인공지능', value: 5 },
-                        { label: '알고리즘', value: 6 },
-                    ]}
+                    onValueChange={(itemData, itemIndex) => {setSelectedValue2(majoritems[itemIndex-1].label); setMajor2(itemIndex)}}
+                    items={majoritems}
                     >
             </PickerBox>
             </View>
+            
             <View>
                 <TouchableOpacity style = {styles.Button}
                     onPress = {()=>{
@@ -70,6 +84,7 @@ function Major({navigation}){
                         }
                         else {
                             console.log(major,major2);
+                            console.log(department);
                             saveMajor();
                             navigation.navigate('Certify_Mento');
                         }

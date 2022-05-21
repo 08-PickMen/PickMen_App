@@ -18,9 +18,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pickmen.backend.RoleType;
-import com.pickmen.backend.SchoolType;
 import com.pickmen.backend.chat.model.ChatRoom;
 import com.pickmen.backend.chat.model.UserChatRoom;
 
@@ -73,11 +73,7 @@ public class User {
 
 
    // 새로 입력   
-   
-  // 관심 카테고리 입력 받기(멘티)
-   @Column(nullable = true)
-   private String category;
-   
+      
    @OneToMany(mappedBy = "user")
    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
@@ -85,6 +81,7 @@ public class User {
    private String nickname;
    
    // 전공 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
+   @JsonBackReference
    @ManyToOne
    @JoinColumn(name = "majorId")
    private Major major;
@@ -95,9 +92,11 @@ public class User {
    @OneToMany(mappedBy = "user")
    private List<UserLecture> userLectures = new ArrayList<>();
  
-   @Column(nullable= true)
-   @Enumerated(EnumType.STRING)
-   private SchoolType school;
+   // 학교 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
+   @JsonBackReference
+   @ManyToOne
+   @JoinColumn(name = "schoolId")
+   private School school;
  
    @Column(nullable= true)
    private String profileImage;
@@ -114,6 +113,17 @@ public class User {
  
    @Column(nullable= true)
    private boolean activeCanTeach;
+   
+   // 멘토 자기소개 멘트 입력
+   @Column(nullable= true)
+   private String introduceMyself;
+   
+   // 멘토 거주지 입력
+   @Column(nullable= true)
+   private String livingWhere;
+   
+   // 멘토링 내용 입력
+   @Column(nullable= true)
+   private String mentoringContents;
  
-   // 새로 사용
 }

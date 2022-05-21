@@ -7,9 +7,11 @@ import Schools from './SchoolLabel'
 import AsyncStorage from '@react-native-community/async-storage';
 function SelectSchool_Mento({navigation}) {
     const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
+    const [schoolValue, setSchoolValue] = React.useState('');
     async function saveSchool() {
         try {
-            await AsyncStorage.setItem('school', selectdValue);
+            await AsyncStorage.setItem('school', String(selectdValue));
+            await AsyncStorage.setItem('schoolValue', String(schoolValue));
         } catch (e) {
         }
     }
@@ -29,7 +31,7 @@ function SelectSchool_Mento({navigation}) {
                               overflow : 'hidden',}}>
                 <PickerBox 
                     selectdValue={selectdValue}
-                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => {setSelectdValue(Schools[itemIndex-1].label); setSchoolValue(itemIndex)}}
                     items = {Schools}
                     >
                     </PickerBox>

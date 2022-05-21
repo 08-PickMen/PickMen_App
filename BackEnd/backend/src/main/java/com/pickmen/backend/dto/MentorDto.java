@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.pickmen.backend.RoleType;
-import com.pickmen.backend.SchoolType;
+import com.pickmen.backend.user.model.School;
 import com.pickmen.backend.user.model.User;
 
 import lombok.Getter;
@@ -29,7 +29,7 @@ public class MentorDto {
 
 	private String nickname;
 
-	private SchoolType school;
+	private School school;
 
 	private String profileImage;
 

@@ -20,9 +20,9 @@ function Attention({navigation}){
     }
     return(
         <View>
-            <Text style = {styles.MainTitle}>관심 분야 선택</Text>
+            <Text style = {styles.MainTitle}>관심 강의 선택</Text>
             <View style={{marginTop : 50,}}>
-                <Text style = {styles.Sector}>관심 분야 1</Text>
+                <Text style = {styles.Sector}>관심 강의 1</Text>
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
@@ -40,7 +40,7 @@ function Attention({navigation}){
             </PickerBox>
             </View>
             <View style ={{marginTop : 140,}}>
-                <Text style = {styles.Sector}>관심 분야 2</Text>
+                <Text style = {styles.Sector}>관심 강의 2</Text>
             </View>
             <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
             <PickerBox 
