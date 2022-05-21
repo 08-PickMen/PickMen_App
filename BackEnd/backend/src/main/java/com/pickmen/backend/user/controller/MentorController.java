@@ -1,7 +1,10 @@
 package com.pickmen.backend.user.controller;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.dto.ResponseDto;
@@ -52,8 +55,15 @@ public class MentorController {
 	// Mentor 프로필 리스트 출력	
 	// /mentors
 	@GetMapping("/mentors")
-	public @ResponseBody ResponseEntity<List<User>> mentorList() {
-		return new ResponseEntity<List<User>>(mentorService.getMentorList(),HttpStatus.OK);
+	public @ResponseBody ResponseEntity<List<User>> mentorList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		List<User> mainuserlist=userRepository.MentorFindByTeachSector(principalDetail.getTeachSector());
+		List<User> userlist=userRepository.MentorFindByNotTeachSector(principalDetail.getTeachSector());
+
+		List<User> sumlist=Stream.concat(mainuserlist.stream(), userlist.stream())
+                            .collect(Collectors.toList());
+		
+		return new ResponseEntity<List<User>>(sumlist,HttpStatus.OK);
+
 	}
 	
 	// Mentor 프로필 업데이트
