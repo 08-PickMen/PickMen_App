@@ -56,7 +56,6 @@ function MentoProfile({navigation}) {
         )
         }
     const renderCard = ({ item }) => {
-        console.log(item)
         return (
             <Card style = {styles.cards}>
                 <Card.Content style = {{flexDirection : 'row'}}>

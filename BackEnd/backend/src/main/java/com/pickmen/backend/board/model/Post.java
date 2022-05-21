@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -57,6 +58,7 @@ public class Post {
   private User user; // 작성이
 
   // Board 1 : N Reply -> 1개의 게시물에는 여러개의 답글이 달릴 수 있으므로
+  @JsonManagedReference
   @OneToMany(
       // 데이터가 여러개이므로, 가지고 올 때 같이 가지고 오는게 낫지만 (-> LAZY),
       // 반드시 필요하기 때문에 Eager 전략 사용

@@ -1,5 +1,5 @@
-import React , {useState} from 'react';
-import { View, Text, StyleSheet , TextInput, TouchableOpacity, Alert, Image} from 'react-native';
+import React , {useState, useEffect, useCallbackt} from 'react';
+import { View, Text, StyleSheet , TextInput, TouchableOpacity, Alert, Image, FlatList, RefreshControl} from 'react-native';
 import 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
@@ -10,10 +10,10 @@ import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 import writeicon from '../icons/writing.png';
 import deleteicon from '../icons/delete.png';
+import { Button } from 'react-native-paper';
 
 async function loadPost() {
-    await axios.get('http://10.0.2.2:8090/post/getPost')
-    .then(response => {
+    await axios.get('http://10.0.2.2:8090/post/getPost').then(response => {
         var count = parseInt(response.data.totalElements);
         if(count == 1) {
             data.length = 0;
@@ -50,7 +50,6 @@ async function DeletePost(navigation, id) {
     await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
         id : parseInt(id),
     } }).then(response => {
-        console.log(response.data)
     }).catch(error => {
         console.log(error)
     })
@@ -94,11 +93,11 @@ async function EditPost(navigation) {
     )
 }
 async function restBoard(id, nickname, title, content) {
-    if(id && title && content) {
-        await AsyncStorage.setItem('Post_id', JSON.stringify(id));
-        await AsyncStorage.setItem('title_id', JSON.stringify(title));
-        await AsyncStorage.setItem('content_id', JSON.stringify(content));
-        await AsyncStorage.setItem('nickname_id', JSON.stringify(nickname));
+    if(id && title && content && nickname) {
+        await AsyncStorage.setItem('Post_id', String(id));
+        await AsyncStorage.setItem('title_id', String(title));
+        await AsyncStorage.setItem('content_id', String(content));
+        await AsyncStorage.setItem('nickname_id', String(nickname));
     }
 }
 
@@ -106,6 +105,7 @@ async function DeleteToPost(navigation) {
     var data = await AsyncStorage.getItem('Post_id');
     DeletePost(navigation, data);
 }
+
 
 
 function ShowTab({navigation}) {
@@ -150,19 +150,87 @@ function ShowTab({navigation}) {
 }
 
 
-function ViewPost({navigation}, newData) {
-    async function saveCurrentId(user_id) {
-        await AsyncStorage.setItem('Compareid', JSON.stringify(user_id));
-    }
-    const [Title, setTitle] = useState('');
-    const [Content, setContent] = useState('');
-    var data = []
+const renderTweets = ({item}) => {
+    return (
+        <View>
+            <Text>{item.content}</Text>
+        </View>
+    )
+}
 
-    data = newPostData.slice();
-    saveCurrentId(newPostData[0].user);
-    newPostData.length = 0;
-    restBoard(data[0].id, data[0].title, data[0].content, data[0].nickname);
-    return(
+function ViewPost({navigation}) {
+    async function saveCurrentId(user_id) {
+        await AsyncStorage.setItem('Compareid', String(user_id));
+    }
+    
+    const [tweets, setTweets] = useState(null);
+    var [refreshing, setRefreshing] = useState(false);
+    var [nickName, setNickName] = useState('');
+    var [title, setTitle] = useState('');
+    var [content, setContent] = useState('');
+    var [id, setId] = useState('');
+    var [count, setCount] = useState(0);
+    var [user, setUser] = useState('');
+    const [ListTweets, setListTweets] = useState([]);
+
+    function loadReply(id) {
+            axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(id)
+                ).then(response => {
+                    console.log(response.data.data)
+                    setListTweets(response.data.data);
+                }).catch(error => {
+                console.log(error)
+            })
+    }
+
+    function subscribeReply(post_id,content,navigation) {
+        axios.post('http://10.0.2.2:8090/Reply/Post/'+post_id,null,{ params: {
+            content : content,
+        }}).then(response => {
+        })
+        .catch(error => {
+        })
+        Alert.alert(
+            '댓글이 작성되었습니다',
+            '',
+            [
+                {
+                    text: '확인',
+                    onPress: () => {},
+    
+                }
+            ]
+        )
+    }
+
+    useEffect(() => {
+        var isMount = true;
+        try{
+            if(newPostData[0]){
+                setNickName(newPostData[0].nickname);
+                setTitle(newPostData[0].title);
+                setContent(newPostData[0].content);
+                setId(newPostData[0].id);
+                setCount(newPostData[0].count);
+                setUser(newPostData[0].user);
+                axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(newPostData[0].id)
+                    ).then(response => {
+                        setListTweets(response.data.data);
+                    }).catch(error => {
+                        console.log(error)
+                    })
+                newPostData.length = 0;
+            }
+        }catch(error){
+            console.log(error)
+        }
+        return () => {
+            isMount = false;
+        }
+    },[]);
+    saveCurrentId(user);
+    restBoard(id, title, content, nickName);
+ return(
         <View>
             <View style= {{flexDirection:'row'}}>
                 <Text style = {styles.Text}>게시글</Text>
@@ -173,30 +241,39 @@ function ViewPost({navigation}, newData) {
                 }}></View>
                 <View>
                     <View>
-                        <Text style = {{marginTop : 20, marginLeft : 20}}>작성자 : {' '}  
-                          {JSON.stringify(data[0].nickname).replace(/\"/gi,"").replace(/\\n/gi,"")}</Text>
+                        <Text style = {{marginTop : 20, marginLeft : 20}}>작성자 : {nickName}  
+                          </Text>
                     </View>
                </View>
                 <View>
                     <Text style ={styles.TitleText}>
-                        {JSON.stringify(data[0].title).replace(/\"/gi,"").replace(/\\n/gi,"")}
+                        {title}
                     </Text>
                </View>
                <View>
                    <Text style = {styles.ContentText}>
-                        {JSON.stringify(data[0].content).replace(/\"/gi,"").replace(/\\n/gi,"")}
+                        {content}
                    </Text>
                </View>
                <View>
                    <Text style = {styles.CountText}>
-                        조회수  {JSON.stringify(data[0].count).replace(/\"/gi,"").replace(/\\n/gi,"")}
+                        조회수  {count}
                    </Text>
                </View>
                <View style = {{flexDirection : 'row'}}>
-                   <TextInput style = {styles.TextInput}></TextInput>
-                   <TouchableOpacity style = {{marginTop : 12,marginRight : 10,width : 70, height : 40, backgroundColor : '#27BAFF', borderRadius : 5}}>
+                   <TextInput style = {styles.TextInput} onChangeText = {text => setTweets(text)}value = {tweets}></TextInput>
+                   <TouchableOpacity style = {{marginTop : 12,marginRight : 10,width : 70, height : 40, backgroundColor : '#27BAFF', borderRadius : 5}}
+                        onPress = {()=>{setTweets(''); subscribeReply(id,tweets,navigation); loadReply(id);}}>
                        <Text style = {{color : '#fff',fontFamily : 'Jalnan', marginLeft : 'auto', marginRight : 'auto',marginTop : 'auto', marginBottom : 'auto'}}>작성</Text>
                    </TouchableOpacity>
+               </View>
+               <View>
+                   <FlatList
+                    data = {ListTweets}
+                    renderItem = {renderTweets}
+                    onEndReachedThreshold={0.6}
+                   >
+                   </FlatList>
                </View>
             </View>
 

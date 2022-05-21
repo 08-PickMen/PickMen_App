@@ -20,9 +20,11 @@ import javax.persistence.Table;
 
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.SchoolType;
+import com.pickmen.backend.chat.model.ChatRoom;
 import com.pickmen.backend.chat.model.UserChatRoom;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +32,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.Builder.Default;
 
 // ORM -> 오브젝트를 테이블로 매핑해주는 역할
 // JPA 는 Java의 ORM
@@ -109,7 +110,7 @@ public class User {
    @Column(nullable= true)
    private float averageRating;
  
-   @Column(nullable= true, columnDefinition = "default true")
+   @Column(nullable= true)
    private boolean activeCanTeach;
  
    // 새로 사용

@@ -33,11 +33,13 @@ function Information_Mento({navigation}) {
     async function register(username, email, password, teachSector) {
         var nickname = await AsyncStorage.getItem('nickname');
         var data2 = await AsyncStorage.getItem('image');
+        console.log(JSON.parse(data2)._parts)
         var changeImage = JSON.parse(data2)._parts
         var InputImage = new FormData();
+        var time = Date.now();
         InputImage.append('profile', {
             uri :  changeImage[0][1].uri,
-            name : "image.jpg",
+            name : "image" + time +".jpg",
             type : 'image/jpeg',
         })
         await axios.post('http://10.0.2.2:8090/signup/mentor',InputImage,{
@@ -117,9 +119,8 @@ function Information_Mento({navigation}) {
                             if(count==1) {
                             console.log(count)
                             register(userName, sendEmail, sendPassword, teachSector);
-                            navigation.navigate('RegisterComplete')
+                           // navigation.navigate('RegisterComplete')
                             }
-
                     }}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>

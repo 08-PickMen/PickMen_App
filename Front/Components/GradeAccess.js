@@ -32,9 +32,8 @@ async function ImageSave(image) {
 }
 
 
-async function ImageLoad() {
-    var data = await AsyncStorage.getItem('image');
-    console.log(data);
+async function ImageCheck() {
+    await AsyncStorage.removeItem('image');
 }
 
 function GradeAccess({navigation}) {
@@ -85,8 +84,8 @@ function GradeAccess({navigation}) {
                });
             console.log(data)
             console.log(data)
+            ImageCheck();
             ImageSave(data);
-            ImageLoad();
        })
 
    }

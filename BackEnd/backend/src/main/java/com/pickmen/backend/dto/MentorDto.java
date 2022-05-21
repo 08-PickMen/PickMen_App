@@ -7,14 +7,9 @@ import com.pickmen.backend.RoleType;
 import com.pickmen.backend.SchoolType;
 import com.pickmen.backend.user.model.User;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 // User 에서 password가 제거된 Dto
@@ -38,7 +33,6 @@ public class MentorDto {
 
 	private String profileImage;
 
-	private long major_id;
 	// "멘토" 에만 추가되는 부분들
 	private String reportCard;
 

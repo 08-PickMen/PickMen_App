@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,6 +43,7 @@ public class Reply {
   @CreationTimestamp private LocalDateTime createDate;
 
   // Reply N : 1 Board -> 한개의 게시물에는 답변이 여러개 달릴 수 있음
+  @JsonBackReference
   @ManyToOne
   @JoinColumn(name = "postId")
   private Post board;
