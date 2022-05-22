@@ -73,7 +73,8 @@ public class User {
 
 
    // 새로 입력   
-      
+    
+   @JsonManagedReference
    @OneToMany(mappedBy = "user")
    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 

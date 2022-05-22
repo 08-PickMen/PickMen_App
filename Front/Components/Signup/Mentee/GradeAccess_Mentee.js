@@ -103,7 +103,7 @@ function GradeAccess_Menti({navigation}) {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.CorrectButton}
-                        onPress={()=> navigation.navigate('Information')}>
+                        onPress={()=> navigation.navigate('Information_Mentee')}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
                 </View>

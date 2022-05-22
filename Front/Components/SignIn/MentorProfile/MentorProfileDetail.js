@@ -1,11 +1,14 @@
 import React, { useState , useEffect} from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import {Card} from 'react-native-paper'
 import {Avatar} from 'react-native-elements';
 import axios from 'axios';
 import TeachIcon from '../../../icons/teach.png';
 import MajorIcon from '../../../icons/Major.png';
 import EmailIcon from '../../../icons/email.png';
+import Mentor_id from '../../localData/Mentor_id'
+
+
 
 const MentorProfileDetail = ({navigation, route}) => {
   const [titleText, setTitleText] = useState("Bird's Nest");
@@ -13,7 +16,7 @@ const MentorProfileDetail = ({navigation, route}) => {
   const [Loading, setLoading] = useState(true);
   const bodyText = "This is not really a bird nest.";
   const mentor_id = route.params.item_id;
-
+  
   useEffect(() => {
       setLoading(false);
       axios.get('http://10.0.2.2:8090/mentor/'+Number(mentor_id)).then(response => {
@@ -23,10 +26,35 @@ const MentorProfileDetail = ({navigation, route}) => {
       })
       setLoading(true);
   },[])
-
   const onPressTitle = () => {
     setTitleText("Bird's Nest [pressed]");
   };
+
+  const createRoom = (mentor_id) => {
+      axios.post('http://10.0.2.2:8090/chat/room/createRoom/'+mentor_id).then(response => {
+        console.log(response.data)
+      })
+  }
+
+  const createChatRoom = (mentor_id) => {
+    Alert.alert(
+        '멘토와 채팅방을 생성하시겠습니까?',
+        '',
+        [
+            {
+                text: '확인',
+                onPress: () => {createRoom(mentor_id); Mentor_id.push(mentor_id);},
+            },
+            {
+                text: '취소',
+                onPress: () => {navigation.dispatch(CommonActions.reset({
+                    index : 0,
+                    routes : [{name : 'MentoProfile'}]
+                }))},
+            }
+        ]
+    )
+    }
   if(Loading==true)
     return (
       <View style = {{flex : 1, backgroundColor : '#fff'}}>
@@ -36,7 +64,7 @@ const MentorProfileDetail = ({navigation, route}) => {
             <View>
               <View style = {{flexDirection : 'row'}}>
                 <Text style = {styles.NickName}>{Profile.nickname}</Text>
-                <TouchableOpacity style = {styles.ChatButton}>
+                <TouchableOpacity style = {styles.ChatButton} onPress = {()=>{createChatRoom(mentor_id)}}>
                   <Text style = {styles.ButtonText}>멘토 연결하기</Text>
                 </TouchableOpacity>
               </View>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pickmen.backend.chat.model.Chat;
+import com.pickmen.backend.chat.model.ChatDto;
 import com.pickmen.backend.chat.model.MessageType;
 import com.pickmen.backend.chat.service.ChatService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
@@ -36,8 +37,8 @@ public class ChatController {
 		sendingOperations.convertAndSend("/sub/chat/room/"+ chat.getChatRoom().getId(), chat);
 	}
 	// 클라이언트에서 "/pub/chat/message" 로 메시지를 보내는 요청 (setApplicationDestinationPrefixes("/pub") 이므로)
-	@MessageMapping("/chat/message")
-	public void message(@Payload Chat chat) {
+	/*@MessageMapping("/chat/message")
+	public void message(Chat chat) {
 		chat.setMessageType(MessageType.TALK);
 		//chat.setUser(null);
 		log.info("message_type: " + chat.getMessageType());
@@ -50,5 +51,21 @@ public class ChatController {
 		
 		// "sub/chat/room/{room_id}" 를 구독하고 있는 클라이언트에게 메시지를 전달
 		sendingOperations.convertAndSend("/sub/chat/room/"+ chat.getChatRoom().getId(), chat);
+	}*/
+	@MessageMapping("/chat/message")
+	public void message(ChatDto chatDto) {
+		//chat.setMessageType(MessageType.TALK);
+		/*log.info("message_type: " + chat.getMessageType());
+		log.info("chat_room_id: " + chat.getChatRoom().getId());
+		log.info("content: " + chat.getContent());*/
+		//log.info("id: " + chat.getUser().getId());
+		log.info("왜안돼왜안돼왜안돼왜안돼왜안돼");
+		log.info("chatRoom Id: " + chatDto.getChat_room_id());
+		//ChatDto.fromEntity()
+		// DB에 저장
+		chatService.saveChatDto(chatDto);
+		
+		// "sub/chat/room/{room_id}" 를 구독하고 있는 클라이언트에게 메시지를 전달
+		sendingOperations.convertAndSend("/sub/chat/room/"+ chatDto.getChat_room_id(), chatDto);
 	}
 }

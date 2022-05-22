@@ -71,6 +71,7 @@ function Information_Mento({navigation}) {
                 email : email,
                 major : Number(departmentValue),
                 school : Number(schoolValue),
+                lectureList : lectrueList.join(',')
             }
         }
            ).then(function(response) {

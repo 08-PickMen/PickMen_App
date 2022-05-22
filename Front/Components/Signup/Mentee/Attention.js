@@ -125,7 +125,7 @@ function Attention({navigation}){
                         }
                         else {
                             saveLecture();
-                            navigation.navigate('Certify')}
+                            navigation.navigate('Certify_Mentee')}
                             console.log(lectureList)
                         }}>
                     <Text style = {styles.Text}>

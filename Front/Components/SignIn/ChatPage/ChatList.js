@@ -1,44 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import {List} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
 import chatdata from '../../localData/ChatData';
 import {Card} from 'react-native-paper';
+import axios from 'axios';
 
-async function saveChatList(chatlist) {
-    if(chatlist)
-    await AsyncStorage.setItem('chatlist', JSON.stringify(chatlist));
-}
-async function getChatList() {
-    var data = await AsyncStorage.getItem('chatlist');
-    var newData = JSON.parse(data);
-    chatdata.length = 0;
-    chatdata.push(newData);
-}
-function loadChat() {
-    try{
-        firestore()
-        .collection('THREADS')
-        .onSnapshot(async querySnapshot => {
-            const threads = querySnapshot.docs.map((documentSnapshot)=> {
-                return {
-                    _id : documentSnapshot.id,
-                    name : '',
-                    ...documentSnapshot.data(),
-                }
-            });
-            saveChatList(threads);
-        })
-    } catch(error){
-        console.log(error)
-    }
-}
 
 function ChatList({navigation}) {
-    loadChat();
-    getChatList();
-    
+    const [ChatList, setChatList] = React.useState([]);
+
+    const Item = ({ item, onPress, style }) => (
+        <TouchableOpacity onPress={()=>{navigation.navigate('Chat')}}>
+          <Card>
+             <Text>{item.id}</Text>
+          </Card>
+        </TouchableOpacity>
+
+    );
+    const renderItem = ({ item }) => {
+        return (
+          <Item
+            item={item}
+          />
+        )
+      };
+
+    useEffect(() => {
+        axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
+            var data = response.data;
+            setChatList(data);
+            console.log(ChatList)
+        })
+    },[])
     return (
         <View style={{flex : 1, backgroundColor : '#fff'}}>
             <View >
@@ -48,23 +43,10 @@ function ChatList({navigation}) {
             </View>
             <View style = {{borderBottomColor : 'black', borderBottomWidth : .5}}/>
             <FlatList
-                data={chatdata[0]}
-                keyExtractor={(item) => item.id}
-                renderItem = {({item}) => (                  
-                    <View>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Chat')}>
-                    <Card style = {style.cards}>
-                    <List.Item
-                        style = {{borderBottomColor : '#27BAFF'}}
-                        titleStyle = {style.ChatTitle}
-                        title={item.name}
-                        description='Chat room'/>
-                        </Card>
-                        </TouchableOpacity>
-                        </View>
-                )}/>
-                
-                </View>
+                data = {ChatList}
+                renderItem={renderItem}
+            />
+            </View>
     )
 }
 

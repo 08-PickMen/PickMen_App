@@ -5,30 +5,10 @@ import firestore from '@react-native-firebase/firestore';
 import 'react-navigation';
 import axios from 'axios';
 import { CommonActions } from '@react-navigation/native';
-import CreateRoom from '../ChatPage/CreateRoom';
 
 function MentorProfile({navigation}) {
     const [MentorList, setMentorList] = React.useState([]);
 
-    function createChatRoom(item) {
-        Alert.alert(
-            '채팅방이 생성되었습니다. 이동하시겠습니까?',
-            '',
-            [
-                {
-                    text: '확인',
-                    onPress: () => { CreateRoom();},
-                },
-                {
-                    text: '취소',
-                    onPress: () => {navigation.dispatch(CommonActions.reset({
-                        index : 0,
-                        routes : [{name : 'MentoProfile'}]
-                    }))},
-                }
-            ]
-        )
-        }
         const renderCard = ({ item }) => {
             return (
                 <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', {item_id: item.id})}>

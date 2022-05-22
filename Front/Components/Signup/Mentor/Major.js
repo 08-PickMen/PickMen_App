@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-
 import 'react-navigation';
 import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -60,7 +59,7 @@ function Major({navigation}){
         }
     }
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/Major/Get').then(response => {
+        axios.get('http://10.0.2.2:8090/getAllMajorList').then(response => {
             var count = response.data.length;
             var list = [];
             for(var i = 0; i < count; i++){
@@ -72,7 +71,7 @@ function Major({navigation}){
             setMajorList(list);       
         })
 
-        axios.get('http://10.0.2.2:8090/Lecture/Get').then(response => {
+        axios.get('http://10.0.2.2:8090/getAllLectureList').then(response => {
             var count = response.data.length;
             var list = [];
             for(var i = 0; i < count; i++){
@@ -111,7 +110,7 @@ function Major({navigation}){
                 searchPlaceholder = '학과 검색'
                 containerStyle={{width : 350, marginLeft : 'auto', marginRight : 'auto'}}
                 onChangeValue={(itemValue) => {
-                    getIndex = (itemValue) => {
+                    const getIndex = (itemValue) => {
                         for (var i=0; i<majorList.length; i++) {
                             if (majorList[i].value == itemValue) {
                                 return i;
@@ -151,7 +150,7 @@ function Major({navigation}){
                 searchPlaceholder = '강의 검색'
                 containerStyle={{width : 350, marginLeft : 'auto', marginRight : 'auto'}}
                 onChangeValue={(itemValue) => {
-                    getIndex = (itemValue) => {
+                    const getIndex = (itemValue) => {
                         for (var i=0; i<lectureList.length; i++) {
                             if (lectureList[i].value == itemValue) {
                                 return i;
@@ -190,7 +189,7 @@ function Major({navigation}){
                 searchPlaceholder = '강의 검색'
                 containerStyle={{width : 350, marginLeft : 'auto', marginRight : 'auto'}}
                 onChangeValue={(itemValue) => {
-                    getIndex = (itemValue) => {
+                    const getIndex = (itemValue) => {
                         for (var i=0; i<lectureList.length; i++) {
                             if (lectureList[i].value == itemValue) {
                                 return i;
@@ -214,7 +213,7 @@ function Major({navigation}){
                 <TouchableOpacity style = {styles.Button}
                     onPress = {()=>{                          
                             saveMajor();
-                            navigation.navigate('Certify_Mento');
+                            navigation.navigate('Introduce_Mentor');
                         }}>
                     <Text style = {styles.Text}>
                         확인

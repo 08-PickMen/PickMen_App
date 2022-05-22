@@ -136,7 +136,7 @@ function GradeAccess({navigation}) {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.CorrectButton}
-                        onPress ={()=>{navigation.navigate('Information_Mento')}}>
+                        onPress ={()=>{navigation.navigate('Information_Mentor')}}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
                 </View>

@@ -46,7 +46,7 @@ function Certify_Mento({navigation}) {
                         onChangeText={CorrectNum=> setCorrectNum(CorrectNum)}/>
                 <TouchableOpacity style={styles.CorrectButton}
                 onPress={()=>{if((CorrectNum == data && CorrectNum != '')) {
-                    navigation.navigate('GradeAccess');
+                    navigation.navigate('GradeAccess_Mentor');
                 }else{
                     setMailText2('인증번호가 틀렸습니다.')
                 }}}>
