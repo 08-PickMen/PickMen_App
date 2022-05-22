@@ -3,10 +3,10 @@ import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
 
-async function saveMentorInformation() {
-    await AsyncStorage.setItem('mentorIntroduce', Introduce);
-    await AsyncStorage.setItem('mentorLivingWhere', livingWhere);
-    await AsyncStorage.setItem('Mentoring', mentoring);
+async function saveMentorInformation(Introduce, livingWhere, mentoring) {
+    await AsyncStorage.setItem('introduceMyself', Introduce);
+    await AsyncStorage.setItem('livingWhere', livingWhere);
+    await AsyncStorage.setItem('mentoringContents', mentoring);
 }
 
 function Introduce_Mentor({navigation}){
@@ -43,7 +43,7 @@ function Introduce_Mentor({navigation}){
             ></TextInput>
         </View>
         <View>
-            <TouchableOpacity style = {styles.Button} onPress ={()=> {saveMentorInformation(); navigation.navigate('Certify_Mentor')}}>
+            <TouchableOpacity style = {styles.Button} onPress ={()=> {saveMentorInformation(Introduce, livingWhere, mentoring); navigation.navigate('Certify_Mentor')}}>
                 <Text style = {styles.ButtonText}>다음</Text>
             </TouchableOpacity>
         </View>

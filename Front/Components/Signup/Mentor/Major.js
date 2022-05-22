@@ -6,14 +6,10 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 function Major({navigation}){
-    const [selectedValue, setSelectedValue] = useState('');
-    const [selectedValue2, setSelectedValue2] = useState('');
-    const [department, setDepartment] = useState('');
     const [departmentValue, setDepartmentValue] = useState('');
     const [lecture1, setLecture1] = useState('');
     const [lecture2, setLecture2] = useState('');
     const [majorList, setMajorList] = useState([]);
-    const [majorList2, setMajorList2] = useState([]);
     const [lectureList, setLectureList] = useState([]);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
@@ -22,37 +18,10 @@ function Major({navigation}){
     const [value2, setValue2] = useState(null);
     const [value3, setValue3] = useState(null);
 
-    const items = [
-        { label: '소프트웨어학과', value: 1 },
-        { label: '전자공학과', value: 2 },
-    ]
-    const majoritems = [
-        { label: '컴퓨터구조', value: 1 },
-        { label: '소프트웨어공학', value: 2 },
-        { label: 'SW캡스톤디자인', value: 3 },
-        { label: '예술이란 무엇인가?', value: 4 },
-        { label: '인공지능', value: 5 },
-        { label: '알고리즘', value: 6 },
-    ]
-    function bubblesort(list = [], key = 'value') {
-        var temp;
-        for (var i = 0; i < list.length; i++) {
-            for (var j = 0; j < list.length - i - 1; j++) {
-                if (list[j][key] > list[j + 1][key]) {
-                    temp = list[j];
-                    list[j] = list[j + 1];
-                    list[j + 1] = temp;
-                }
-            }
-        }
-    }
     async function saveMajor() {
         try {
             await AsyncStorage.setItem('Lecture1', String(lecture1));
             await AsyncStorage.setItem('Lecture2', String(lecture2));
-            await AsyncStorage.setItem('LectureText1', String(selectedValue));
-            await AsyncStorage.setItem('LectureText2', String(selectedValue2));
-            await AsyncStorage.setItem('department', String(department));
             await AsyncStorage.setItem('departmentValue', String(departmentValue));
         } catch (e) {
             console.log(e);
@@ -118,7 +87,6 @@ function Major({navigation}){
                         }
                     }
                     if(getIndex(itemValue)>=0) {
-                        setDepartment(majorList[getIndex(itemValue)].label);
                         setDepartmentValue(majorList[getIndex(itemValue)].value);
                     }
                 }}
@@ -158,7 +126,6 @@ function Major({navigation}){
                         }
                     }
                     if(getIndex(itemValue)>=0) {
-                        setSelectedValue(lectureList[getIndex(itemValue)].label);
                         setLecture1(itemValue);
                     }
                 }}
@@ -197,7 +164,6 @@ function Major({navigation}){
                         }
                     }
                     if(getIndex(itemValue)>=0){
-                        setSelectedValue2(lectureList[getIndex(itemValue)].label);
                         setLecture2(itemValue);
                     }
                     

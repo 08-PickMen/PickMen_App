@@ -31,27 +31,15 @@ function Information_Mento({navigation}) {
     async function register(username, email, password) {
         var nickname = await AsyncStorage.getItem('nickname');
         var data2 = await AsyncStorage.getItem('image');
-        console.log(JSON.parse(data2)._parts)
         var changeImage = JSON.parse(data2)._parts
         var lecture1 = await AsyncStorage.getItem('Lecture1');
         var lecture2 = await AsyncStorage.getItem('Lecture2');
-        var lectureText1 = await AsyncStorage.getItem('LectureText1');
-        var lectureText2 = await AsyncStorage.getItem('LectureText2');
-        var department = await AsyncStorage.getItem('department');
-        console.log(lecture1, lecture2, lectureText1, lectureText2, department);
         var departmentValue = await AsyncStorage.getItem('departmentValue');
-        var school = await AsyncStorage.getItem('school');
         var schoolValue = await AsyncStorage.getItem('schoolValue');
-        var lectrueList = [Number(lecture1), Number(lecture2)]
-        const major = {
-            id : departmentValue,
-            name : department,
-        }
-
-        const schoolInfo = {
-            id : schoolValue,
-            name : school,
-        }
+        var lectureList = [Number(lecture1), Number(lecture2)]
+        var introduceMyself = await AsyncStorage.getItem('introduceMyself');
+        var livingWhere = await AsyncStorage.getItem('livingWhere');
+        var mentoringContents = await AsyncStorage.getItem('mentoringContents');
 
         var InputImage = new FormData();
         var time = Date.now();
@@ -71,7 +59,10 @@ function Information_Mento({navigation}) {
                 email : email,
                 major : Number(departmentValue),
                 school : Number(schoolValue),
-                lectureList : lectrueList.join(',')
+                lectureList : lectureList.join(','),
+                introduceMyself : introduceMyself,
+                livingWhere : livingWhere,
+                mentoringContents : mentoringContents,
             }
         }
            ).then(function(response) {

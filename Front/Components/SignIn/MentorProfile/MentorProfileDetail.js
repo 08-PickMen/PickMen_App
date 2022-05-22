@@ -1,5 +1,5 @@
 import React, { useState , useEffect} from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, Alert, ScrollView} from "react-native";
 import {Card} from 'react-native-paper'
 import {Avatar} from 'react-native-elements';
 import axios from 'axios';
@@ -14,6 +14,7 @@ const MentorProfileDetail = ({navigation, route}) => {
   const [titleText, setTitleText] = useState("Bird's Nest");
   const [Profile, setProfile] = useState([]);
   const [Loading, setLoading] = useState(true);
+  const [LectureList, setLectureList] = useState([]);
   const bodyText = "This is not really a bird nest.";
   const mentor_id = route.params.item_id;
   
@@ -23,6 +24,9 @@ const MentorProfileDetail = ({navigation, route}) => {
         setProfile(response.data);
       }).catch(error => {
         console.log(error)
+      })
+      axios.get('http://10.0.2.2:8090/getLectureListTest/'+Number(mentor_id)).then(response => {
+        setLectureList(response.data);
       })
       setLoading(true);
   },[])
@@ -57,28 +61,46 @@ const MentorProfileDetail = ({navigation, route}) => {
     }
   if(Loading==true)
     return (
-      <View style = {{flex : 1, backgroundColor : '#fff'}}>
+      <SafeAreaView style = {{flex : 1, backgroundColor : '#fff'}}>
         <Card style = {styles.CardStyle}>
-          <View style = {{marginLeft : 15, marginTop : 20,flexDirection : 'row'}}>
+          <SafeAreaView style = {{marginLeft : 15, marginTop : 20,flexDirection : 'row'}}>
             <Avatar rounded source = {{uri : 'http://10.0.2.2:8090/getProfile?userid='+mentor_id}} size = 'large'/>
-            <View>
-              <View style = {{flexDirection : 'row'}}>
+            <SafeAreaView>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
                 <Text style = {styles.NickName}>{Profile.nickname}</Text>
                 <TouchableOpacity style = {styles.ChatButton} onPress = {()=>{createChatRoom(mentor_id)}}>
                   <Text style = {styles.ButtonText}>멘토 연결하기</Text>
                 </TouchableOpacity>
-              </View>
+              </SafeAreaView>
               <Image source={MajorIcon} style = {{marginTop : 15,marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
               <Image source={TeachIcon} style = {{marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
-              <View style = {{flexDirection : 'row'}}>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
                 <Image source={EmailIcon} style = {{marginLeft : 15, width : 18, height : 18}}/>
                 <Text style = {styles.EmailAddress}>{Profile.email}</Text>
-              </View>
-            </View>
-          </View>
-          <View style ={{marginTop : 30,borderBottomColor : '#a0a0a0', borderBottomWidth : .5}}/>
+              </SafeAreaView>
+            </SafeAreaView>
+          </SafeAreaView>
+          <SafeAreaView style ={{marginTop : 30,borderBottomColor : '#a0a0a0', borderBottomWidth : .5}}/>
+          <ScrollView style = {{marginHorizontal : 20}}>
+          <SafeAreaView style ={{flexDirection : 'row', height : 100,}}>
+            <Text style ={styles.IntroduceMyself}>자기소개</Text>
+            <Text style ={styles.IntroduceMyselfText}>{Profile.introduceMyself}</Text>
+          </SafeAreaView>
+          <SafeAreaView style ={{flexDirection : 'row',height : 80,}}>
+            <Text style = {styles.LivingWhere}>거주지</Text>
+            <Text style = {styles.LivingWhereText}>{Profile.livingWhere}</Text>
+          </SafeAreaView>
+          <SafeAreaView style ={{flexDirection : 'row', height : 100,}}>
+            <Text style = {styles.Major}>멘토 분야</Text>
+            <Text style = {styles.MajorText}>{LectureList[0]?.name}, {LectureList[1]?.name}</Text>
+          </SafeAreaView>
+          <SafeAreaView style ={{flexDirection : 'row'}}>
+            <Text style = {styles.Teach}>멘토링 설명</Text>
+            <Text style = {styles.TeachText}>{Profile.mentoringContents}</Text>
+          </SafeAreaView>
+          </ScrollView>
         </Card>
-      </View>
+      </SafeAreaView>
     );
   else {
     return(
@@ -134,7 +156,74 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     fontWeight: "bold"
+  },
+  IntroduceMyself : {
+    fontFamily : 'NanumSquareRoundB',
+    fontSize : 15,
+    color : 'black',
+    marginLeft : 20,
+    marginTop : 20,
+    marginRight : 20,
+  },
+  IntroduceMyselfText : {
+    fontFamily : 'NanumSquareRound',
+    fontSize : 15,
+    color : 'black',
+    marginTop : 20,
+    marginLeft : 18,
+    flex : 1,
+    flexWrap : 'wrap',
+  },
+  LivingWhere : {
+    fontFamily : 'NanumSquareRoundB',
+    fontSize : 15,
+    color : 'black',
+    marginLeft : 18,
+    marginTop : 20,
+    marginRight : 50,
+  },
+  LivingWhereText : {
+    fontFamily : 'NanumSquareRound',
+    fontSize : 15,
+    color : 'black',
+    marginTop : 20,
+    flex : 1,
+    flexWrap : 'wrap',
+  },
+  Major : {
+    fontFamily : 'NanumSquareRoundB',
+    fontSize : 15,
+    color : 'black',
+    marginLeft : 18,
+    marginTop : 20,
+    marginRight : 35,
+  },
+  MajorText : {
+    fontFamily : 'NanumSquareRound',
+    fontSize : 15,
+    color : 'black',
+    marginTop : 20,
+    flex : 1,
+    flexWrap : 'wrap',
+  },
+  Teach : {
+    fontFamily : 'NanumSquareRoundB',
+    fontSize : 15,
+    color : 'black',
+    marginLeft : 18,
+    marginTop : 20,
+    marginRight : 20,
+  },
+  TeachText : {
+    fontFamily : 'NanumSquareRound',
+    fontSize : 15,
+    color : 'black',
+    marginTop : 20,
+    flex : 1,
+    flexWrap : 'wrap',
+
   }
+
 });
 
 export default MentorProfileDetail;

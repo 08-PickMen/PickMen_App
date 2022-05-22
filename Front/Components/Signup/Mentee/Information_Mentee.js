@@ -111,8 +111,8 @@ function Information_Mento({navigation}) {
                     <TouchableOpacity style={styles.Button}
                     onPress={()=> {
                             if(count==1) {
-                            register(userName, sendEmail, sendPassword);
-                            //navigation.navigate('RegisterComplete')
+                                register(userName, sendEmail, sendPassword);
+                                navigation.navigate('RegisterComplete')
                             }
 
                     }}>
