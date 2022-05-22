@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import com.pickmen.backend.lecture.model.Lecture;
-import com.pickmen.backend.lecture.repository.LectureRepository;
+import com.pickmen.backend.lecture.model.LectureTest;
+import com.pickmen.backend.lecture.repository.LectureTestRepository;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LectureRunner implements ApplicationRunner {
 
-    @Autowired LectureRepository lectureRepository;
+    @Autowired LectureTestRepository lectureRepository;
 
 
     @Override
@@ -41,7 +41,7 @@ public class LectureRunner implements ApplicationRunner {
                 
             }
             else{
-                Lecture lecture=new Lecture().builder().name(row.getCell(1).getStringCellValue()).build();
+                LectureTest lecture=new LectureTest().builder().name(row.getCell(1).getStringCellValue()).build();
                 if(prev!=lecture.getName()){
                     lectureRepository.save(lecture);
                     prev=lecture.getName();

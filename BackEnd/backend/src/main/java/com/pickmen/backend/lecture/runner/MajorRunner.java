@@ -1,7 +1,7 @@
 package com.pickmen.backend.lecture.runner;
 
-import com.pickmen.backend.lecture.model.Major;
-import com.pickmen.backend.lecture.repository.MajorRepository;
+import com.pickmen.backend.lecture.model.MajorTest;
+import com.pickmen.backend.lecture.repository.MajorTestRepository;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MajorRunner implements ApplicationRunner {
 
-    @Autowired MajorRepository majorRepository;
+    @Autowired MajorTestRepository majorRepository;
 
     
     @Override
@@ -32,7 +32,7 @@ public class MajorRunner implements ApplicationRunner {
             for(Element major:majors)
             {
                 if(prev!=major.text() && major.text().endsWith("학과")){
-                    Major newmajor=new Major().builder().name(major.text()).build();
+                    MajorTest newmajor=new MajorTest().builder().name(major.text()).build();
                     majorRepository.save(newmajor);
                     prev=major.text();
                 }

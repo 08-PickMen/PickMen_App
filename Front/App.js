@@ -1,25 +1,22 @@
 
 import React, { Component } from 'react';
 import 'react-native-gesture-handler';
-import GradeAccess from './Components/GradeAccess';
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native';
-import Start from './Components/Start'
-import Purpose from './Components/purpose';
-import SelectSchool from './Components/SelectSchool';
-import SelectSchool_Mento from './Components/SelectSchool_Mento';
-import Certify from './Components/Certify';
-import Certify_Mento from './Components/Certify_Mento';
-import Information from './Components/Information';
-import HomeScreen from './Components/HomeScreen';
-import Testpage from './Components/Test'
-import GradeAccess_Menti from './Components/GradeAccess_Menti';
-import RegisterComplete from './Components/RegisterComplete';
-import LoginPage from './Components/LoginPage';
-import Post from './Components/Post';
-import Information_Mento from './Components/Information_Mento';
-import Attention from './Components/Attention';
-import Major from './Components/Major';
+import Start from './Components/Signup/Start'
+import Purpose from './Components/Signup/purpose';
+import SelectSchool_Mentee from './Components/Signup/Mentee/SelectSchool_Mentee';
+import SelectSchool_Mento from './Components/Signup/Mentor/SelectSchool_Mentor';
+import Certify_Mentee from './Components/Signup/Mentee/Certify_Mentee';
+import Certify_Mento from './Components/Signup/Mentor/Certify_Mentor';
+import Information from './Components/Signup/Mentee/Information_Mentee';
+import HomeScreen from './Components/SignIn/HomePage/HomeScreen';
+import GradeAccess_Mentee from './Components/Signup/Mentee/GradeAccess_Mentee';
+import RegisterComplete from './Components/Signup/RegisterComplete';
+import LoginPage from './Components/SignIn/LoginPage';
+import Information_Mento from './Components/Signup/Mentor/Information_Mentor';
+import Attention from './Components/Signup/Mentee/Attention';
+import Major from './Components/Signup/Mentor/Major';
 
 const stack = createStackNavigator();
 
@@ -32,17 +29,16 @@ class App extends Component{
       }}>
         <stack.Screen name="Start" component={Start}/>
         <stack.Screen name="Purpose" component={Purpose}/>
-        <stack.Screen name="SelectSchool" component={SelectSchool}/>
+        <stack.Screen name="SelectSchool" component={SelectSchool_Mentee}/>
         <stack.Screen name='SelectSchool_Mento' component={SelectSchool_Mento}/>
         <stack.Screen name='Attention' component={Attention}/>
         <stack.Screen name='Major' component={Major}/>
-        <stack.Screen name="Certify" component={Certify}/>
+        <stack.Screen name="Certify" component={Certify_Mentee}/>
         <stack.Screen name="Certify_Mento" component={Certify_Mento}/>
         <stack.Screen name="Information" component={Information}/>
         <stack.Screen name="Information_Mento" component={Information_Mento}/>
-        <stack.Screen name="GradeAccess" component={GradeAccess}/>
-        <stack.Screen name="GradeAccess_Menti" component={GradeAccess_Menti}/>
-        <stack.Screen name="Testpage" component={Testpage}/>
+        <stack.Screen name="GradeAccess" component={GradeAccess_Mentee}/>
+        <stack.Screen name="GradeAccess_Menti" component={GradeAccess_Mentee}/>
         <stack.Screen name="RegisterComplete" component={RegisterComplete} />
         <stack.Screen name="LoginPage" component={LoginPage}/>
         <stack.Screen name="HomeScreen" component={HomeScreen}/>

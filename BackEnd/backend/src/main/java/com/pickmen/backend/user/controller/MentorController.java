@@ -65,6 +65,10 @@ public class MentorController {
 		return new ResponseEntity<List<User>>(sumlist,HttpStatus.OK);
 
 	}
+	@GetMapping("/mentorList")
+	public @ResponseBody ResponseEntity<List<User>> mentorList() {
+		return new ResponseEntity<List<User>>(mentorService.getMentorList(), HttpStatus.OK);
+	}
 	
 	// Mentor 프로필 업데이트
 	// /mentor/mentorUpdate
