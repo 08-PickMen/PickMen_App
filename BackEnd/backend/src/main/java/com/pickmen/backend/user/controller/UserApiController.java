@@ -96,7 +96,8 @@ public class UserApiController {
   
 
   @PostMapping("/signup/mentor")
-  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user)
+  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user,
+		  @RequestParam List<Long> lectureList)
    {
 
      User newuser=new User();
@@ -112,8 +113,13 @@ public class UserApiController {
      newuser.setMajor(user.getMajor());
      newuser.setRole(RoleType.MENTOR);
      
+     // 멘토의 자기소개, 거주지, 멘토링 분야 설명 추가
+     newuser.setIntroduceMyself(user.getIntroduceMyself());
+     newuser.setLivingWhere(user.getLivingWhere());
+     newuser.setMentoringContents(user.getMentoringContents());
+     
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser, lectureList));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -145,7 +151,7 @@ public class UserApiController {
 
      // 관심 강의 리스트는 userService.join에서 추가
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.joinTest(newuser, lectureList));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser, lectureList));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);

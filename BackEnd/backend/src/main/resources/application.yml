@@ -7,15 +7,16 @@ spring:
   thymeleaf:
     enabled: false
 
-  mvc:
-    view:
-      prefix: 
-      suffix: .html
+  #mvc:
+   # view:
+   #   prefix: 
+   #   suffix: .html
 
   datasource:
-    url: jdbc:mysql://localhost:3306/pickmen2?serverTimezone=UTC
+
+    url: jdbc:mysql://localhost:3306/pickmen?serverTimezone=UTC
     username: root
-    password: '@Altmxpfl12'
+    password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
