@@ -10,11 +10,17 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.pickmen.backend.dto.SchoolDto;
 import com.pickmen.backend.user.model.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class ChatDto {
 	private long id;
@@ -25,16 +31,7 @@ public class ChatDto {
 	
 	private MessageType messageType;
 
-	private long chatRoom_id;
+	private long chat_room_id;
 	
 	private long user_id;
-	
-	public ChatDto(long id, String content, LocalDateTime createDate, MessageType messageType, long chatRoom_id, long user_id) {
-		this.id = id;
-		this.content = content;
-		this.createDate = createDate;
-		this.messageType = messageType;
-		this.chatRoom_id = chatRoom_id;
-		this.user_id = user_id;
-	}
 }

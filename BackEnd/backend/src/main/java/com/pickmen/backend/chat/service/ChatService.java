@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pickmen.backend.chat.model.Chat;
 import com.pickmen.backend.chat.model.ChatDto;
 import com.pickmen.backend.chat.model.ChatRoom;
+import com.pickmen.backend.chat.model.MessageType;
 import com.pickmen.backend.chat.model.UserChatRoom;
 import com.pickmen.backend.chat.model.UserChatRoomDto;
 import com.pickmen.backend.chat.repository.ChatRepository;
@@ -90,6 +91,7 @@ public class ChatService {
 					&& compareUserChatRoom2.getUser().getId() == user_id)
 					|| (compareUserChatRoom2.getUser().getId() == user.getId()
 							&& compareUserChatRoom1.getUser().getId() == user_id)) {
+				log.info("이미 존재하는 채팅방입니다!");
 				return null;
 			}
 		}
@@ -144,6 +146,20 @@ public class ChatService {
 		chatRepository.save(chat);
 		return chat;
 	}
+	
+	// 채팅 저장 Dto
+		@Transactional
+		public Chat saveChatDto(ChatDto chatDto) {
+			Chat chat = new Chat();
+			
+		    chat.setContent(chatDto.getContent());
+		    chat.setMessageType(MessageType.TALK);
+		    chat.setChatRoom(chatRoomRepository.findById(chatDto.getChat_room_id()).orElseThrow(() -> new RuntimeException("예외1: ChatRoom Id 검색 안됨")));
+		    chat.setUser(userRepository.findById(chatDto.getUser_id()).orElseThrow(() -> new RuntimeException("예외2: User Id 검색 안됨")));
+
+			chatRepository.save(chat);
+			return chat;
+		}
 
 	// 채팅방에 저장된 채팅들 불러오기
 	@Transactional

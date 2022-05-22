@@ -51,8 +51,8 @@ public class ChatRoomController {
 		return chatService.findAllRooms(principalDetail.getUser());
 	}
 
-	// 채팅을 원하는 유저와 채팅방 생성 // /chat/room/createRoom/{user_id}
-
+	// 채팅을 원하는 유저와 채팅방 생성 
+	// /chat/room/createRoom/{user_id}
 	@PostMapping("/room/createRoom/{user_id}")
 	@ResponseBody
 	ResponseEntity<UserChatRoomDto> createRoom(@PathVariable long user_id,
