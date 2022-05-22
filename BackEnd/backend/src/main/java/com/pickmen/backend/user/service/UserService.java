@@ -45,19 +45,20 @@ public class UserService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
+	/*
 	@Transactional
 	public User join(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(user.getRole());
 		return userRepository.save(user);
-	}
+	}*/
 
-	// lectureList 넣어서 Test하는 회원가입 api 테스트 - 테스트 완료
+	// lectureList 넣어서 Test하는 회원가입 api - 테스트 완료
 	@Transactional
-	public User joinTest(User user, List<Long> lectureList) {
+	public User join(User user, List<Long> lectureList) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(user.getRole());
-		// return userRepository.save(user);
+		
 		User saveUser = userRepository.save(user);
 		int i;
 		UserLecture userLecture = new UserLecture();
