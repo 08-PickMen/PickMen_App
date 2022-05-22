@@ -5,9 +5,16 @@ import java.util.List;
 import java.util.Optional;
 
 import com.pickmen.backend.dto.LectureDto;
+import com.pickmen.backend.dto.MajorDto;
+import com.pickmen.backend.dto.SchoolDto;
+import com.pickmen.backend.user.model.Lecture;
+import com.pickmen.backend.user.model.Major;
+import com.pickmen.backend.user.model.School;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.model.UserLecture;
 import com.pickmen.backend.user.repository.LectureRepository;
+import com.pickmen.backend.user.repository.MajorRepository;
+import com.pickmen.backend.user.repository.SchoolRepository;
 import com.pickmen.backend.user.repository.UserLectureRepository;
 import com.pickmen.backend.user.repository.UserRepository;
 
@@ -28,6 +35,12 @@ public class UserService {
 
 	@Autowired
 	private LectureRepository lectureRepository;
+	
+	@Autowired
+	private MajorRepository majorRepository;
+	
+	@Autowired
+	private SchoolRepository schoolRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -70,6 +83,49 @@ public class UserService {
 		}
 		
 		return lectureDtos;
+	}
+	
+	// 전공 전체 리스트를 MajorDto로 변환하여 id와 name들의 리스트로 반환
+	@Transactional
+	public List<MajorDto> getAllMajorList() {
+		List<Major> majors = majorRepository.findAll();
+		List<MajorDto> majorDtos = new ArrayList<>();
+		int i;
+		
+		for(i = 0; i < majors.size(); i++) {
+			majorDtos.add(MajorDto.fromEntity(majors.get(i)));
+		}
+		
+		return majorDtos;
+	}
+	
+	// 관심 강의(전문 강의) 전체 리스트를 LectureDto로 변환하여 id와 name들의 리스트로 반환
+	@Transactional
+	public List<LectureDto> getAllLectureList() {
+		List<Lecture> lectures = lectureRepository.findAll();
+		List<LectureDto> lectureDtos = new ArrayList<>();
+		int i;
+		
+		for(i = 0; i < lectures.size(); i++) {
+			lectureDtos.add(LectureDto.fromEntity(lectures.get(i)));
+		}
+		
+		return lectureDtos;
+		
+	}
+	
+	// 학교 전체 리스트를 SchoolDto로 변환하여 id와 name들의 리스트로 반환
+	@Transactional
+	public List<SchoolDto> getAllSchoolList() {
+		List<School> schools = schoolRepository.findAll();
+		List<SchoolDto> schoolDtos = new ArrayList<>();
+		int i;
+		
+		for(i = 0; i < schools.size(); i++) {
+			schoolDtos.add(SchoolDto.fromEntity(schools.get(i)));
+		}
+		
+		return schoolDtos;
 	}
 
 	@Transactional(readOnly = true) // select 할때 트랜잭션 시작, 서비스 종료 후 트랜잭션 종료

@@ -6,7 +6,9 @@ import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
 import com.pickmen.backend.dto.LectureDto;
+import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.ResponseDto;
+import com.pickmen.backend.dto.SchoolDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.ImageService;
@@ -173,6 +175,24 @@ public class UserApiController {
 	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@PathVariable long user_id) {
 		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(user_id), HttpStatus.OK);
 	}
+  
+  // 전체 관심 강의(전문 강의) 프론트로 반환
+  @GetMapping("/getAllLectureList")
+  public @ResponseBody ResponseEntity<List<LectureDto>> getAllLectureList() {
+	  return new ResponseEntity<List<LectureDto>>(userService.getAllLectureList(), HttpStatus.OK);
+  }
+  
+  // 전체 전공 리스트 프론트로 반환
+  @GetMapping("/getAllMajorList")
+   public @ResponseBody ResponseEntity<List<MajorDto>> getAllMajorList() {
+	  return new ResponseEntity<List<MajorDto>>(userService.getAllMajorList(), HttpStatus.OK);
+  }
+  
+  // 전체 학교 리스트 프론트로 반환
+  @GetMapping("/getAllSchoolList")
+   public @ResponseBody ResponseEntity<List<SchoolDto>> getAllSchoolList() {
+	  return new ResponseEntity<List<SchoolDto>>(userService.getAllSchoolList(), HttpStatus.OK);
+  }
 }
 
 

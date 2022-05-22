@@ -1,6 +1,7 @@
 package com.pickmen.backend.dto;
 
 import com.pickmen.backend.RoleType;
+import com.pickmen.backend.user.model.Lecture;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.model.UserLecture;
 
@@ -24,4 +25,11 @@ public class LectureDto {
 				.name(userLecture.getLecture().getName())
 				.build();
 	}
+	
+	public static LectureDto fromEntity(Lecture lecture) {
+		return LectureDto.builder()
+				.id(lecture.getId())
+				.name(lecture.getName())
+				.build();
+	}	
 }
