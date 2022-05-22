@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.pickmen.backend.category.model.Category;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -57,18 +58,18 @@ public class Post {
   private User user; // 작성이
 
   // Board 1 : N Reply -> 1개의 게시물에는 여러개의 답글이 달릴 수 있으므로
+  @JsonManagedReference
   @OneToMany(
       // 데이터가 여러개이므로, 가지고 올 때 같이 가지고 오는게 낫지만 (-> LAZY),
       // 반드시 필요하기 때문에 Eager 전략 사용
       fetch = FetchType.EAGER,
-      mappedBy = "board") // FK 가 아님 -> 컬럼을 만들지 말아야 함
-  // @JoinColumn(name = "replyId") -> 필요없음. -> 1정규화 원자성에 어긋남
+      mappedBy = "board",cascade = {CascadeType.ALL}) // FK 가 아님 -> 컬럼을 만들지 말아야 함
   private List<Reply> reply = new ArrayList<>();
 
-  // 카테고리 추가 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "categoryId")
-  private Category category;
-  
+  public void addReply(Reply reply){
+    this.getReply().add(reply);
+    reply.setBoard(this);
+  }
+
   @CreationTimestamp private LocalDateTime createDate;
 }

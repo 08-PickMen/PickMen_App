@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import 'react-navigation';
 import axios from 'axios';
@@ -9,6 +9,14 @@ import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 
 
 function Profile() {
+    const [lecturelist , setLecturelist] = React.useState([]);
+    const [lecturelist2 , setLecturelist2] = React.useState([]);
+    useEffect(() => {
+        axios.get('http://10.0.2.2:8090/getLectureList').then(function(response){
+            setLecturelist(response.data[0]);
+            setLecturelist2(response.data[1]);
+        })
+    },[])
     return(
         <View style ={{backgroundColor : '#fff'}}>
         <Card style = {styles.cards}>
@@ -45,7 +53,7 @@ function Profile() {
                     <Text>TeachSector</Text>
                 </View>  
                 <View>
-                    <Title style={{fontSize : 18}}>{myprofile[0].teachSector}</Title>
+                    <Title style={{fontSize : 18}}>{lecturelist.name}, {lecturelist2.name} </Title>
                 </View>
                 <View style={{marginTop : 5, borderBottomColor : '#a0a0a0', borderBottomWidth : 1}}/>
                 <TouchableOpacity style = {{marginTop : 30}}>

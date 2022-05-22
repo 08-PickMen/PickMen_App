@@ -40,8 +40,9 @@ public class MentorService {
 	// MentorProfileDto로 변환하여 Mentor profile에 필요한 정보만을 반환
 	// stream() 사용
 	@Transactional(readOnly = true)
-	public List<MentorProfileDto> getMentorList() {
-		return userRepository.findAllByRole(RoleType.MENTOR).stream().map(MentorProfileDto::fromEntity).collect(Collectors.toList());
+	public List<User> getMentorList() {
+		// return userRepository.MentorFindByTeachSector(teachSector);
+		return userRepository.findAllByRole(RoleType.MENTOR);
 	}
 	
 	@Transactional(readOnly = true)

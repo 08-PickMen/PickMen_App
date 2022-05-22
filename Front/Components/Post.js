@@ -4,15 +4,15 @@ import 'react-navigation';
 import axios from 'axios';
 import data from './PostData';
 import 'react-navigation'
-import {StackActions, NavigationActions} from 'react-navigation';
-import {CommonActions} from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
+
+
 
 async function loadBoard() {
     await axios.get('http://10.0.2.2:8090/post/getPost')
     .then(response => {
         var count = parseInt(response.data.totalElements);
         if(count == 1) {
-            console.log(data);
             data.length = 0;
             data.push({
                 id : response.data.content[0].id,
@@ -21,8 +21,8 @@ async function loadBoard() {
                 content : response.data.content[0].content,
                 count : response.data.content[0].count,
                 nickname : response.data.content[0].user.nickname,
+                Reply : response.data.content[0].reply.length
             },)
-            console.log(data)
         }
         else if(count > 1){
             count = count-1;
@@ -35,9 +35,9 @@ async function loadBoard() {
                 content : response.data.content[count].content,
                 count : response.data.content[count].count,
                 nickname : response.data.content[count].user.nickname,
+                Reply : response.data.content[count].reply.length
             },)
     }
-    console.log(data)
     }
     }).catch(error => {
         console.log(error)
@@ -45,11 +45,11 @@ async function loadBoard() {
 }
 
 function WritePost(Title,Content,navigation) {
+    console.log(Title,Content)
     axios.post('http://10.0.2.2:8090/post/writePost',null,{ params: {
         title : Title,
         content : Content
     }}).then(response => {
-        loadBoard(); 
         console.log(response.data)
     })
     Alert.alert(
@@ -58,12 +58,10 @@ function WritePost(Title,Content,navigation) {
         [
             {
                 text: '확인',
-                onPress: () => {navigation.dispatch(CommonActions.reset(
-                    {
-                        index : 1,
-                        routes : [{name : 'PostPage'}]
-                    }
-                ));},
+                onPress: () => {loadBoard(); navigation.dispatch(CommonActions.reset({
+                    index : 0,
+                    routes : [{name : 'PostPage'}]
+                }))},
 
             }
         ]
@@ -81,7 +79,7 @@ function Post({navigation}) {
                     borderBottomWidth : 1,
                 }}></View>
                 <View style = {{flexDirection : 'row', marginTop : 10}}>
-                    <TouchableOpacity style = {{marginLeft : 30, marginRight : 5}} onPress = {()=> {navigation.pop(); navigation.goBack()}}>
+                    <TouchableOpacity style = {{marginLeft : 30, marginRight : 5}}>
                         <Text style = {styles.ExitText}>X</Text>
                     </TouchableOpacity>
                     <Text style = {styles.PostText}>글 쓰기</Text>

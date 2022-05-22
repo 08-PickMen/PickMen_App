@@ -4,8 +4,17 @@ import {TouchableOpacity } from 'react-native';
 import PickerBox from 'react-native-picker-select';
 import 'react-navigation'
 import Schools from './SchoolLabel'
+import AsyncStorage from '@react-native-community/async-storage';
 function SelectSchool_Mento({navigation}) {
     const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
+    const [schoolValue, setSchoolValue] = React.useState('');
+    async function saveSchool() {
+        try {
+            await AsyncStorage.setItem('school', String(selectdValue));
+            await AsyncStorage.setItem('schoolValue', String(schoolValue));
+        } catch (e) {
+        }
+    }
     return(
             <View>
                 <View>
@@ -22,13 +31,13 @@ function SelectSchool_Mento({navigation}) {
                               overflow : 'hidden',}}>
                 <PickerBox 
                     selectdValue={selectdValue}
-                    onValueChange={(itemValue, itemIndex) => setSelectdValue(itemValue)}
+                    onValueChange={(itemValue, itemIndex) => {setSelectdValue(Schools[itemIndex-1].label); setSchoolValue(itemIndex)}}
                     items = {Schools}
                     >
                     </PickerBox>
                     </View>
                      <TouchableOpacity style={styles.startButton}
-                       onPress = {() => navigation.navigate('Certify_Mento')}>
+                       onPress = {() => {saveSchool(); navigation.navigate('Major')}}>
                     <Text style={styles.Text}>다음</Text>
                 </TouchableOpacity>
             </View>

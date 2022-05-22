@@ -30,14 +30,36 @@ function Information_Mento({navigation}) {
 
         setSendPassword(data)
     }
-    async function register(username, email, password, teachSector) {
+    async function register(username, email, password) {
         var nickname = await AsyncStorage.getItem('nickname');
         var data2 = await AsyncStorage.getItem('image');
+        console.log(JSON.parse(data2)._parts)
         var changeImage = JSON.parse(data2)._parts
+        /*var major1 = await AsyncStorage.getItem('major');
+        var major2 = await AsyncStorage.getItem('major2');
+        var majorText1 = await AsyncStorage.getItem('majorText1');
+        var majorText2 = await AsyncStorage.getItem('majorText2');*/
+        var department = await AsyncStorage.getItem('department');
+        console.log(department)
+        var departmentValue = await AsyncStorage.getItem('departmentValue');
+        var school = await AsyncStorage.getItem('school');
+        var schoolValue = await AsyncStorage.getItem('schoolValue');
+
+        const major = {
+            id : departmentValue,
+            name : department,
+        }
+
+        const schoolInfo = {
+            id : schoolValue,
+            name : school,
+        }
+
         var InputImage = new FormData();
+        var time = Date.now();
         InputImage.append('profile', {
             uri :  changeImage[0][1].uri,
-            name : "image.jpg",
+            name : "image" + time +".jpg",
             type : 'image/jpeg',
         })
         await axios.post('http://10.0.2.2:8090/signup/mentor',InputImage,{
@@ -49,11 +71,13 @@ function Information_Mento({navigation}) {
                 password : password,
                 nickname : nickname,
                 email : email,
-                teachSector : teachSector
+                major : Number(departmentValue),
+                school : Number(schoolValue),
             }
         }
            ).then(function(response) {
             console.log(response.data)
+            AsyncStorage.removeItem('image');
         })
     }
     returnEmail();
@@ -115,10 +139,9 @@ function Information_Mento({navigation}) {
                         console.log(sendEmail, sendPassword);
                             if(count==1) {
                             console.log(count)
-                            register(userName, sendEmail, sendPassword, teachSector);
-                            navigation.navigate('RegisterComplete')
+                            register(userName, sendEmail, sendPassword);
+                           // navigation.navigate('RegisterComplete')
                             }
-
                     }}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>

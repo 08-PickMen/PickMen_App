@@ -18,6 +18,9 @@ import RegisterComplete from './Components/RegisterComplete';
 import LoginPage from './Components/LoginPage';
 import Post from './Components/Post';
 import Information_Mento from './Components/Information_Mento';
+import Attention from './Components/Attention';
+import Major from './Components/Major';
+
 const stack = createStackNavigator();
 
 class App extends Component{
@@ -31,6 +34,8 @@ class App extends Component{
         <stack.Screen name="Purpose" component={Purpose}/>
         <stack.Screen name="SelectSchool" component={SelectSchool}/>
         <stack.Screen name='SelectSchool_Mento' component={SelectSchool_Mento}/>
+        <stack.Screen name='Attention' component={Attention}/>
+        <stack.Screen name='Major' component={Major}/>
         <stack.Screen name="Certify" component={Certify}/>
         <stack.Screen name="Certify_Mento" component={Certify_Mento}/>
         <stack.Screen name="Information" component={Information}/>

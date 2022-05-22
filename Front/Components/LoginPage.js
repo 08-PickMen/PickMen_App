@@ -37,6 +37,7 @@ async function loadData() {
 
 async function loadprofile() {
     await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function(response) {
+        console.log(response.data.id)
         myprofile.length = 0;
         myprofile.push({
             id : response.data.data.id,
@@ -57,13 +58,7 @@ function LoginPage({navigation}) {
         if(user_id)
             await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
             var data = await AsyncStorage.getItem('user_id');
-    }
-    async function firebaseregister(email, password) {
-        try {
-            await auth().createUserWithEmailAndPassword(email, password);
-        } catch (e) {
-            console.log(e);
-        }
+            console.log(data)
     }
     async function firebaselogin(email, password) {
         try {

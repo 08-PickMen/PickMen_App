@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,6 +32,7 @@ public class School {
 	@Column(nullable = true, unique = true)
 	private String name;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "school")
 	private List<User> users = new ArrayList<>();
 }

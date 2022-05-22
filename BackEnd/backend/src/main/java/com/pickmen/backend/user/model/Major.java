@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.AllArgsConstructor;
@@ -37,6 +38,7 @@ public class Major {
 	@Column(nullable = true, unique = true)
 	private String name;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "major", cascade = CascadeType.ALL)
 	private List<User> users = new ArrayList<>();
 }

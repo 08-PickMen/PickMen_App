@@ -1,5 +1,7 @@
 package com.pickmen.backend.user.controller;
 
+import java.util.List;
+
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
@@ -29,8 +31,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -108,6 +108,8 @@ public class UserApiController {
      newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
+     newuser.setSchool(user.getSchool());
+     newuser.setMajor(user.getMajor());
      newuser.setRole(RoleType.MENTOR);
      
      // 멘토의 자기소개, 거주지, 멘토링 분야 설명 추가
@@ -135,7 +137,6 @@ public class UserApiController {
 		  @RequestParam List<Long> lectureList)
    {
      User newuser=new User();
-     System.out.println(user.getUsername());
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
@@ -157,7 +158,7 @@ public class UserApiController {
   }
 
   @PostMapping("user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<Integer> user(@RequestParam(value = "file", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       user.setId(principalDetail.getUserId());
       user.setProfileImage(imageService.upload(uploadfile));

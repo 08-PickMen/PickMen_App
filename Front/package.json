@@ -16,6 +16,7 @@
   },
   "proxy": "http://localhost:8080/",
   "dependencies": {
+    "@objectiv/tracker-react-native": "^0.0.19",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^14.9.3",

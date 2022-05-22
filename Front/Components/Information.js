@@ -27,20 +27,25 @@ function Information_Mento({navigation}) {
     async function savePassword(password) {
         await AsyncStorage.setItem('password',String(password));
         var data = await AsyncStorage.getItem('password');
-
         setSendPassword(data)
     }
     async function register(username, email, password) {
         var nickname = await AsyncStorage.getItem('nickname');
         var data2 = await AsyncStorage.getItem('image');
+        var lecture1 = await AsyncStorage.getItem('lecture1');
+        var lecture2 = await AsyncStorage.getItem('lecture2');
+        const ids = [Number(lecture1), Number(lecture2)];
+        console.log(ids.join(','))
         var changeImage = JSON.parse(data2)._parts
         var InputImage = new FormData();
+        console.log(password);
         InputImage.append('profile', {
             uri :  changeImage[0][1].uri,
             name : "image.jpg",
             type : 'image/jpeg',
         })
-        await axios.post('http://10.0.2.2:8090/signup/mentee',InputImage,{
+        console.log(username)
+        /*await axios.post('http://10.0.2.2:8090/signup/mentee',InputImage,{
             headers : {
                 "Content-Type" : "multipart/form-data",
             },
@@ -49,11 +54,13 @@ function Information_Mento({navigation}) {
                 password : password,
                 nickname : nickname,
                 email : email,
-            }
+                lectureList : ids.join(','),
+            },
         }
            ).then(function(response) {
             console.log(response.data)
-        })
+            AsyncStorage.removeItem('image');
+        })*/
     }
     returnEmail();
     return(
@@ -105,11 +112,9 @@ function Information_Mento({navigation}) {
                 <View>
                     <TouchableOpacity style={styles.Button}
                     onPress={()=> {
-                        console.log(sendEmail, sendPassword);
                             if(count==1) {
-                            console.log(count)
                             register(userName, sendEmail, sendPassword);
-                            navigation.navigate('RegisterComplete')
+                            //navigation.navigate('RegisterComplete')
                             }
 
                     }}>

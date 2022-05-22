@@ -3,8 +3,10 @@ package com.pickmen.backend.board.controller;
 import javax.transaction.Transactional;
 
 import com.pickmen.backend.board.model.Post;
+import com.pickmen.backend.board.repository.PostRepository;
 import com.pickmen.backend.board.service.PostService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
+import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 
@@ -13,8 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,12 +33,24 @@ public class PostController {
 
   @Autowired private UserRepository userRepository;
 
+  @Autowired private PostRepository postRepository;
+
   // @AuthenticationPrincipal PrincipalDetail principalDetail
   // 위 코드를 통해 세션에 저장된 사용자 정보를 가져올 수 있다.
 
   @GetMapping("post/getPost")
   public Page<Post> postList(@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
     return postService.getPostList(pageable);
+  }
+
+  @GetMapping("post/getPost/{id}")
+  public ResponseDto<Post> postList(@PathVariable Long id){
+    try {
+      return new ResponseDto<Post>(HttpStatus.OK.value(),postRepository.findById(id).get());
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseDto<Post>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
+    }
   }
 
   @PostMapping("post/deletePost")
@@ -55,6 +71,24 @@ public class PostController {
     }
   }
 
+
+  @GetMapping("post/findByNickname")
+  public Page<Post> postByNickname(String nickname,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByNickname(nickname,pageable);
+  }
+
+  @GetMapping("post/findByTitle")
+  public Page<Post> postByTitle(String title,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByTitleContaining(title,pageable);
+  }
+  @GetMapping("post/findByContent")
+  public Page<Post> postByContent(String content,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByContentContaining(content,pageable);
+  }
+  @GetMapping("post/findByTitleOrContent")
+  public Page<Post> postByTitle(String title,String content,@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
+    return postRepository.findByTitleOrContentContaining(title,content,pageable);
+  }
 
   @Transactional
   @PostMapping("post/upcountPost")

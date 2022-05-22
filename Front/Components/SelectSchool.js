@@ -7,6 +7,12 @@ import Schools from './SchoolLabel'
 
 function SelectSchool({navigation}) {
     const [selectdValue, setSelectdValue] = React.useState('학교를 선택하세요');
+    async function saveSchool() {
+        try {
+            await AsyncStorage.setItem('school', selectdValue);
+        } catch (e) {
+        }
+    }
     return(
             <View>
                 <View>
@@ -29,7 +35,7 @@ function SelectSchool({navigation}) {
                     </PickerBox>
                     </View>
                      <TouchableOpacity style={styles.startButton}
-                       onPress = {() => navigation.navigate('Certify')}>
+                       onPress = {() => {saveSchool(); navigation.navigate('Attention')}}>
                     <Text style={styles.Text}>다음</Text>
                 </TouchableOpacity>
             </View>

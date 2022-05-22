@@ -34,6 +34,7 @@ public class ImageService{
             {
                 FileDto dto=new FileDto(UUID.randomUUID().toString(),file.getOriginalFilename(),file.getContentType());
                 list.add(dto);
+                System.out.println(list);
                 File newFileName=new File(dto.getUuid()+"_"+dto.getFileName());
                 
                 file.transferTo(newFileName);
