@@ -8,16 +8,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pickmen.backend.RoleType;
-import com.pickmen.backend.SchoolType;
 import com.pickmen.backend.chat.model.ChatRoom;
 import com.pickmen.backend.chat.model.UserChatRoom;
 
@@ -70,16 +73,31 @@ public class User {
 
 
    // 새로 입력   
-   
+    
+   @JsonManagedReference
    @OneToMany(mappedBy = "user")
    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
    @Column(nullable= true)
    private String nickname;
+   
+   // 전공 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
+   @JsonBackReference
+   @ManyToOne
+   @JoinColumn(name = "majorId")
+   private Major major;
+   
+   // 관심 강의 입력 추가(프론트에서 전달해줌)
+   // User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
+   @JsonManagedReference
+   @OneToMany(mappedBy = "user")
+   private List<UserLecture> userLectures = new ArrayList<>();
  
-   @Column(nullable= true)
-   @Enumerated(EnumType.STRING)
-   private SchoolType school;
+   // 학교 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
+   @JsonBackReference
+   @ManyToOne
+   @JoinColumn(name = "schoolId")
+   private School school;
  
    @Column(nullable= true)
    private String profileImage;
@@ -96,6 +114,17 @@ public class User {
  
    @Column(nullable= true)
    private boolean activeCanTeach;
+   
+   // 멘토 자기소개 멘트 입력
+   @Column(nullable= true)
+   private String introduceMyself;
+   
+   // 멘토 거주지 입력
+   @Column(nullable= true)
+   private String livingWhere;
+   
+   // 멘토링 내용 입력
+   @Column(nullable= true)
+   private String mentoringContents;
  
-   // 새로 사용
 }
