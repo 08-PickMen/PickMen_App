@@ -51,7 +51,7 @@ public class ImageService{
     }
 
     public ResponseEntity<Resource> delete(String filename){
-        String path = "C:\\upload\\";
+        String path = "";
         String folder = "";
 
         //파일 형식 붙여야 함.
@@ -66,7 +66,7 @@ public class ImageService{
     }
 
     public ResponseEntity<Resource> display(String filename) {
-        String path = "C:\\upload\\";
+        String path = "";
         String folder = "";
 
         //파일 형식 붙여야 함.
