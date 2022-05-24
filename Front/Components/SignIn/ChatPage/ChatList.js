@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView,View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput} from 'react-native';
+import { ScrollView,View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image} from 'react-native';
 import {List} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,7 +16,8 @@ function ChatList({navigation}) {
     const Item = ({ item }) => (
         <TouchableOpacity onPress={()=>{navigation.navigate('Chat', {item_id : item.chatRoom_id})}}>
           <View style = {style.cards}>
-             <Text style = {style.Title}>{item.chatRoom_id}</Text>
+             <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+ Number(item.id)}} style = {{marginRight : 'auto',width : 80, height : 80, borderRadius : 120}}></Image>
+             <Text>{}</Text>
              <Text>{}</Text>
              </View>
         </TouchableOpacity>
@@ -43,7 +44,11 @@ function ChatList({navigation}) {
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
             var data = response.data;
-            setChatList(data.reverse());
+            if(response.data.length > 1)
+                setChatList(data.reverse());
+            else
+                setChatList(data);
+            console.log(data)
         })
     },[])
     return (
