@@ -7,14 +7,11 @@ import chatdata from '../../localData/ChatData';
 import {Card} from 'react-native-paper';
 import axios from 'axios';
 import axios2 from 'axios';
-
-
 function ChatList({navigation}) {
     const [ChatList, setChatList] = React.useState([]);
     const [lastChat, setLastChat] = React.useState([]);
-
     const Item = ({ item }) => (
-        <TouchableOpacity onPress={()=>{navigation.navigate('Chat')}}>
+        <TouchableOpacity onPress={()=>{navigation.navigate('Chat', {item_id : item.chatRoom_id})}}>
           <View style = {style.cards}>
              <Text style = {style.Title}>{item.chatRoom_id}</Text>
              <Text>{}</Text>
@@ -31,7 +28,6 @@ function ChatList({navigation}) {
     async function loadlastChat(room_id){
         var text= ''
         const list = [];
-
         text = await axios2.get('http://10.0.2.2:8090/chat/room/enter/'+room_id).then(function(response){
             for(var i of response.data) {
                 list.push(i);
@@ -39,13 +35,13 @@ function ChatList({navigation}) {
             return list[list.length-1].content;
         })
     }
-
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
             var data = response.data;
+            console.log(data);
             setChatList(data.reverse());
         })
-    },[])
+    },[])    
     return (
         <View style={{flex : 1, backgroundColor : '#fff'}}>
             <View >
@@ -64,7 +60,6 @@ function ChatList({navigation}) {
             </View>
     )
 }
-
 const style = StyleSheet.create({
     cards : {
         width : 400,
@@ -73,7 +68,7 @@ const style = StyleSheet.create({
         marginLeft : 'auto',
         marginRight : 'auto',
         marginBottom : 10,
-        borderBottomColor : '#a0a0a0',
+        borderBottomColor : '#A0A0A0',
         borderBottomWidth : 1,
     },
     ChatTitle : {
@@ -89,5 +84,4 @@ const style = StyleSheet.create({
         marginTop : 18,
     },
 })
-
 export default ChatList;
