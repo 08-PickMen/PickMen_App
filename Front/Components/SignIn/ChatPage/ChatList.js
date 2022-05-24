@@ -1,22 +1,33 @@
 import React, { useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
 import { List } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
 import chatdata from '../../localData/ChatData';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
-
+import join from '../../../icons/enter.png'
 // 채팅 리스트 페이지
 function ChatList({ navigation }) {
     const [ChatList, setChatList] = React.useState([]);
 
     // 채팅 리스트를 render하는 함수
     const Item = ({ item }) => (
-        <TouchableOpacity onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id }) }}>
+        <TouchableOpacity  style={{marginTop : 20,marginBottom : 10,}} onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id }) }}>
             <View style={style.cards}>
-                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
-                <Text>{}</Text>
+                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginLeft : 20,marginRight: 20, width: 60, height: 60, borderRadius: 120, borderWidth : 1, borderColor  :'#a0a0a0'}}></Image>
+                <SafeAreaView style = {{}}>
+                    <View>
+                        <Text style = {{marginRight : 15, fontFamily : 'Jalnan', fontSize : 15, color : 'black'}}>{item.other_id_nickname}</Text>
+                    </View>
+                    <Text style = {{marginTop : 10, fontFamily : 'NanumSquareRound', fontSize : 13, color : 'black'}}>{item.lastChat}</Text>
+                </SafeAreaView>
+                <SafeAreaView style = {{flex : 1}}>
+                    <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>소프트웨어학과</Text>
+                </SafeAreaView>
+                <View>
+                    <Text style = {{fontSize : 13, marginTop : 10, marginRight : 10}}>05-23 12:49</Text>
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -51,7 +62,7 @@ function ChatList({ navigation }) {
                 <FlatList
                     data={ChatList}
                     renderItem={renderItem}
-                    keyExtractor={item => {item.chatRoom_id}}
+                    keyExtractor={item => item.chatRoom_id}
                 ></FlatList>
             </View>
         </View>
@@ -65,8 +76,7 @@ const style = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginBottom: 10,
-        borderBottomColor: '#a0a0a0',
-        borderBottomWidth: 1,
+        flexDirection : 'row'
     },
     ChatTitle: {
         fontSize: 20,
