@@ -6,40 +6,28 @@ import AsyncStorage from '@react-native-community/async-storage';
 import chatdata from '../../localData/ChatData';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
-import axios2 from 'axios';
 
 // 채팅 리스트 페이지
 function ChatList({ navigation }) {
     const [ChatList, setChatList] = React.useState([]);
-    const [lastChat, setLastChat] = React.useState([]);
+
     // 채팅 리스트를 render하는 함수
     const Item = ({ item }) => (
         <TouchableOpacity onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id }) }}>
             <View style={style.cards}>
-                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
-                <Text>{ }</Text>
-                <Text>{ }</Text>
+                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
+                <Text>{}</Text>
             </View>
         </TouchableOpacity>
     );
-    const renderItem = ({ item }) => {
+    const renderItem = ({ item }) => { 
         return (
             <Item
                 item={item}
             />
         )
     };
-    async function loadlastChat(room_id) {
-        var text = ''
-        const list = [];
-
-        text = await axios2.get('http://10.0.2.2:8090/chat/room/enter/' + room_id).then(function (response) {
-            for (var i of response.data) {
-                list.push(i);
-            }
-            return list[list.length - 1].content;
-        })
-    }
+   
     // 채팅 리스트를 불러오는 함수
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
@@ -48,6 +36,9 @@ function ChatList({ navigation }) {
                 setChatList(data.reverse());
             else
                 setChatList(data);
+            for(var i of data){
+
+            }
             console.log(data)
         })
     }, [])
@@ -63,13 +54,12 @@ function ChatList({ navigation }) {
                 <FlatList
                     data={ChatList}
                     renderItem={renderItem}
-                    keyExtractor={item => item.chatRoom_id}
+                    keyExtractor={item => {item.chatRoom_id}}
                 ></FlatList>
             </View>
         </View>
     )
 }
-
 const style = StyleSheet.create({
     cards: {
         width: 400,
@@ -94,5 +84,4 @@ const style = StyleSheet.create({
         marginTop: 18,
     },
 })
-
 export default ChatList;

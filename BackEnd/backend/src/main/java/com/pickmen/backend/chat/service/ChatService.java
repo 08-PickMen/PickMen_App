@@ -42,18 +42,21 @@ public class ChatService {
 	@Transactional(readOnly = true)
 	public List<UserChatRoomDto> findAllRoom(long user_id) {
 		List<UserChatRoom> listUserChatRoom = userChatRoomRepository.findAllByUserId(user_id);
+		UserChatRoom otherUserChatRoom;
 		// 채팅방 최근 생성 순으로 반환
 		Collections.reverse(listUserChatRoom);
 
 		List<UserChatRoomDto> listUserChatRoomDto = new ArrayList<>();
 		int i;
 
+		// user_id 와 같은 채팅방에 있는 other user_id, 그리고 chatRoom_id를 저장
 		for (i = 0; i < listUserChatRoom.size(); i++) {
-			listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getId(),
-					listUserChatRoom.get(i).getUser().getId(), listUserChatRoom.get(i).getChatRoom().getId()));
+			otherUserChatRoom = userChatRoomRepository.findByChatRoomIdAndUserIdNot(listUserChatRoom.get(i).getChatRoom().getId(), user_id);
+			listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
+					otherUserChatRoom.getUser().getId(), listUserChatRoom.get(i).getChatRoom().getId()));
 		}
-		System.out.printf("First chatRoom_id: %d%n", listUserChatRoom.get(0).getChatRoom().getId());
-		System.out.printf("Second chatRoom_id: %d%n", listUserChatRoom.get(1).getChatRoom().getId());
+		/*System.out.printf("First chatRoom_id: %d%n", listUserChatRoom.get(0).getChatRoom().getId());
+		System.out.printf("Second chatRoom_id: %d%n", listUserChatRoom.get(1).getChatRoom().getId());*/
 
 		return listUserChatRoomDto;
 	}
