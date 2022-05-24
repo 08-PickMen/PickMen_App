@@ -52,21 +52,10 @@ public class ChatService {
 			listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getId(),
 					listUserChatRoom.get(i).getUser().getId(), listUserChatRoom.get(i).getChatRoom().getId()));
 		}
-		System.out.printf("chatRoom_id: %d%n", listUserChatRoom.get(0).getChatRoom().getId());
-		System.out.printf("chatRoom_id: %d%n", listUserChatRoom.get(1).getChatRoom().getId());
+		System.out.printf("First chatRoom_id: %d%n", listUserChatRoom.get(0).getChatRoom().getId());
+		System.out.printf("Second chatRoom_id: %d%n", listUserChatRoom.get(1).getChatRoom().getId());
 
 		return listUserChatRoomDto;
-	}
-
-	// 로그인 되어 있는 유저의 채팅방 불러오기(user_id에 해당하는 모든 채팅방)
-	@Transactional(readOnly = true)
-	public List<UserChatRoom> findAllRooms(User user) {
-		List<UserChatRoom> listUserChatRoom = userChatRoomRepository.findAllByUserId(user.getId());
-
-		// 채팅방 최근 생성 순으로 반환
-		Collections.reverse(listUserChatRoom);
-
-		return listUserChatRoom;
 	}
 
 	// 채팅방 생성

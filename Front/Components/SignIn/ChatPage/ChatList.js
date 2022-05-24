@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ScrollView,View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import { ScrollView,View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput} from 'react-native';
 import {List} from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -11,13 +11,13 @@ import axios2 from 'axios';
 
 function ChatList({navigation}) {
     const [ChatList, setChatList] = React.useState([]);
-    const [lastChat, setLastChat] = React.useState('');
+    const [lastChat, setLastChat] = React.useState([]);
 
     const Item = ({ item }) => (
         <TouchableOpacity onPress={()=>{navigation.navigate('Chat')}}>
           <View style = {style.cards}>
-             <Text style = {style.Title}>{item.id}</Text>
-             <Text></Text>
+             <Text style = {style.Title}>{item.chatRoom_id}</Text>
+             <Text>{}</Text>
              </View>
         </TouchableOpacity>
     );
@@ -28,24 +28,22 @@ function ChatList({navigation}) {
           />
         )
       };
-    const loadlastChat = (post_id) => {
-        if(post_id) {
-            axios2.get('http://10.0.2.2:8090/chat/room/enter/'+post_id).then(async function(response){
-                const list = [];
-                for(var i of response.data) {
-                    list.push(i);
-                }
-                console.log(list.reverse());
-            })
-        }
+    async function loadlastChat(room_id){
+        var text= ''
+        const list = [];
+
+        text = await axios2.get('http://10.0.2.2:8090/chat/room/enter/'+room_id).then(function(response){
+            for(var i of response.data) {
+                list.push(i);
+            }
+            return list[list.length-1].content;
+        })
     }
 
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
             var data = response.data;
             setChatList(data.reverse());
-            loadlastChat(data[0].id);
-            console.log(data)
         })
     },[])
     return (
@@ -56,10 +54,13 @@ function ChatList({navigation}) {
                 </Text>
             </View>
             <View style = {{borderBottomColor : 'black', borderBottomWidth : .5}}/>
-            <FlatList
-                data = {ChatList}
-                renderItem={renderItem}
-            />
+            <View>
+                <FlatList
+                    data = {ChatList}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.chatRoom_id}
+                ></FlatList>
+                </View>
             </View>
     )
 }
@@ -84,7 +85,6 @@ const style = StyleSheet.create({
         fontFamily: 'Jalnan',
         fontSize : 17,
         color : "#27BAFF",
-        marginBottom : 10,
         marginLeft : 10,
         marginTop : 18,
     },

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet,TouchableOpacity} from 'react-native';
+import {SafeAreaView,View, Text, StyleSheet,TouchableOpacity, Alert} from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -26,7 +26,7 @@ function Attention({navigation}){
         }
     }
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/Lecture/Get').then(response => {
+        axios.get('http://10.0.2.2:8090/getAllLectureList').then(response => {
             var count = response.data.length;
             var newData = [];
             for(var i = 0; i < count; i++) {
@@ -38,6 +38,7 @@ function Attention({navigation}){
             setLectureList(newData);
         })
         setOpen(false);
+        setOpen2(false);
     },[])
 
     return(
@@ -46,15 +47,13 @@ function Attention({navigation}){
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 강의 1</Text>
             </View>
-            <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
+            <View>
             <DropDownPicker
                 style = {{width : 350, marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0'}}
                 open={open}
                 value={value}
-                zIndex={3000}
-                zIndexInverse={1000}
                 searchable={true}
-                dropDownContainerStyle={{borderColor : '#a0a0a0'}}
+                dropDownContainerStyle={{borderColor : '#a0a0a0', height : 170}}
                 searchContainerStyle={{borderColor : '#a0a0a0', borderBottomWidth : .15}}
                 listItemContainerStyle={{borderColor : '#a0a0a0', borderTopWidth : 0}}
                 searchTextInputStyle={{height : 30, borderRadius : 0, borderWidth : 0, borderColor : '#a0a0a0'}}
@@ -64,8 +63,8 @@ function Attention({navigation}){
                 searchPlaceholder = '강의 검색'
                 containerStyle={{width : 350, marginLeft : 'auto', marginRight : 'auto'}}
                 onChangeValue={(itemValue) => {
-                    getIndex = (itemValue) => {
-                        for (var i=0; i<majorList.length; i++) {
+                    const getIndex = (itemValue) => {
+                        for (var i=0; i<lectureList.length; i++) {
                             if (lectureList[i].value == itemValue) {
                                 return i;
                             }
@@ -76,6 +75,7 @@ function Attention({navigation}){
                         setSelectedValue(lectureList[getIndex(itemValue)].label);
                     }
                 }}
+
                 setValue={setValue}
                 setOpen={setOpen}
             />
@@ -83,15 +83,13 @@ function Attention({navigation}){
             <View style ={{marginTop : 140,}}>
                 <Text style = {styles.Sector}>관심 강의 2</Text>
             </View>
-            <View style ={{width : 350,marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0', borderWidth : 1, borderRadius : 10}}>
+            <View>
             <DropDownPicker
                 style = {{width : 350, marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0'}}
                 open={open2}
                 value={value2}
-                zIndex={1000}
-                zIndexInverse={3000}
                 searchable={true}
-                dropDownContainerStyle={{borderColor : '#a0a0a0'}}
+                dropDownContainerStyle={{borderColor : '#a0a0a0', height : 170}}
                 searchContainerStyle={{borderColor : '#a0a0a0', borderBottomWidth : .15}}
                 listItemContainerStyle={{borderColor : '#a0a0a0', borderTopWidth : 0}}
                 searchTextInputStyle={{height : 30, borderRadius : 0, borderWidth : 0, borderColor : '#a0a0a0'}}
@@ -101,8 +99,8 @@ function Attention({navigation}){
                 searchPlaceholder = '강의 검색'
                 containerStyle={{width : 350, marginLeft : 'auto', marginRight : 'auto'}}
                 onChangeValue={(itemValue) => {
-                    getIndex = (itemValue) => {
-                        for (var i=0; i<majorList.length; i++) {
+                  const getIndex = (itemValue) => {
+                        for (var i=0; i<lectureList.length; i++) {
                             if (lectureList[i].value == itemValue) {
                                 return i;
                             }
