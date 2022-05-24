@@ -1,9 +1,11 @@
 package com.pickmen.backend.chat.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,21 +52,31 @@ public class ChatService {
 		List<UserChatRoomDto> listUserChatRoomDto = new ArrayList<>();
 		int i;
 
-		// user_id 와 같은 채팅방에 있는 other user_id, 그리고 chatRoom_id, other_user_nickname, lastChat을 저장하여 반환 할 것임
+		// user_id 와 같은 채팅방에 있는 other user_id, 그리고 chatRoom_id, other_user_nickname, lastChat, 채팅 시각을 저장하여 반환 할 것임
 		for (i = 0; i < listUserChatRoom.size(); i++) {
 			otherUserChatRoom = userChatRoomRepository.findByChatRoomIdAndUserIdNot(listUserChatRoom.get(i).getChatRoom().getId(), user_id);
 			
 			chatListForLastChat = chatRepository.findAllByChatRoomId(otherUserChatRoom.getChatRoom().getId());
 			Collections.reverse(chatListForLastChat);
-			
-			listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
-					otherUserChatRoom.getUser().getId(), 
-					listUserChatRoom.get(i).getChatRoom().getId(),
-					otherUserChatRoom.getUser().getNickname(), 
-					chatListForLastChat.get(0).getContent()));
+
+			// 채팅방에 채팅 내역이 없으면 마지막 채팅 기록과 시각은 넘기지 않는다
+			if(chatListForLastChat.size() != 0) {
+				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
+						otherUserChatRoom.getUser().getId(), 
+						listUserChatRoom.get(i).getChatRoom().getId(),
+						otherUserChatRoom.getUser().getNickname(), 
+						otherUserChatRoom.getUser().getMajor().getName(),
+						chatListForLastChat.get(0).getContent(),
+						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"))));
+			}
+			else {
+				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
+						otherUserChatRoom.getUser().getId(), 
+						listUserChatRoom.get(i).getChatRoom().getId(),
+						otherUserChatRoom.getUser().getNickname(), 
+						otherUserChatRoom.getUser().getMajor().getName()));
+			}
 		}
-		/*System.out.printf("First chatRoom_id: %d%n", listUserChatRoom.get(0).getChatRoom().getId());
-		System.out.printf("Second chatRoom_id: %d%n", listUserChatRoom.get(1).getChatRoom().getId());*/
 
 		return listUserChatRoomDto;
 	}

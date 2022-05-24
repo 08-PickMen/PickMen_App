@@ -42,7 +42,6 @@ public class Chat {
 
 	@CreationTimestamp
 	private LocalDateTime createDate;
-	
 
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
