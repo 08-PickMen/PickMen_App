@@ -19,10 +19,11 @@ Object.assign(global, {
 
 
 
-function Chat() {
+function Chat({navigation, route}) {
     const [UserId, setUserId] = useState('')
     const [messages, setMessages] = useState([
     ])
+    const chatRoom_id = route.params.item_id;
     const renderBubble = props => {
         let username = props.currentMessage.user._id
         console.log("username: "+ username)
@@ -68,7 +69,7 @@ function Chat() {
             setUserId(id);
         }
         getUserId();
-        axios.get('http://10.0.2.2:8090/chat/room/enter/'+2).then(response => {
+        axios.get('http://10.0.2.2:8090/chat/room/enter/'+chatRoom_id).then(response => {
             var newlist = [];
             console.log(response.data)
             var count = response.data.length;
@@ -102,7 +103,7 @@ function Chat() {
     const onSend = useCallback((messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages));
         StompClient.send('/pub/chat/message',{},JSON.stringify({
-                chat_room_id: 2,
+                chat_room_id: chatRoom_id,
                 content : messages[0].text,
                 user_id : UserId,
         }));

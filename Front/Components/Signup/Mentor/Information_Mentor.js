@@ -129,7 +129,7 @@ function Information_Mento({navigation}) {
                             if(count==1) {
                             console.log(count)
                             register(userName, sendEmail, sendPassword);
-                           // navigation.navigate('RegisterComplete')
+                            navigation.navigate('RegisterComplete')
                             }
                     }}>
                         <Text style={styles.ButtonText}>확인</Text>

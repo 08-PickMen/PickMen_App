@@ -14,7 +14,7 @@ function ChatList({navigation}) {
     const [lastChat, setLastChat] = React.useState([]);
 
     const Item = ({ item }) => (
-        <TouchableOpacity onPress={()=>{navigation.navigate('Chat')}}>
+        <TouchableOpacity onPress={()=>{navigation.navigate('Chat', {item_id : item.chatRoom_id})}}>
           <View style = {style.cards}>
              <Text style = {style.Title}>{item.chatRoom_id}</Text>
              <Text>{}</Text>
