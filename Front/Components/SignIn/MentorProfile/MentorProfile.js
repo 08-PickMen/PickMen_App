@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet ,FlatList, TouchableOpacity, Alert, Image} from 'react-native';
-import {Card, Title, Paragraph, Colors} from 'react-native-paper';
-import firestore from '@react-native-firebase/firestore';
+import { View, Text, StyleSheet ,FlatList, TouchableOpacity, Image} from 'react-native';
+import {Card} from 'react-native-paper';
 import 'react-navigation';
 import axios from 'axios';
-import { CommonActions } from '@react-navigation/native';
 
+// 멘토 프로필 리스트 페이지
 function MentorProfile({navigation}) {
     const [MentorList, setMentorList] = React.useState([]);
-
+        // 간략한 멘토 프로필을 렌더링하는 함수
         const renderCard = ({ item }) => {
             return (
                 <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', {item_id: item.id})}>
@@ -35,6 +34,7 @@ function MentorProfile({navigation}) {
                 </TouchableOpacity>
             )
         };
+        // 멘토 프로필 리스트를 불러오는 함수
         useEffect(() => {
             axios.get('http://10.0.2.2:8090/mentorList').then(async function(response){
                 var data = response.data;
