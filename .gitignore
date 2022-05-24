@@ -60,4 +60,4 @@ buck-out/
 /ios/Pods/
 
 # Application Setting File
-application.yml
+BackEnd/backend/src/main/resources/application.yml
