@@ -146,21 +146,24 @@ public class ChatService {
 		chatRepository.save(chat);
 		return chat;
 	}
-	
-	// 채팅 저장 Dto
-		@Transactional
+
+	@Transactional
 		public Chat saveChatDto(ChatDto chatDto) {
 			Chat chat = new Chat();
+			
+		    log.info(""+chatDto.getChat_room_id());
+			log.info(""+chatDto.getUser_id());
+
 			
 		    chat.setContent(chatDto.getContent());
 		    chat.setMessageType(MessageType.TALK);
 		    chat.setChatRoom(chatRoomRepository.findById(chatDto.getChat_room_id()).orElseThrow(() -> new RuntimeException("예외1: ChatRoom Id 검색 안됨")));
 		    chat.setUser(userRepository.findById(chatDto.getUser_id()).orElseThrow(() -> new RuntimeException("예외2: User Id 검색 안됨")));
 
+
 			chatRepository.save(chat);
 			return chat;
 		}
-
 	// 채팅방에 저장된 채팅들 불러오기
 	@Transactional
 	public List<ChatDto> getRoomChats(long room_id) {

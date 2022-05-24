@@ -51,6 +51,7 @@ public class Reply {
   private Post board;
 
   // Reply N : 1 User -> 한명의 사용자는 여러개의 답변을 달 수 있음
+  @JsonBackReference
   @ManyToOne
   @JoinColumn(name = "userId")
   private User user;

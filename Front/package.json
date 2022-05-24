@@ -44,6 +44,7 @@
     "react-native": "^0.67.4",
     "react-native-card-list": "^0.1.0",
     "react-native-cli": "^2.0.1",
+    "react-native-dropdown-picker": "^5.4.2",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^2.4.0",
     "react-native-gifted-chat": "^0.16.3",
@@ -58,7 +59,10 @@
     "react-native-vector-icons": "^9.1.0",
     "react-navigation": "^4.4.4",
     "run": "^1.4.0",
-    "sockjs-client": "^1.6.0"
+    "sockjs-client": "^1.6.0",
+    "stompjs": "^2.3.3",
+    "text-decoding": "^1.0.0",
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "7.17.8",

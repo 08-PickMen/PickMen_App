@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.pickmen.backend.user.model.User;
 
@@ -42,11 +43,13 @@ public class ChatRoom {
 	@Column
 	private long post_id;		
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "chatRoom")
 	   private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
 	
 	// ChatRoom 1 : N Chat 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
 	private List<Chat> chat = new ArrayList<>();
 	

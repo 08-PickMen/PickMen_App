@@ -34,4 +34,5 @@ public class ChatDto {
 	private long chat_room_id;
 	
 	private long user_id;
+
 }

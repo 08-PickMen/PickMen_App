@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pickmen.backend.user.model.User;
 
 import lombok.AllArgsConstructor;
@@ -47,11 +48,13 @@ public class Chat {
 	private MessageType messageType;
 
 	// Chat N : 1 ChatRoom -> 한개의 채팅방에는 채팅이 여러개 있을 수 있음
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "chatRoom_id")
 	private ChatRoom chatRoom;
 
 	// Chat N : 1 User -> 한명의 사용자는 여러개의 채팅을 전송할 수 있음
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
