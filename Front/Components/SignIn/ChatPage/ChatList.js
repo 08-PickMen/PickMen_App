@@ -36,9 +36,6 @@ function ChatList({ navigation }) {
                 setChatList(data.reverse());
             else
                 setChatList(data);
-            for(var i of data){
-
-            }
             console.log(data)
         })
     }, [])

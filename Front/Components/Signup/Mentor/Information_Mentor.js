@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     paddingTop : 5, 
     marginLeft : 'auto',
     marginRight : 'auto', 
-    marginTop : 60,
+    marginTop : 140,
     borderRadius:5,
     backgroundColor : "#27BAFF"
    },
