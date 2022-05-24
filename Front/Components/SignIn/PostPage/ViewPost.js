@@ -10,7 +10,7 @@ import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 import writeicon from '../../../icons/writing.png';
 import deleteicon from '../../../icons/delete.png';
-import {Card} from 'react-native-paper';
+import {Card, TouchableRipple} from 'react-native-paper';
 
 
 async function loadPost() {
@@ -45,7 +45,6 @@ async function loadPost() {
         console.log(error)
     })
 }
-
 
 async function DeletePost(navigation, id) {
     await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
@@ -169,7 +168,7 @@ function ViewPost({navigation}) {
     function loadReply(id) {
             axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(id)
                 ).then(response => {
-                    console.log(response.data.data)
+                    console.log(response.data)
                     setListTweets(response.data.data);
                 }).catch(error => {
                 console.log(error)
@@ -234,10 +233,13 @@ function ViewPost({navigation}) {
     
     
     const renderTweets = ({item}) => {
+        console.log(item)
         return (
             <Card style = {{borderWidth : .5}}>
                 <View style = {{flexDirection : 'row', marginTop : 10,}}>
-                    <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user.id}} style = {styles.ReplyImage}/>
+                    <TouchableRipple>
+                        <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.id}} style = {styles.ReplyImage}/>
+                    </TouchableRipple>
                     <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
                 </View>
                 <View>

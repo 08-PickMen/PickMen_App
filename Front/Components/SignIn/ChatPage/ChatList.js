@@ -30,8 +30,8 @@ function ChatList({navigation}) {
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
             var data = response.data;
-            setChatList(data);
-            console.log(ChatList)
+            setChatList(data.reverse());
+            console.log(data)
         })
     },[])
     return (

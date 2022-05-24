@@ -7,6 +7,7 @@ import Post from './Post';
 import PostList from './PostList';
 import ViewPost from './ViewPost';
 import EditPost from './EditPost';
+import MentorProfileDetailFromReply from './MentorProfileFromReply';
 
 const stack = createStackNavigator();
 
@@ -20,7 +21,7 @@ function Board() {
                 <stack.Screen name="Post" component={Post}/>
                 <stack.Screen name="ViewPost" component={ViewPost}/>
                 <stack.Screen name="EditPost" component={EditPost}/>
-
+                <stack.Screen name="MentorProfileDetailFromReply" component={MentorProfileDetailFromReply}/>
             </stack.Navigator>
         </NavigationContainer>
     )
