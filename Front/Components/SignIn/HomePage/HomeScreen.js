@@ -10,10 +10,10 @@ import Board from '../PostPage/Board';
 import Profile from '../MyProfile/Profile';
 import ViewChat from '../ChatPage/Chatboard';
 
-
+// 전체 홈 화면 바텀 탭 Stack
 const Tab = createBottomTabNavigator();
 
-
+// 전체 홈 화면 바텀 탭 페이지
 function HomeScreen({navigation}) {
     return(
         
@@ -91,7 +91,7 @@ function HomeScreen({navigation}) {
 
     )
 }
-
+// 바텀 탭 아이콘 스타일
 const IconStyles = StyleSheet.create({
     Home : {
         source : require('../../../icons/Home.png')

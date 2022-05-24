@@ -5,9 +5,9 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import MentorProfileDetail from './MentorProfileDetail';
 import MentorProfile from './MentorProfile';
-
+// 전체 Mentor Page stack
 const stack = createStackNavigator();
-
+// 전체 Mentor Page
 function Mentor() {
     return (
         <NavigationContainer independent={true}>
