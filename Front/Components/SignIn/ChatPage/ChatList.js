@@ -11,12 +11,12 @@ import axios2 from 'axios';
 // 채팅 리스트 페이지
 function ChatList({ navigation }) {
     const [ChatList, setChatList] = React.useState([]);
-    const [lastChat, setLastChat] = React.useState([]);
+
     // 채팅 리스트를 render하는 함수
     const Item = ({ item }) => (
         <TouchableOpacity onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id }) }}>
             <View style={style.cards}>
-                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
+                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
                 <Text>{ }</Text>
                 <Text>{ }</Text>
             </View>
@@ -27,7 +27,7 @@ function ChatList({ navigation }) {
             <Item
                 item={item}
             />
-        )
+        )        
     };
     async function loadlastChat(room_id) {
         var text = ''
@@ -51,6 +51,7 @@ function ChatList({ navigation }) {
             console.log(data)
         })
     }, [])
+
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <View >
