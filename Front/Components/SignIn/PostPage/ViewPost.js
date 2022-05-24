@@ -233,13 +233,12 @@ function ViewPost({navigation}) {
     
     
     const renderTweets = ({item}) => {
-        console.log(item)
         return (
             <Card style = {{borderWidth : .5}}>
                 <View style = {{flexDirection : 'row', marginTop : 10,}}>
-                    <TouchableRipple>
-                        <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.id}} style = {styles.ReplyImage}/>
-                    </TouchableRipple>
+                        <TouchableOpacity onPress={()=>{navigation.navigate('MentorProfileDetailFromReply',{item_id : item.user_id})}}>
+                            <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user_id}} style = {styles.ReplyImage}/>
+                        </TouchableOpacity>
                     <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
                 </View>
                 <View>
