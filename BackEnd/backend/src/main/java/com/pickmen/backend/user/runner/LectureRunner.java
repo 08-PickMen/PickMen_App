@@ -25,8 +25,9 @@ public class LectureRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        if(lectureRepository.count()==0){
-        FileInputStream fis = new FileInputStream(new File("input.xlsx"));
+        String path="input.xlsx";
+        if(lectureRepository.count()==0 && new File(path).exists() ){
+        FileInputStream fis = new FileInputStream(new File(path));
         //excel 파일 위치 설정 필요함.
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
 
