@@ -7,6 +7,7 @@ import chatdata from '../../localData/ChatData';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
 import join from '../../../icons/enter.png'
+
 // 채팅 리스트 페이지
 function ChatList({ navigation }) {
     const [ChatList, setChatList] = React.useState([]);
@@ -31,12 +32,12 @@ function ChatList({ navigation }) {
             </View>
         </TouchableOpacity>
     );
-    const renderItem = ({ item }) => { 
+    const renderItem = ({ item }) => {
         return (
             <Item
                 item={item}
             />
-        )
+        )        
     };
    
     // 채팅 리스트를 불러오는 함수
@@ -50,6 +51,7 @@ function ChatList({ navigation }) {
             console.log(data)
         })
     }, [])
+
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
             <View >

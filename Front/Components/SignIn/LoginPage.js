@@ -11,9 +11,8 @@ import myprofile from '../localData/MyProfile';
 // 멘토 리스트 정보를 담을 함수
 async function Test() {
     try {
-        await axios.get('http://10.0.2.2:8090/mentors').then(async function (response) {
+        await axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
             var data = response.data;
-            console.log(data.length)
             for (var i = 0; i < data.length; i++) {
                 await AsyncStorage.setItem('data' + i, JSON.stringify(data[i]));
             }
@@ -24,7 +23,7 @@ async function Test() {
 }
 // 멘토 리스트 정보를 불러오는 함수
 async function loadData() {
-    await axios.get('http://10.0.2.2:8090/mentors').then(async function (response) {
+    await axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
         var data = response.data;
         var maxcount = data.length;
         profiledata.length = 0;
@@ -39,7 +38,6 @@ async function loadData() {
 // 자신의 프로필 정보를 불러오는 함수
 async function loadprofile() {
     await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function (response) {
-        console.log(response.data.id)
         myprofile.length = 0;
         myprofile.push({
             id: response.data.data.id,
@@ -59,7 +57,6 @@ function LoginPage({ navigation }) {
         if (user_id)
             await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
         var data = await AsyncStorage.getItem('user_id');
-        console.log(data)
     }
     // 로그인 정보를 서버에 보내고 성공시 홈 화면으로 이동하는 함수
     async function LoginAccess(email, password) {
@@ -70,7 +67,6 @@ function LoginPage({ navigation }) {
             }
         }).then(response => {
             if (response.data.status == 200) {
-                console.log(response.data.status)
                 saveUserId(response.data.data.id);
                 loadprofile();
                 navigation.navigate('HomeScreen');
@@ -120,7 +116,6 @@ function LoginPage({ navigation }) {
                     LoginAccess(email, password);
                     Test();
                     loadData();
-                    loadprofile();
                     loadBoard();
                     navigation.navigate('HomeScreen');
                     data.length = 0;
