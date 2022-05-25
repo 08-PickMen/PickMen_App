@@ -36,7 +36,7 @@ public class ChatRoomController {
 	// 모든 채팅방 목록 반환 - 테스트용
 	// /chat/rooms/{user_id}
 	@GetMapping("/rooms/{user_id}")
-	public @ResponseBody ResponseEntity<List<UserChatRoomDto>> room(@PathVariable long user_id) {
+	public @ResponseBody ResponseEntity<List<UserChatRoomDto>> roomsTest(@PathVariable long user_id) {
 		return new ResponseEntity<List<UserChatRoomDto>>(chatService.findAllRoom(user_id), HttpStatus.OK);
 
 		// status를 확인할 수 있는 ResponseDto
@@ -47,12 +47,12 @@ public class ChatRoomController {
 	// 로그인 되어 있는 유저의 모든 채팅방 목록 반환
 	// /chat/rooms
 	@GetMapping("/rooms")
-	public List<UserChatRoom> rooms(@AuthenticationPrincipal PrincipalDetail principalDetail) {
-		return chatService.findAllRooms(principalDetail.getUser());
+	public @ResponseBody ResponseEntity<List<UserChatRoomDto>> rooms(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		return new ResponseEntity<List<UserChatRoomDto>>(chatService.findAllRoom(principalDetail.getUser().getId()), HttpStatus.OK);
 	}
 
-	// 채팅을 원하는 유저와 채팅방 생성 // /chat/room/createRoom/{user_id}
-
+	// 채팅을 원하는 유저와 채팅방 생성 
+	// /chat/room/createRoom/{user_id}
 	@PostMapping("/room/createRoom/{user_id}")
 	@ResponseBody
 	ResponseEntity<UserChatRoomDto> createRoom(@PathVariable long user_id,

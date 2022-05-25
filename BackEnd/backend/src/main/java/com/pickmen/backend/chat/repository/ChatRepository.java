@@ -13,4 +13,6 @@ import com.pickmen.backend.chat.model.ChatDto;
 public interface ChatRepository extends JpaRepository<Chat, Long>{
 
 	List<Chat> findAllByChatRoomId(long chatRoom_id);
+	
+	Chat findByChatRoomId(long chatRoom_id);
 }

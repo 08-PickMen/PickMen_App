@@ -10,9 +10,9 @@ import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 import writeicon from '../../../icons/writing.png';
 import deleteicon from '../../../icons/delete.png';
-import {Card} from 'react-native-paper';
+import {Card, TouchableRipple} from 'react-native-paper';
 
-
+// 전체 게시글 리스트를 불러오는 함수
 async function loadPost() {
     await axios.get('http://10.0.2.2:8090/post/getPost').then(response => {
         var count = parseInt(response.data.totalElements);
@@ -45,8 +45,7 @@ async function loadPost() {
         console.log(error)
     })
 }
-
-
+// 게시글 삭제 기능
 async function DeletePost(navigation, id) {
     await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
         id : parseInt(id),
@@ -76,7 +75,7 @@ async function DeletePost(navigation, id) {
         ]
     )
 }
-
+// 게시글 수정 페이지로 이동
 async function EditPost(navigation) {
     Alert.alert(
         '게시글을 수정하겠습니다.',
@@ -93,6 +92,7 @@ async function EditPost(navigation) {
         ]
     )
 }
+// id, title, content, count, nickname 정보를 저장
 async function restBoard(id, nickname, title, content) {
     if(id && title && content && nickname) {
         await AsyncStorage.setItem('Post_id', String(id));
@@ -102,15 +102,16 @@ async function restBoard(id, nickname, title, content) {
     }
 }
 
+// 게시글 id를 저장하고 게시글 삭제 페이지로 이동
 async function DeleteToPost(navigation) {
     var data = await AsyncStorage.getItem('Post_id');
     DeletePost(navigation, data);
 }
 
-
-
+// 현재 접속한 user id와 게시글의 user id가 같은지 확인하고 같으면 수정, 삭제 가능
 function ShowTab({navigation}) {
     const [checkstatus, setCheckstatus] = useState(false);
+    // 현재 접속한 user id와 게시글의 user id가 같은지 확인
     async function loadBoard() {
         var data1 = await AsyncStorage.getItem('user_id');
         var data2 = await AsyncStorage.getItem('Compareid');
@@ -150,7 +151,7 @@ function ShowTab({navigation}) {
     }
 }
 
-
+// 게시글 제목, 내용, 작성자, 조회수, 작성일자를 보여줌
 function ViewPost({navigation}) {
     async function saveCurrentId(user_id) {
         await AsyncStorage.setItem('Compareid', String(user_id));
@@ -165,17 +166,17 @@ function ViewPost({navigation}) {
     var [count, setCount] = useState(0);
     var [user, setUser] = useState('');
     const [ListTweets, setListTweets] = useState([]);
-
+    // 댓글 목록을 불러옴
     function loadReply(id) {
             axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(id)
                 ).then(response => {
-                    console.log(response.data.data)
+                    console.log(response.data)
                     setListTweets(response.data.data);
                 }).catch(error => {
                 console.log(error)
             })
     }
-
+    // 댓글 작성 기능
     function subscribeReply(post_id,content,navigation) {
         axios.post('http://10.0.2.2:8090/Reply/Post/'+post_id,null,{ params: {
             content : content,
@@ -195,7 +196,7 @@ function ViewPost({navigation}) {
             ]
         )
     }
-
+    // 댓글 삭제 기능
     async function deleteReply(user_id, Reply_id, post_id) {
         var data = await AsyncStorage.getItem('user_id');
         if(user_id==data) {
@@ -232,12 +233,14 @@ function ViewPost({navigation}) {
         }
     }
     
-    
+    // 댓글 내용을 render 하는 Code
     const renderTweets = ({item}) => {
         return (
             <Card style = {{borderWidth : .5}}>
                 <View style = {{flexDirection : 'row', marginTop : 10,}}>
-                    <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user.id}} style = {styles.ReplyImage}/>
+                        <TouchableOpacity onPress={()=>{navigation.navigate('MentorProfileDetailFromReply',{item_id : item.user_id})}}>
+                            <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user_id}} style = {styles.ReplyImage}/>
+                        </TouchableOpacity>
                     <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
                 </View>
                 <View>
@@ -254,7 +257,7 @@ function ViewPost({navigation}) {
             </Card>
         )
     }
-
+    // 게시글 제목, 내용, 작성자, 조회수, 작성일자를 List에 저장
     useEffect(() => {
         var isMount = true;
         try{
@@ -280,9 +283,11 @@ function ViewPost({navigation}) {
             isMount = false;
         }
     },[]);
+    // 현재 Post에서 user id와 Post 내용을 저장하는 Code
     saveCurrentId(user);
     restBoard(id, title, content, nickName);
  return(
+        // Post 전체 UI
         <View style ={{backgroundColor : '#fff', flex :1,}}>
             <View style= {{flexDirection:'row'}}>
                 <Text style = {styles.Text}>게시글</Text>
@@ -319,7 +324,7 @@ function ViewPost({navigation}) {
                        <Text style = {{color : '#fff',fontFamily : 'Jalnan', marginLeft : 'auto', marginRight : 'auto',marginTop : 'auto', marginBottom : 'auto'}}>작성</Text>
                    </TouchableOpacity>
                </View>
-                   <FlatList
+                   <FlatList // 댓글 리스트
                     data = {ListTweets}
                     renderItem = {renderTweets}
                     onEndReachedThreshold={0.6}

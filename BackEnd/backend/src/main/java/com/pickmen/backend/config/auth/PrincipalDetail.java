@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.model.UserLecture;
 
@@ -51,17 +52,13 @@ public class PrincipalDetail implements UserDetails {
      return user.getId();
    }
 
-   public String getTeachSector(){
-     return user.getTeachSector();
-   }
-
 
    public String getNickName(){
      return user.getNickname();
    }
 
-   public void setLecture(List<UserLecture> lecturelist){
-     user.setUserLectures(lecturelist);
+   public Major getMajor(){
+     return user.getMajor();
    }
 
    public List<UserLecture> getLecture(){

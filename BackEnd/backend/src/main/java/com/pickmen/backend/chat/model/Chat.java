@@ -42,7 +42,6 @@ public class Chat {
 
 	@CreationTimestamp
 	private LocalDateTime createDate;
-	
 
 	@Enumerated(EnumType.STRING)
 	private MessageType messageType;
@@ -58,4 +57,5 @@ public class Chat {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	
 }

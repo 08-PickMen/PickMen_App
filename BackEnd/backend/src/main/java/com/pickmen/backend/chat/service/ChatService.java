@@ -1,9 +1,11 @@
 package com.pickmen.backend.chat.service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,31 +44,41 @@ public class ChatService {
 	@Transactional(readOnly = true)
 	public List<UserChatRoomDto> findAllRoom(long user_id) {
 		List<UserChatRoom> listUserChatRoom = userChatRoomRepository.findAllByUserId(user_id);
+		UserChatRoom otherUserChatRoom;
+		List<Chat> chatListForLastChat; chatRepository.findAllByChatRoomId(user_id);
 		// 채팅방 최근 생성 순으로 반환
 		Collections.reverse(listUserChatRoom);
 
 		List<UserChatRoomDto> listUserChatRoomDto = new ArrayList<>();
 		int i;
 
+		// user_id 와 같은 채팅방에 있는 other user_id, 그리고 chatRoom_id, other_user_nickname, lastChat, 채팅 시각을 저장하여 반환 할 것임
 		for (i = 0; i < listUserChatRoom.size(); i++) {
-			listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getId(),
-					listUserChatRoom.get(i).getUser().getId(), listUserChatRoom.get(i).getChatRoom().getId()));
+			otherUserChatRoom = userChatRoomRepository.findByChatRoomIdAndUserIdNot(listUserChatRoom.get(i).getChatRoom().getId(), user_id);
+			
+			chatListForLastChat = chatRepository.findAllByChatRoomId(otherUserChatRoom.getChatRoom().getId());
+			Collections.reverse(chatListForLastChat);
+
+			// 채팅방에 채팅 내역이 없으면 마지막 채팅 기록과 시각은 넘기지 않는다
+			if(chatListForLastChat.size() != 0) {
+				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
+						otherUserChatRoom.getUser().getId(), 
+						listUserChatRoom.get(i).getChatRoom().getId(),
+						otherUserChatRoom.getUser().getNickname(), 
+						otherUserChatRoom.getUser().getMajor().getName(),
+						chatListForLastChat.get(0).getContent(),
+						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"))));
+			}
+			else {
+				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
+						otherUserChatRoom.getUser().getId(), 
+						listUserChatRoom.get(i).getChatRoom().getId(),
+						otherUserChatRoom.getUser().getNickname(), 
+						otherUserChatRoom.getUser().getMajor().getName()));
+			}
 		}
-		System.out.printf("chatRoom_id: %d%n", listUserChatRoom.get(0).getChatRoom().getId());
-		System.out.printf("chatRoom_id: %d%n", listUserChatRoom.get(1).getChatRoom().getId());
 
 		return listUserChatRoomDto;
-	}
-
-	// 로그인 되어 있는 유저의 채팅방 불러오기(user_id에 해당하는 모든 채팅방)
-	@Transactional(readOnly = true)
-	public List<UserChatRoom> findAllRooms(User user) {
-		List<UserChatRoom> listUserChatRoom = userChatRoomRepository.findAllByUserId(user.getId());
-
-		// 채팅방 최근 생성 순으로 반환
-		Collections.reverse(listUserChatRoom);
-
-		return listUserChatRoom;
 	}
 
 	// 채팅방 생성
@@ -91,6 +103,7 @@ public class ChatService {
 					&& compareUserChatRoom2.getUser().getId() == user_id)
 					|| (compareUserChatRoom2.getUser().getId() == user.getId()
 							&& compareUserChatRoom1.getUser().getId() == user_id)) {
+				log.info("이미 존재하는 채팅방입니다!");
 				return null;
 			}
 		}
@@ -119,8 +132,8 @@ public class ChatService {
 		chatRoomRepository.save(chatRoom);
 
 		// 로그인 한 유저의 UserChatRoomDto 생성자 (id, user_id, chatroom_id) 만들고 반환
-		UserChatRoomDto userChatRoomDto = new UserChatRoomDto(loginUserChatRoom.getId(),
-				loginUserChatRoom.getUser().getId(), loginUserChatRoom.getChatRoom().getId());
+		UserChatRoomDto userChatRoomDto = new UserChatRoomDto(loginUserChatRoom.getUser().getId(), 
+				loginUserChatRoom.getChatRoom().getId());
 
 		return userChatRoomDto;
 	}
@@ -145,21 +158,21 @@ public class ChatService {
 		chatRepository.save(chat);
 		return chat;
 	}
+
 	@Transactional
 		public Chat saveChatDto(ChatDto chatDto) {
 			Chat chat = new Chat();
-			/*
-			 * c.setChatRoom_id(chat.getChatRoom_id()); c.setContent(chat.getContent());
-			 * c.setMessageType(chat.getMessageType());
-			 * c.setCreateDate(chat.getCreateDate()); c.setUser_id(chat.getUser_id());
-			 */
+			
 		    log.info(""+chatDto.getChat_room_id());
 			log.info(""+chatDto.getUser_id());
+
 			
 		    chat.setContent(chatDto.getContent());
 		    chat.setMessageType(MessageType.TALK);
 		    chat.setChatRoom(chatRoomRepository.findById(chatDto.getChat_room_id()).orElseThrow(() -> new RuntimeException("예외1: ChatRoom Id 검색 안됨")));
 		    chat.setUser(userRepository.findById(chatDto.getUser_id()).orElseThrow(() -> new RuntimeException("예외2: User Id 검색 안됨")));
+
+
 			chatRepository.save(chat);
 			return chat;
 		}

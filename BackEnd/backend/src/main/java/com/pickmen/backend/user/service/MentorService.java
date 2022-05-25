@@ -1,16 +1,18 @@
 package com.pickmen.backend.user.service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.dto.MentorProfileDto;
+import com.pickmen.backend.user.model.Lecture;
 import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.model.UserLecture;
+import com.pickmen.backend.user.repository.LectureRepository;
 import com.pickmen.backend.user.repository.MajorRepository;
 import com.pickmen.backend.user.repository.UserRepository;
 
@@ -35,6 +37,9 @@ public class MentorService {
 	@Autowired
 	private MajorRepository majorRepository;
 	
+	@Autowired
+	private LectureRepository lectureRepository;
+	
 	@Transactional(readOnly = true)
 	public User getMentor(long id) {
 		return userRepository
@@ -45,9 +50,22 @@ public class MentorService {
 	// MentorProfileDto로 변환하여 Mentor profile에 필요한 정보만을 반환
 	// stream() 사용
 	@Transactional(readOnly = true)
-	public List<User> getMentorList() {
-		// return userRepository.MentorFindByTeachSector(teachSector);
-		return userRepository.findAllByRole(RoleType.MENTOR);
+	public List<MentorProfileDto> getMentorList() {
+		List<User> users = userRepository.findAllByRole(RoleType.MENTOR);
+		List<MentorProfileDto> mentorProfileDtos = new ArrayList<>();
+		Lecture lecture1 = new Lecture();
+		Lecture lecture2= new Lecture();
+		int i;
+		
+		for(i = 0; i < users.size(); i++) {			
+			if (users.get(i).getUserLectures().size() != 0) {
+				lecture1 = users.get(i).getUserLectures().get(0).getLecture();
+				lecture2 = users.get(i).getUserLectures().get(1).getLecture();
+			}			
+			mentorProfileDtos.add(MentorProfileDto.fromEntity(users.get(i), lecture1, lecture2));
+		}
+		
+		return mentorProfileDtos;
 	}
 	
 	@Transactional(readOnly = true)
@@ -58,12 +76,12 @@ public class MentorService {
 	
 	// MentorProfileDto로 변환하여 Mentor profile에 필요한 정보만을 반환
 	// stream() 사용
-	@Transactional(readOnly = true)
+	/*@Transactional(readOnly = true)
 	public List<MentorProfileDto> getMentorListByMajor(long major_id) {
 		log.info("getMentorListByMajor is called");
 		return userRepository.findAllByRoleAndMajor(RoleType.MENTOR, majorRepository.getById(major_id))
 				.stream().map(MentorProfileDto::fromEntity).collect(Collectors.toList());
-	}
+	}*/
 	
 	@Transactional
 	public User updateMentor(long id, User user) {
@@ -74,7 +92,7 @@ public class MentorService {
 	    findMentor.setProfileImage(user.getProfileImage());
 	    
 	    // 가르치는 분야 변경
-	    findMentor.setTeachSector(user.getTeachSector());
+	    
 	    // 멘토링 가능 유무 변경 . Boolean type의 Getter의 경우 getXXX이 아닌 isXXX임.
 	    findMentor.setActiveCanTeach(user.isActiveCanTeach());	    
 	    
@@ -86,8 +104,6 @@ public class MentorService {
 		List<UserLecture> lecture=principalDetail.getLecture();
 		Major major=principalDetail.getMajor();
 		List<User> userlist= userRepository.findAllByRoleOrderByAverageRating(RoleType.MENTOR);
-
-
 
 		
 		userlist.sort(new Comparator<User>(){

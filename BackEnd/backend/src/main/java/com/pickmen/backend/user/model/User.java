@@ -107,9 +107,6 @@ public class User {
    private String reportCard;
  
    @Column(nullable= true)
-   private String teachSector;
- 
-   @Column(nullable= true)
    private float averageRating;
  
    @Column(nullable= true)

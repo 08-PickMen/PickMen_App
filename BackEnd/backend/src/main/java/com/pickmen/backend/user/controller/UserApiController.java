@@ -9,6 +9,7 @@ import com.pickmen.backend.dto.LectureDto;
 import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.dto.SchoolDto;
+import com.pickmen.backend.dto.UserDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.ImageService;
@@ -105,7 +106,6 @@ public class UserApiController {
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
      newuser.setAverageRating(3);
-     newuser.setTeachSector(user.getTeachSector());
      newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
@@ -198,6 +198,12 @@ public class UserApiController {
   @GetMapping("/getAllSchoolList")
    public @ResponseBody ResponseEntity<List<SchoolDto>> getAllSchoolList() {
 	  return new ResponseEntity<List<SchoolDto>>(userService.getAllSchoolList(), HttpStatus.OK);
+  }
+  
+  // 한명의 유저의 필요한 정보들을 반환  
+  @GetMapping("/getUserDto/{user_id}")
+   public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
+	  return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
   }
 }
 

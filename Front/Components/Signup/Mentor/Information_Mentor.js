@@ -14,7 +14,6 @@ function Information_Mento({navigation}) {
     var [sendEmail, setSendEmail] = useState('');
     var [sendPassword, setSendPassword] = useState('');
     var [count, setCount] = useState(0);
-    var [teachSector, setTeachSector] = useState('');
     var [userName, setUserName] = useState('');
 
     async function returnEmail() {
@@ -81,12 +80,6 @@ function Information_Mento({navigation}) {
                     <TextInput style = {styles.TextInput} placeholder = "내용을 입력해주세요." onChangeText={(username)=>{setUserName(username)}}/>
                 </View>
                 <View>
-                    <Text style = {styles.Text}>멘토 분야</Text>
-                </View>
-                <View style = {{flexDirection : 'row', marginLeft : 'auto', marginRight : 'auto', marginBottom : 20}}>
-                    <TextInput style = {styles.RRNumberText} placeholder = "내용을 입력해주세요." onChangeText={(teachSector)=>{setTeachSector(teachSector)}}/>
-                </View>
-                <View>
                     <Text style = {styles.Text}>이메일 주소</Text>
                     <TextInput style = {styles.TextInput} placeholder = {String(value)} editable={false} selectTextOnFocus={false}
                     backgroundColor ='gray' placeholderTextColor='white'/>
@@ -127,9 +120,8 @@ function Information_Mento({navigation}) {
                     <TouchableOpacity style={styles.Button}
                     onPress={()=> {
                             if(count==1) {
-                            console.log(count)
                             register(userName, sendEmail, sendPassword);
-                           // navigation.navigate('RegisterComplete')
+                            navigation.navigate('RegisterComplete')
                             }
                     }}>
                         <Text style={styles.ButtonText}>확인</Text>
@@ -146,7 +138,7 @@ const styles = StyleSheet.create({
     paddingTop : 5, 
     marginLeft : 'auto',
     marginRight : 'auto', 
-    marginTop : 60,
+    marginTop : 140,
     borderRadius:5,
     backgroundColor : "#27BAFF"
    },

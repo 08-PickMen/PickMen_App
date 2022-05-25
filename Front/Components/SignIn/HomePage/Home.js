@@ -3,6 +3,7 @@ import { View, Text,Image} from 'react-native';
 import 'react-navigation';
 import logo from '../../../icons/PickMenLogo.png';
 import megaphone from '../../../icons/megaphone.png';
+// 홈 화면
 function Home() {
     return(
         <View>

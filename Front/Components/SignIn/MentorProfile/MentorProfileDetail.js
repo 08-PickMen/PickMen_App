@@ -9,7 +9,7 @@ import EmailIcon from '../../../icons/email.png';
 import Mentor_id from '../../localData/Mentor_id'
 
 
-
+// 상세 멘토 페이지를 불러오는 함수
 const MentorProfileDetail = ({navigation, route}) => {
   const [titleText, setTitleText] = useState("Bird's Nest");
   const [Profile, setProfile] = useState([]);
@@ -17,7 +17,7 @@ const MentorProfileDetail = ({navigation, route}) => {
   const [LectureList, setLectureList] = useState([]);
   const bodyText = "This is not really a bird nest.";
   const mentor_id = route.params.item_id;
-  
+  // 멘토 상세 정보를 불러오는 함수
   useEffect(() => {
       setLoading(false);
       axios.get('http://10.0.2.2:8090/mentor/'+Number(mentor_id)).then(response => {
@@ -30,16 +30,13 @@ const MentorProfileDetail = ({navigation, route}) => {
       })
       setLoading(true);
   },[])
-  const onPressTitle = () => {
-    setTitleText("Bird's Nest [pressed]");
-  };
-
+  // 채팅방 생성 함수
   const createRoom = (mentor_id) => {
       axios.post('http://10.0.2.2:8090/chat/room/createRoom/'+mentor_id).then(response => {
         console.log(response.data)
       })
   }
-
+  // 채팅방 생성 확인 함수
   const createChatRoom = (mentor_id) => {
     Alert.alert(
         '멘토와 채팅방을 생성하시겠습니까?',

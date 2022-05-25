@@ -2,12 +2,14 @@ package com.pickmen.backend.board.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import com.pickmen.backend.board.model.Post;
 import com.pickmen.backend.board.model.Reply;
+import com.pickmen.backend.board.model.ReplyDto;
 import com.pickmen.backend.board.repository.PostRepository;
 import com.pickmen.backend.board.repository.ReplyRepository;
 import com.pickmen.backend.config.auth.PrincipalDetail;
@@ -56,21 +58,24 @@ public class ReplyController {
 
     @Transactional
     @GetMapping("Reply/Get/{postId}")
-    public ResponseDto<List<Reply>> getReply(@PathVariable long postId){
+    public ResponseDto<List<ReplyDto>> getReply(@PathVariable long postId){
         try {
             List<Reply> replylist=postRepository.getById(postId).getReply();
-
+            List<ReplyDto> replyDtoList = new ArrayList<>();
 
             for(Reply reply:replylist){
                 LocalDateTime localDateTime=reply.getCreateDate();
                 if(reply.getCreateDateTime()!=""){
                 reply.setCreateDateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm")));
                 }
+                replyDtoList.add(ReplyDto.fromEntity(reply));
             }
-        return new ResponseDto<List<Reply>>(HttpStatus.OK.value(),replylist);
+            
+            
+            return new ResponseDto<List<ReplyDto>>(HttpStatus.OK.value(), replyDtoList);
              } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseDto<List<Reply>>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
+            return new ResponseDto<List<ReplyDto>>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
         }
     } 
 
