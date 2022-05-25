@@ -36,8 +36,6 @@ public class MentorDto {
 	// "멘토" 에만 추가되는 부분들
 	private String reportCard;
 
-	private String teachSector;
-
 	private float averageRating;
 	
 	private boolean activeCanTeach;
@@ -52,7 +50,6 @@ public class MentorDto {
 		this.school = user.getSchool();
 		this.profileImage = user.getProfileImage();
 		this.reportCard = user.getReportCard();
-		this.teachSector = user.getTeachSector();
 		this.averageRating = user.getAverageRating();
 		this.activeCanTeach = true; // default
 	}

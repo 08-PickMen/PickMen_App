@@ -49,11 +49,6 @@ public class PrincipalDetail implements UserDetails {
      return user.getId();
    }
 
-   public String getTeachSector(){
-     return user.getTeachSector();
-   }
-
-
    public String getNickName(){
      return user.getNickname();
    }

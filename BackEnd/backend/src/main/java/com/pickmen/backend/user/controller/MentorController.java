@@ -54,7 +54,7 @@ public class MentorController {
 	
 	// Mentor 프로필 리스트 출력	
 	// /mentors
-	@GetMapping("/mentors")
+	/*@GetMapping("/mentors")
 	public @ResponseBody ResponseEntity<List<User>> mentorList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
 		List<User> mainuserlist=userRepository.MentorFindByTeachSector(principalDetail.getTeachSector());
 		List<User> userlist=userRepository.MentorFindByNotTeachSector(principalDetail.getTeachSector());
@@ -64,10 +64,10 @@ public class MentorController {
 		
 		return new ResponseEntity<List<User>>(sumlist,HttpStatus.OK);
 
-	}
+	}*/
 	@GetMapping("/mentorList")
-	public @ResponseBody ResponseEntity<List<User>> mentorList() {
-		return new ResponseEntity<List<User>>(mentorService.getMentorList(), HttpStatus.OK);
+	public @ResponseBody ResponseEntity<List<MentorProfileDto>> mentorList() {
+		return new ResponseEntity<List<MentorProfileDto>>(mentorService.getMentorList(), HttpStatus.OK);
 	}
 	
 	// Mentor 프로필 업데이트
