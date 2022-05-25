@@ -14,6 +14,7 @@ function Profile() {
         axios.get('http://10.0.2.2:8090/getLectureList').then(function (response) {
             setLecturelist(response.data[0]);
             setLecturelist2(response.data[1]);
+            console.log(myprofile)
         })
     }, [])
     return (

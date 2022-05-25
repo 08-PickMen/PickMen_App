@@ -23,7 +23,9 @@ function MentorProfile({ navigation }) {
     const [isLecture, setIsLecture] = React.useState(false);
     const [isRating, setIsRating] = React.useState(false);
     const [MajorText, setMajorText] = React.useState('');
+    const [MajorText2, setMajorText2] = React.useState('');
     const [LectureText, setLectureText] = React.useState('');
+    const [LectureText2, setLectureText2] = React.useState('');
 
 
     const [ModalVisible, setModalVisible] = React.useState(false);
@@ -55,15 +57,30 @@ function MentorProfile({ navigation }) {
         )
     };
     // 멘토 프로필을 조건에 맞게 설정하는 함수
-    function updateList(MajorText,profileList, isMajor, isLecture) {
+    function updateList(MajorText, LectureText, isMajor, isLecture) {
         if(isMajor) {
             if (MajorText) {
-                const newData = profileList.filter(function (item) {
-                    const itemData = (item.nickname ? item.nickname.toUpperCase() : ''.toUpperCase());
-                    const textData = MajorText.toUpperCase();
+                const newData = MentorList2.filter(function (item) {
+                    const itemData = item.majorDto.name ? item.majorDto.name.toUpperCase() : ''.toUpperCase();
+                    const textData = MajorText2.toUpperCase();
                     return itemData.indexOf(textData) > -1
                 });
                 setMentorList(newData);
+            } else {
+                setMentorList(MentorList2);
+            }
+        }
+        console.log('isLecture : ',isLecture)
+        if(isLecture) {
+            if (LectureText) {
+                const newData = MentorList2.filter(function (item) {
+                    const itemData = (item.lectureDto1.name ? item.lectureDto1.name.toUpperCase() : ''.toUpperCase())
+                    const textData = LectureText.toUpperCase();
+                    const itemData2 = (item.lectureDto2.name ? item.lectureDto2.name.toUpperCase() : ''.toUpperCase())
+                    return itemData.indexOf(textData) > -1 || itemData2.indexOf(textData) > -1
+                });
+                setMentorList(newData);
+                setLectureText(LectureText2);
             } else {
                 setMentorList(MentorList2);
             }
@@ -74,7 +91,6 @@ function MentorProfile({ navigation }) {
         axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
             var data = response.data;
             setMentorList(data);
-            console.log(data[data.length-1])
             setMentorList2(data);
         });
         axios.get('http://10.0.2.2:8090/getAllMajorList').then(function (response) {
@@ -163,6 +179,7 @@ function MentorProfile({ navigation }) {
                                 }
                                 if(getIndex(itemValue)>=0) {
                                     setMajorText(MajorList[getIndex(itemValue)].label);
+                                    setMajorText2(MajorList[getIndex(itemValue)].label);
                                 }
                             }}
                             setValue={setValue}
@@ -200,13 +217,14 @@ function MentorProfile({ navigation }) {
                                 }
                                 if(getIndex(itemValue)>=0) {
                                     setLectureText(LectureList[getIndex(itemValue)].label);
+                                    setLectureText2(LectureList[getIndex(itemValue)].label);
                                 }
                             }}
                             setValue={setValue2}
                             setOpen={setOpen2}
                         />
                     </View>
-                    <TouchableOpacity style = {styles.CorrectButton} onPress={()=>{updateList('Jello', MentorList, isMajor, isLecture)}}>
+                    <TouchableOpacity style = {styles.CorrectButton} onPress={()=>{updateList(MajorText, LectureText, isMajor, isLecture)}}>
                         <Text style = {styles.CorrectButtonText}>적용</Text>
                     </TouchableOpacity>
                 </View>

@@ -66,7 +66,7 @@ public class ImageService{
     }
 
     public ResponseEntity<Resource> display(String filename) {
-        String path = "";
+        String path = "C:\\upload\\";
         String folder = "";
 
         //파일 형식 붙여야 함.
