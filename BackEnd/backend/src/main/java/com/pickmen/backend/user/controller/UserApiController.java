@@ -106,7 +106,6 @@ public class UserApiController {
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
      newuser.setAverageRating(3);
-     newuser.setTeachSector(user.getTeachSector());
      newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
