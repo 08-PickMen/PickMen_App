@@ -26,10 +26,10 @@ public class LectureRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         if(lectureRepository.count()==0){
-        FileInputStream fis = new FileInputStream(new File("input.xlsx"));
+        FileInputStream fis = new FileInputStream(new File("C:\\input.xlsx"));
         //excel 파일 위치 설정 필요함.
         XSSFWorkbook workbook = new XSSFWorkbook(fis);
-
+        System.out.print("Count : " + lectureRepository.count());
         Sheet sheet=workbook.getSheetAt(0);
         Iterator<Row> rowIterator=sheet.iterator();
 

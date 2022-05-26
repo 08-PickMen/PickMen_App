@@ -37,21 +37,6 @@ public class ChatController {
 		sendingOperations.convertAndSend("/sub/chat/room/"+ chat.getChatRoom().getId(), chat);
 	}
 	// 클라이언트에서 "/pub/chat/message" 로 메시지를 보내는 요청 (setApplicationDestinationPrefixes("/pub") 이므로)
-	/*@MessageMapping("/chat/message")
-	public void message(Chat chat) {
-		chat.setMessageType(MessageType.TALK);
-		//chat.setUser(null);
-		log.info("message_type: " + chat.getMessageType());
-		log.info("chat_room_id: " + chat.getChatRoom().getId());
-		log.info("content: " + chat.getContent());
-		//log.info("id: " + chat.getUser().getId());
-		
-		// DB에 저장
-		chatService.saveChat(chat);
-		
-		// "sub/chat/room/{room_id}" 를 구독하고 있는 클라이언트에게 메시지를 전달
-		sendingOperations.convertAndSend("/sub/chat/room/"+ chat.getChatRoom().getId(), chat);
-	}*/
 	@MessageMapping("/chat/message")
 	public void message(ChatDto chatDto) {
 		//chat.setMessageType(MessageType.TALK);
@@ -59,7 +44,6 @@ public class ChatController {
 		log.info("chat_room_id: " + chat.getChatRoom().getId());
 		log.info("content: " + chat.getContent());*/
 		//log.info("id: " + chat.getUser().getId());
-		log.info("왜안돼왜안돼왜안돼왜안돼왜안돼");
 		log.info("chatRoom Id: " + chatDto.getChat_room_id());
 		//ChatDto.fromEntity()
 		// DB에 저장

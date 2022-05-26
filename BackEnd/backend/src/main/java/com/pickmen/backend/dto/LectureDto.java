@@ -31,5 +31,5 @@ public class LectureDto {
 				.id(lecture.getId())
 				.name(lecture.getName())
 				.build();
-	}	
+	}
 }

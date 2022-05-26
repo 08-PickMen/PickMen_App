@@ -46,7 +46,7 @@ function Certify({navigation}) {
                         onChangeText={CorrectNum=> setCorrectNum(CorrectNum)}/>
                 <TouchableOpacity style={styles.CorrectButton}
                 onPress={()=>{if((CorrectNum == data && CorrectNum != '')) {
-                    navigation.navigate('GradeAccess_Menti');
+                    navigation.navigate('GradeAccess_Mentee');
                 }else{
                     setMailText2('인증번호가 틀렸습니다.')
                 }}}>
