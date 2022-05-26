@@ -1,8 +1,9 @@
-import React from 'react';
+import React ,{useEffect}from 'react';
 import { Platform, StyleSheet } from 'react-native';
-import {Image} from 'react-native';
+import {Image, BackHandler} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { CommonActions } from '@react-navigation/native';
 import 'react-navigation';
 import Home from './Home';
 import Mentor from '../MentorProfile/Mentor';
@@ -15,6 +16,7 @@ const Tab = createBottomTabNavigator();
 
 // 전체 홈 화면 바텀 탭 페이지
 function HomeScreen({navigation}) {
+
     return(
         
             <NavigationContainer independent={true} >

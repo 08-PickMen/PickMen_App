@@ -17,6 +17,9 @@ const MentorProfileDetail = ({navigation, route}) => {
   const [LectureList, setLectureList] = useState([]);
   const bodyText = "This is not really a bird nest.";
   const mentor_id = route.params.item_id;
+  const mentor_major = route.params.item_majorDto;
+  const mentor_lecture1 = route.params.item_lectureDto1;
+  const mentor_lecture2 = route.params.item_lectureDto2;
   // 멘토 상세 정보를 불러오는 함수
   useEffect(() => {
       setLoading(false);
@@ -55,7 +58,7 @@ const MentorProfileDetail = ({navigation, route}) => {
             }
         ]
     )
-    }
+  }
   if(Loading==true)
     return (
       <SafeAreaView style = {{flex : 1, backgroundColor : '#fff'}}>
@@ -69,8 +72,14 @@ const MentorProfileDetail = ({navigation, route}) => {
                   <Text style = {styles.ButtonText}>멘토 연결하기</Text>
                 </TouchableOpacity>
               </SafeAreaView>
-              <Image source={MajorIcon} style = {{marginTop : 15,marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
-              <Image source={TeachIcon} style = {{marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
+                <Image source={MajorIcon} style = {{marginTop : 15,marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
+                <Text style = {styles.MajorStyle}>{mentor_major}</Text>
+              </SafeAreaView>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
+                <Image source={TeachIcon} style = {{marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
+                <Text style = {styles.Lectures}>{mentor_lecture1}, {mentor_lecture2}</Text>
+              </SafeAreaView>
               <SafeAreaView style = {{flexDirection : 'row'}}>
                 <Image source={EmailIcon} style = {{marginLeft : 15, width : 18, height : 18}}/>
                 <Text style = {styles.EmailAddress}>{Profile.email}</Text>
@@ -123,6 +132,19 @@ const styles = StyleSheet.create({
     color : 'black',
     marginLeft : 30,
     marginTop : 5,
+  },
+  MajorStyle : {
+    fontFamily : 'NanumSquareRoundB',
+    fontSize : 15,
+    color : 'black',
+    marginLeft : 20,
+    marginTop : 15,
+  },
+  Lectures : {
+    fontFamily : 'NanumSquareRoundB',
+    fontSize : 15,
+    color : 'black',
+    marginLeft : 20,
   },
   EmailAddress : {
     fontFamily : 'NanumSquareRoundB',

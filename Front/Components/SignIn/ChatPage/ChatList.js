@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image} from 'react-native';
 import { List } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -24,10 +24,10 @@ function ChatList({ navigation }) {
                     <Text style = {{marginTop : 10, fontFamily : 'NanumSquareRound', fontSize : 13, color : 'black'}}>{item.lastChat}</Text>
                 </SafeAreaView>
                 <SafeAreaView style = {{flex : 1}}>
-                    <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>소프트웨어학과</Text>
+                    <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>{item.other_id_major}</Text>
                 </SafeAreaView>
                 <View>
-                    <Text style = {{fontSize : 13, marginTop : 10, marginRight : 10}}>05-23 12:49</Text>
+                    <Text style = {{fontSize : 13, marginTop : 10, marginRight : 10}}>{item.formatDateTime}</Text>
                 </View>
             </View>
         </TouchableOpacity>

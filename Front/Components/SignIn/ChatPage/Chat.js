@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { GiftedChat, SystemMessage, Bubble } from 'react-native-gifted-chat';
-import { LogBox, View } from 'react-native';
+import { LogBox, View, BackHandler, Alert} from 'react-native';
 import firestore, { firebase } from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
 import ConnectChat from './ConnectChat';
@@ -10,6 +10,8 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs'
 import * as encoding from 'text-encoding';
 import axios from 'axios';
+import { NavigationActions } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
 
 const TextEncodingPolyfill = require('text-encoding');
 var StompClient = null;
@@ -103,6 +105,17 @@ function Chat({ navigation, route }) {
             });
             StompClient.send("/pub/chat/enter", {}, JSON.stringify(1, Mentor_id));
         });
+        const backAction = () => {
+            navigation.dispatch(CommonActions.reset({
+                index : 0,
+                routes : [{name : 'ChatPage'}]
+            }))
+        }
+        BackHandler.addEventListener('hardwareBackPress', function(){
+            backAction();
+            return true;
+        });
+        return () => BackHandler.removeEventListener('hardwareBackPress', backAction);
     }, [])
     LogBox.ignoreLogs(["EventEmitter.removeListener"]);
     // 채팅 메시지를 전송하는 함수
