@@ -51,11 +51,10 @@ public class ImageService{
     }
 
     public ResponseEntity<Resource> delete(String filename){
-        String path = "";
-        String folder = "";
+        String path = "C:\\upload\\";
 
         //파일 형식 붙여야 함.
-        File resource = new File(path + folder + filename);
+        File resource = new File(path + filename);
 
         if(!resource.exists()) {
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
@@ -70,14 +69,14 @@ public class ImageService{
         String folder = "";
 
         //파일 형식 붙여야 함.
-        Resource resource = new FileSystemResource(path + folder + filename);
+        Resource resource = new FileSystemResource(path + filename);
         if(!resource.exists()) {
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
         HttpHeaders header = new HttpHeaders();
         Path filePath = null;
         try{
-            filePath = Paths.get(path + folder + filename);
+            filePath = Paths.get(path + filename);
             header.add("Content-type", Files.probeContentType(filePath));
         }catch(IOException e) {
             e.printStackTrace();

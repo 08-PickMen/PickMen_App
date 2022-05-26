@@ -7,7 +7,6 @@ import java.util.Optional;
 import com.pickmen.backend.dto.LectureDto;
 import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.SchoolDto;
-import com.pickmen.backend.dto.UserDto;
 import com.pickmen.backend.user.model.Lecture;
 import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.School;
@@ -153,12 +152,7 @@ public class UserService {
 		return userRepository.save(findUser);
 	}
 
-	// 한명의 유저의 필요한 정보들을 반환하는 로직
-	@Transactional
-	public UserDto getUserDto(long user_id) {
-		User user = userRepository.findById(user_id).orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
-		UserDto userDto = UserDto.fromEntity(user);
-		
-		return userDto;
-	}
+
+
+
 }

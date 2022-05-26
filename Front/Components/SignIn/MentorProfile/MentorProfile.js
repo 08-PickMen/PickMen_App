@@ -88,7 +88,7 @@ function MentorProfile({ navigation }) {
     }
     // 멘토 프로필 리스트를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
+        axios.get('http://10.0.2.2:8090/newmentorList').then(async function (response) {
             var data = response.data;
             setMentorList(data);
             setMentorList2(data);
