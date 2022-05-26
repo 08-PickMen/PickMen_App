@@ -150,9 +150,12 @@ public class MentorService {
 			if (userlist.get(i).getUserLectures().size() != 0) {
 				lecture1 = userlist.get(i).getUserLectures().get(0).getLecture();
 				lecture2 = userlist.get(i).getUserLectures().get(1).getLecture();
+				System.out.println(lecture1.getName());
+				System.out.println(lecture2.getName());
 			}			
 			mentorProfileDtos.add(MentorProfileDto.fromEntity(userlist.get(i), lecture1, lecture2));
 		}
+		
 
 
 		return mentorProfileDtos;

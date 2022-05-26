@@ -100,28 +100,30 @@ function LoginPage({ navigation }) {
     }
     return (
         data.length = 0,
-        <View>
-            <View>
-                <Text style={styles.Text}>
-                    PickMen
-                </Text>
+        <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
+            <View style={styles.PageStyle}>
+                <View>
+                    <Text style={styles.Text}>
+                        PickMen
+                    </Text>
+                </View>
+                <View>
+                    <TextInput style={styles.TextInput} placeholder="ID" onChangeText={(UserEmail) => setEmail(UserEmail)} >
+                    </TextInput>
+                    <TextInput secureTextEntry={true} style={styles.TextInput} placeholder="Password" onChangeText={(password) => setPassword(password)} />
+                </View>
+                <TouchableOpacity style={styles.startButton}
+                    onPress={() => {
+                        LoginAccess(email, password);
+                        Test();
+                        loadData();
+                        loadBoard();
+                        navigation.navigate('HomeScreen');
+                        data.length = 0;
+                    }}>
+                    <Text style={styles.ButtonText}>Login</Text>
+                </TouchableOpacity>
             </View>
-            <View>
-                <TextInput style={styles.TextInput} placeholder="ID" onChangeText={(UserEmail) => setEmail(UserEmail)} >
-                </TextInput>
-                <TextInput secureTextEntry={true} style={styles.TextInput} placeholder="Password" onChangeText={(password) => setPassword(password)} />
-            </View>
-            <TouchableOpacity style={styles.startButton}
-                onPress={() => {
-                    LoginAccess(email, password);
-                    Test();
-                    loadData();
-                    loadBoard();
-                    navigation.navigate('HomeScreen');
-                    data.length = 0;
-                }}>
-                <Text style={styles.ButtonText}>Login</Text>
-            </TouchableOpacity>
         </View>
     )
 }
@@ -168,6 +170,18 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginBottom: 5,
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 380,
+        height: 720,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
 });
 

@@ -32,7 +32,7 @@ function MentorProfile({ navigation }) {
     // 간략한 멘토 프로필을 렌더링하는 함수
     const renderCard = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id })}>
+            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id, item_Major_id : item.majorDto.name, item_lecture1_id : item.lectureDto1.name, item_lecture2_id : item.lectureDto2.name})}>
                 <Card style={styles.cards}>
                     <Card.Content style={{ flexDirection: 'row' }}>
                     </Card.Content>
@@ -92,6 +92,7 @@ function MentorProfile({ navigation }) {
             var data = response.data;
             setMentorList(data);
             setMentorList2(data);
+            console.log(data)
         });
         axios.get('http://10.0.2.2:8090/getAllMajorList').then(function (response) {
             var data = response.data;
@@ -117,7 +118,8 @@ function MentorProfile({ navigation }) {
         });
     }, [])
     return (
-        <View style={{ flex: 2, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#27BAFF'}}>
+            <View style = {styles.PageStyle}>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.Title}>
                     멘토 프로필 리스트
@@ -126,7 +128,6 @@ function MentorProfile({ navigation }) {
                     <Image source={filter}></Image>
                 </TouchableOpacity>
             </View>
-            <View style={{ borderBottomColor: 'black', borderBottomWidth: .5, marginBottom: 10, }} />
             <FlatList
                 data={MentorList}
                 renderItem={renderCard}
@@ -229,6 +230,7 @@ function MentorProfile({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </Modal>
+            </View>
         </View>
     )
 }
@@ -340,6 +342,18 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         fontSize: 15,
         fontFamily: 'Jalnan',
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 380,
+        height: 680,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
 })
 

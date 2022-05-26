@@ -62,11 +62,9 @@ function PostList({ navigation }) {
         <View>
           <Text style={styles.title}>{item.title}</Text>
         </View>
-        <View>
+        <View style = {{flexDirection : 'row'}}>
           <Text style={styles.content}>{item.content}</Text>
-        </View>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={{ marginLeft: 15, marginTop: 80, }}>조회 수 {item.count}</Text>
+          <Text style={{ marginLeft: 15, marginTop : 20, marginLeft : 250,}}>조회 수 {item.count}</Text>
         </View>
       </Card>
     </TouchableOpacity>
@@ -124,7 +122,8 @@ function PostList({ navigation }) {
     )
   };
   return (
-    <View style={{ flex: 10, backgroundColor: '#fff', height: 2080 }}>
+    <View style={{ flex: 1, backgroundColor: '#27BAFF'}}>
+      <View style = {styles.PageStyle}>
       <View>
         <View style={{ flexDirection: 'row', marginTop: 10 }}>
           <Text style={styles.MainTitle}>게시글 목록</Text>
@@ -132,13 +131,12 @@ function PostList({ navigation }) {
             placeholder="Search"
             onChangeText={(text) => updateSearch(text)}
             value={search}
-            style={{ marginLeft: 30, width: 200, height: 40 }}
+            style={{ marginLeft: 17, width: 200, height: 40 }}
           />
           <TouchableOpacity onPress={() => { navigation.reset({ index: 1, routes: [{ name: 'Post' }] }); }}>
             <Image source={writeIcon} style={{ width: 40, height: 40, marginLeft: 20, }} />
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 1, borderBottomColor: 'black', borderBottomWidth: .5, marginBottom: 20 }}></View>
         <FlatList
           data={data}
           renderItem={renderItem}
@@ -153,16 +151,20 @@ function PostList({ navigation }) {
           }>
         </FlatList>
       </View>
+      </View>
     </View>
   )
 }
 const styles = StyleSheet.create({
   cards: {
     borderRadius: 10,
-    width: 400,
-    height: 300,
+    width: 370,
+    height: 200,
     borderWidth: 1,
+    marginTop : 10,
     marginBottom: 10,
+    marginLeft : 4,
+    marginRight : 'auto',
   },
   nickname: {
     fontSize: 14,
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
+
   },
   item: {
     width: '97%',
@@ -218,7 +221,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 15,
     fontFamily: 'Jalnan',
-
   },
+  PageStyle: {
+    backgroundColor: 'white',
+    width: 380,
+    height: 680,
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+},
 });
 export default PostList;

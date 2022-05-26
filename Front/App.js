@@ -1,6 +1,8 @@
 
-import React, { Component } from 'react';
+import React, { Component, useEffect} from 'react';
 import 'react-native-gesture-handler';
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import {createStackNavigator} from '@react-navigation/stack'
 import {NavigationContainer} from '@react-navigation/native';
 import Start from './Components/Signup/Start'
@@ -23,7 +25,14 @@ import Major from './Components/Signup/Mentor/Major';
 const stack = createStackNavigator();
 
 class App extends Component{
+  componentDidMount(){
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('알림', JSON.stringify(remoteMessage));
+    })
+    return unsubscribe;
+  }
   render(){
+  
   return (
     <NavigationContainer>
       <stack.Navigator screenOptions={{

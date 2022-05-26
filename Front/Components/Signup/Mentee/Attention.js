@@ -42,7 +42,8 @@ function Attention({navigation}){
     },[])
 
     return(
-        <View>
+        <View style = {{flex : 1, backgroundColor : '#27BAFF'}}>
+            <View style = {styles.PageStyle}>
             <Text style = {styles.MainTitle}>관심 강의 선택</Text>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 강의 1</Text>
@@ -131,6 +132,7 @@ function Attention({navigation}){
                     </Text>
                 </TouchableOpacity>
             </View>
+            </View>
         </View>
     )
 }
@@ -169,7 +171,19 @@ const styles = StyleSheet.create({
         paddingRight : 10,
         fontSize : 15,
         fontFamily : 'Jalnan',
-    }
+    },
+    PageStyle:{
+        backgroundColor : 'white',
+        width : 380, 
+        height : 720,
+        borderColor : 'white', 
+        borderWidth : 1, 
+        borderRadius : 30,
+        marginLeft : 'auto', 
+        marginRight : 'auto', 
+        marginTop : 'auto', 
+        marginBottom : 'auto'
+      },
    });
  
 

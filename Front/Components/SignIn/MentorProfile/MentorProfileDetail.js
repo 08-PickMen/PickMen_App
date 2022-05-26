@@ -17,6 +17,9 @@ const MentorProfileDetail = ({navigation, route}) => {
   const [LectureList, setLectureList] = useState([]);
   const bodyText = "This is not really a bird nest.";
   const mentor_id = route.params.item_id;
+  const major_id = route.params.item_Major_id;
+  const lecture1_id = route.params.item_lecture1_id;
+  const lecture2_id = route.params.item_lecture2_id;
   // 멘토 상세 정보를 불러오는 함수
   useEffect(() => {
       setLoading(false);
@@ -58,7 +61,7 @@ const MentorProfileDetail = ({navigation, route}) => {
     }
   if(Loading==true)
     return (
-      <SafeAreaView style = {{flex : 1, backgroundColor : '#fff'}}>
+      <SafeAreaView style = {{flex : 1, backgroundColor : '#27BAFF'}}>
         <Card style = {styles.CardStyle}>
           <SafeAreaView style = {{marginLeft : 15, marginTop : 20,flexDirection : 'row'}}>
             <Avatar rounded source = {{uri : 'http://10.0.2.2:8090/getProfile?userid='+mentor_id}} size = 'large'/>
@@ -69,10 +72,16 @@ const MentorProfileDetail = ({navigation, route}) => {
                   <Text style = {styles.ButtonText}>멘토 연결하기</Text>
                 </TouchableOpacity>
               </SafeAreaView>
-              <Image source={MajorIcon} style = {{marginTop : 15,marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
-              <Image source={TeachIcon} style = {{marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
               <SafeAreaView style = {{flexDirection : 'row'}}>
-                <Image source={EmailIcon} style = {{marginLeft : 15, width : 18, height : 18}}/>
+                <Image source={MajorIcon} style = {{marginTop : 15,marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
+                <Text style = {{marginTop : 15, marginLeft : 15, fontFamily : 'NanumSquareRoundB', fontSize : 13}}>{major_id}</Text>
+              </SafeAreaView>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
+                <Image source={TeachIcon} style = {{marginLeft : 15, width : 18, height : 18,marginBottom : 15,}}/>
+                <Text style = {{ marginLeft : 15, fontFamily : 'NanumSquareRoundB', fontSize : 13}}>{lecture1_id},{'\n'}{lecture2_id}</Text>
+              </SafeAreaView>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
+                <Image source={EmailIcon} style = {{marginTop : 10, marginLeft : 15, width : 18, height : 18}}/>
                 <Text style = {styles.EmailAddress}>{Profile.email}</Text>
               </SafeAreaView>
             </SafeAreaView>
@@ -107,16 +116,18 @@ const MentorProfileDetail = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
-  CardStyle : {
-    width : 400,
-    height : 680,
-    marginLeft : 'auto',
-    marginRight : 'auto',
-    marginTop : 'auto',
-    marginBottom : 'auto',
-    borderColor : '#a0a0a0',
-    borderWidth : .5,
-  },
+  CardStyle: {
+    backgroundColor: 'white',
+    width: 380,
+    height: 680,
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 30,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+},
   NickName : {
     fontFamily : 'Jalnan',
     fontSize : 15,
@@ -129,6 +140,7 @@ const styles = StyleSheet.create({
     fontSize : 15,
     color : 'black',
     marginLeft : 20,
+    marginTop : 10,
   },
   ChatButton : {
     width : 110,

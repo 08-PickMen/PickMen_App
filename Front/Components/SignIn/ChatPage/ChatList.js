@@ -53,19 +53,20 @@ function ChatList({ navigation }) {
     }, [])
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
+            <View style = {style.PageStyle}>
             <View >
                 <Text style={style.Title}>
                     멘토 채팅 리스트
                 </Text>
             </View>
-            <View style={{ borderBottomColor: 'black', borderBottomWidth: .5 }} />
             <View>
                 <FlatList
                     data={ChatList}
                     renderItem={renderItem}
                     keyExtractor={item => item.chatRoom_id}
                 ></FlatList>
+            </View>
             </View>
         </View>
     )
@@ -91,6 +92,18 @@ const style = StyleSheet.create({
         color: "#27BAFF",
         marginLeft: 10,
         marginTop: 18,
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 380,
+        height: 680,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
 })
 export default ChatList;

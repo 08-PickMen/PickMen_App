@@ -18,7 +18,7 @@ function Profile() {
         })
     }, [])
     return (
-        <View style={{ backgroundColor: '#fff' }}>
+        <View style={{ backgroundColor: '#27BAFF', flex : 1}}>
             <Card style={styles.cards}>
                 <Card.Title>
                     <Title>프로필</Title>
@@ -56,7 +56,7 @@ function Profile() {
                         <Title style={{ fontSize: 18 }}>{lecturelist.name}, {lecturelist2.name} </Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
-                    <TouchableOpacity style={{ marginTop: 30 }}>
+                    <TouchableOpacity style={{ marginTop: 10 }}>
                         <Text style={{ fontSize: 16, color: '#27BAFF' }}>Personal Information Settings</Text>
                     </TouchableOpacity>
                 </Card.Content>
@@ -67,13 +67,16 @@ function Profile() {
 
 const styles = StyleSheet.create({
     cards: {
-        borderRadius: 10,
-        width: 400,
-        height: '99%',
+        backgroundColor: 'white',
+        width: 380,
+        height: 680,
+        borderColor: 'white',
         borderWidth: 1,
+        borderRadius: 30,
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginBottom: 10,
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
     MainTitle: {
         fontSize: 17,
