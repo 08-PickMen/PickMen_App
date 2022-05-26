@@ -7,18 +7,6 @@ spring:
   thymeleaf:
     enabled: false
 
-<<<<<<< HEAD
-  mvc:
-    view:
-      prefix: 
-      suffix: .html
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/PickMen2?serverTimezone=UTC
-    username: root
-    password: '@Altmxpfl12'
-    driver-class-name: com.mysql.cj.jdbc.Driver
-=======
   #mvc:
    # view:
    #   prefix: 
@@ -31,16 +19,11 @@ spring:
     password: '@Altmxpfl12'
     driver-class-name: com.mysql.cj.jdbc.Driver
 
->>>>>>> b79493eb9535fdc5d21a9e9ad924f7bccd9764d8
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       use-new-id-generator-mappings: false
-<<<<<<< HEAD
-    #    show-sql: true
-=======
       show-sql: true
->>>>>>> b79493eb9535fdc5d21a9e9ad924f7bccd9764d8
     properties:
       hibernate:
         format_sql: true
@@ -53,20 +36,13 @@ spring:
 
   servlet:
     multipart:
-<<<<<<< HEAD
-      location: c:\\upload
-=======
       location: C:\\upload\\
->>>>>>> b79493eb9535fdc5d21a9e9ad924f7bccd9764d8
       maxFileSize: 200MB
       maxRequestSize: 100MB
   
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> b79493eb9535fdc5d21a9e9ad924f7bccd9764d8
   mail:
     host: smtp.gmail.com
     port: 587
