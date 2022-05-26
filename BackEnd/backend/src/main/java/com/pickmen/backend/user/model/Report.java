@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pickmen.backend.ReportType;
 import com.pickmen.backend.board.model.Post;
 
@@ -44,17 +45,20 @@ public class Report {
     private LocalDateTime createDate; // 생성일
 
     private String description;
-
+/*
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "reportUserId")
     private User reportUser_id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "targetUserId")
     private User targetUser_id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "targetPostId")
-    private Post targetPost_id;
+    private Post targetPost_id;*/
 
 }

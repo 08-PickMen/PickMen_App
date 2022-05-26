@@ -25,6 +25,8 @@ import com.pickmen.backend.chat.model.UserChatRoomDto;
 import com.pickmen.backend.chat.service.ChatService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.dto.ResponseDto;
+import com.pickmen.backend.dto.ReviewDto;
+import com.pickmen.backend.user.model.Review;
 import com.pickmen.backend.user.model.User;
 
 @RestController
@@ -83,5 +85,10 @@ public class ChatRoomController {
 		return chatService.findById(room_id);
 	}
 
-	// Slack Test 5/16 third test
+	// 채팅방 종료(멘토링 종료) 시 멘토 평가(review)를 받아서 저장
+	@PostMapping("/room/makeReview")
+	@ResponseBody
+	public ResponseEntity<ReviewDto> makeReview(@RequestBody Review review) {
+		return new ResponseEntity<ReviewDto>(chatService.makeReivew(review), HttpStatus.OK);
+	}
 }
