@@ -25,16 +25,16 @@ public class ChatDto {
 	
 	private MessageType messageType;
 
-	private long chatRoom_id;
+	private long chat_room_id;
 	
 	private long user_id;
 	
-	public ChatDto(long id, String content, LocalDateTime createDate, MessageType messageType, long chatRoom_id, long user_id) {
+	public ChatDto(long id, String content, LocalDateTime createDate, MessageType messageType, long chat_room_id, long user_id) {
 		this.id = id;
 		this.content = content;
 		this.createDate = createDate;
 		this.messageType = messageType;
-		this.chatRoom_id = chatRoom_id;
+		this.chat_room_id = chat_room_id;
 		this.user_id = user_id;
 	}
 }

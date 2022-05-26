@@ -1,13 +1,22 @@
 package com.pickmen.backend.user.controller;
 
+import java.util.List;
+
 import com.pickmen.backend.RoleType;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.config.auth.PrincipalDetailsService;
+import com.pickmen.backend.dto.LectureDto;
+import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.ResponseDto;
+import com.pickmen.backend.dto.SchoolDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.ImageService;
 import com.pickmen.backend.user.service.UserService;
+
+import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -20,9 +29,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,7 +96,8 @@ public class UserApiController {
   
 
   @PostMapping("/signup/mentor")
-  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user)
+  public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user,
+		  @RequestParam List<Long> lectureList)
    {
 
      User newuser=new User();
@@ -100,10 +109,17 @@ public class UserApiController {
      newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));     
      newuser.setEmail(user.getEmail());
+     newuser.setSchool(user.getSchool());
+     newuser.setMajor(user.getMajor());
      newuser.setRole(RoleType.MENTOR);
      
+     // 멘토의 자기소개, 거주지, 멘토링 분야 설명 추가
+     newuser.setIntroduceMyself(user.getIntroduceMyself());
+     newuser.setLivingWhere(user.getLivingWhere());
+     newuser.setMentoringContents(user.getMentoringContents());
+     
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser, lectureList));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -118,10 +134,10 @@ public class UserApiController {
   }
 
   @PostMapping("/signup/mentee")
-  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user)
+  public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user,
+		  @RequestParam List<Long> lectureList)
    {
      User newuser=new User();
-     System.out.println(user.getUsername());
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
@@ -129,9 +145,13 @@ public class UserApiController {
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
      newuser.setRole(RoleType.MENTEE);
-     
+     // 학교, 전공 저장(학교, 전공은 Object)
+     newuser.setSchool(user.getSchool());
+     newuser.setMajor(user.getMajor());
+
+     // 관심 강의 리스트는 userService.join에서 추가
     try {
-      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser));
+      return new ResponseDto<>(HttpStatus.OK.value(), userService.join(newuser, lectureList));
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -139,7 +159,7 @@ public class UserApiController {
   }
 
   @PostMapping("user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam("profile") MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<Integer> user(@RequestParam(value = "file", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       user.setId(principalDetail.getUserId());
       user.setProfileImage(imageService.upload(uploadfile));
@@ -151,7 +171,34 @@ public class UserApiController {
     }
   }
   
+  // 유저의 관심 강의 리스트를 프론트로 반환하는 URL
+  @GetMapping("/getLectureList")
+	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(principalDetail.getUserId()), HttpStatus.OK);
+	}
   
+  @GetMapping("/getLectureListTest/{user_id}")
+	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@PathVariable long user_id) {
+		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(user_id), HttpStatus.OK);
+	}
+  
+  // 전체 관심 강의(전문 강의) 프론트로 반환
+  @GetMapping("/getAllLectureList")
+  public @ResponseBody ResponseEntity<List<LectureDto>> getAllLectureList() {
+	  return new ResponseEntity<List<LectureDto>>(userService.getAllLectureList(), HttpStatus.OK);
+  }
+  
+  // 전체 전공 리스트 프론트로 반환
+  @GetMapping("/getAllMajorList")
+   public @ResponseBody ResponseEntity<List<MajorDto>> getAllMajorList() {
+	  return new ResponseEntity<List<MajorDto>>(userService.getAllMajorList(), HttpStatus.OK);
+  }
+  
+  // 전체 학교 리스트 프론트로 반환
+  @GetMapping("/getAllSchoolList")
+   public @ResponseBody ResponseEntity<List<SchoolDto>> getAllSchoolList() {
+	  return new ResponseEntity<List<SchoolDto>>(userService.getAllSchoolList(), HttpStatus.OK);
+  }
 }
 
 

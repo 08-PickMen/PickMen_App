@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.pickmen.backend.SchoolType;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -40,13 +39,11 @@ public class Advertisement {
 
     private Date duration;
     
-    @Enumerated(EnumType.STRING)
-    private SchoolType school;
+    //private School school;
 
-    @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
+    /*@ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "userId")
-    private User user_id;
-    
+    private User user_id;  */  
     
     
 }

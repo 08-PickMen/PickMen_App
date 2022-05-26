@@ -34,6 +34,7 @@ public class ImageService{
             {
                 FileDto dto=new FileDto(UUID.randomUUID().toString(),file.getOriginalFilename(),file.getContentType());
                 list.add(dto);
+                System.out.println(list);
                 File newFileName=new File(dto.getUuid()+"_"+dto.getFileName());
                 
                 file.transferTo(newFileName);
@@ -50,7 +51,7 @@ public class ImageService{
     }
 
     public ResponseEntity<Resource> delete(String filename){
-        String path = "C:\\upload\\";
+        String path = "";
         String folder = "";
 
         //파일 형식 붙여야 함.
@@ -65,7 +66,7 @@ public class ImageService{
     }
 
     public ResponseEntity<Resource> display(String filename) {
-        String path = "C:\\upload\\";
+        String path = "";
         String folder = "";
 
         //파일 형식 붙여야 함.
