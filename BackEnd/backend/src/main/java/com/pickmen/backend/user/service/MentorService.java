@@ -100,7 +100,7 @@ public class MentorService {
 	}
 
 
-	public List<User> recommendMentor(@AuthenticationPrincipal PrincipalDetail principalDetail){
+	public List<MentorProfileDto> recommendMentor(@AuthenticationPrincipal PrincipalDetail principalDetail){
 		List<UserLecture> lecture=principalDetail.getLecture();
 		Major major=principalDetail.getMajor();
 		List<User> userlist= userRepository.findAllByRoleOrderByAverageRating(RoleType.MENTOR);
@@ -141,8 +141,21 @@ public class MentorService {
 			
 		});
 
+		List<MentorProfileDto> mentorProfileDtos = new ArrayList<>();
+		Lecture lecture1 = new Lecture();
+		Lecture lecture2= new Lecture();
+		int i;
+		
+		for(i = 0; i < userlist.size(); i++) {			
+			if (userlist.get(i).getUserLectures().size() != 0) {
+				lecture1 = userlist.get(i).getUserLectures().get(0).getLecture();
+				lecture2 = userlist.get(i).getUserLectures().get(1).getLecture();
+			}			
+			mentorProfileDtos.add(MentorProfileDto.fromEntity(userlist.get(i), lecture1, lecture2));
+		}
 
-		return userlist;
+
+		return mentorProfileDtos;
 
 	}
 }

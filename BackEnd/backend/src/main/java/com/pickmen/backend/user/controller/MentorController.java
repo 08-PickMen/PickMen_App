@@ -62,9 +62,8 @@ public class MentorController {
 	
 
 	@GetMapping("/newmentorList")
-	public List<User>  newmentorList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
-		
-		return mentorService.recommendMentor(principalDetail);
+	public @ResponseBody ResponseEntity<List<MentorProfileDto>>  newmentorList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		return new ResponseEntity<List<MentorProfileDto>> (mentorService.recommendMentor(principalDetail),HttpStatus.OK);
 	}
 	// Mentor 프로필 업데이트
 	// /mentor/mentorUpdate
