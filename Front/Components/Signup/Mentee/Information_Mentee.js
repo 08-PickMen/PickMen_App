@@ -38,7 +38,6 @@ function Information_Mento({ navigation }) {
         console.log(ids.join(','))
         var changeImage = JSON.parse(data2)._parts
         var InputImage = new FormData();
-        console.log(password);
         InputImage.append('profile', {
             uri: changeImage[0][1].uri,
             name: "image.jpg",
