@@ -34,25 +34,25 @@ function MentorProfile({ navigation }) {
     // 간략한 멘토 프로필을 렌더링하는 함수
     const renderCard = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id, item_majorDto : item.majorDto.name, item_lectureDto1 : item.lectureDto1.name, item_lectureDto2 : item.lectureDto2.name})}>
+            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id, item_Major_id : item.majorDto.name, item_lecture1_id : item.lectureDto1.name, item_lecture2_id : item.lectureDto2.name})}>
                 <Card style={styles.cards}>
                     <Card.Content style={{ flexDirection: 'row' }}>
                     </Card.Content>
                     <Card.Content>
                         <View>
-                            <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
+                            <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 60, height: 60, borderRadius: 120 }}></Image>
                             <View style={{ flexDirection: 'column' }}>
                                 <Text style={styles.MainTitle}>멘토</Text>
                                 <Text style={styles.nickName}>{item.nickname}</Text>
                             </View>
                             <View>
                                 <View style = {{flexDirection : 'row'}}>
-                                    <Image source={MajorIcon} style={{ width: 20, height: 20, marginTop : 10, marginRight : 10,}}></Image>
+                                    <Image source={MajorIcon} style={{ width: 17, height: 17, marginTop : 10, marginRight : 10,}}></Image>
                                     <Text style={styles.MentorMajor}>{item.majorDto.name}</Text>
                                 </View>
                             </View>
                             <View style = {{flexDirection : 'row'}}>
-                                    <Image source={TeachIcon} style={{ width: 20, height: 20, marginTop : 10, marginRight : 10,}}></Image>
+                                    <Image source={TeachIcon} style={{ width: 17, height: 17, marginTop : 10, marginRight : 10,}}></Image>
                                     <Text style={styles.MentorLectures}>{item.lectureDto1.name},{'\n'}{item.lectureDto2.name}</Text>
                             </View>
                         </View>
@@ -95,10 +95,11 @@ function MentorProfile({ navigation }) {
     }
     // 멘토 프로필 리스트를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
+        axios.get('http://10.0.2.2:8090/newmentorList').then(async function (response) {
             var data = response.data;
             setMentorList(data);
             setMentorList2(data);
+            console.log(data)
         });
         axios.get('http://10.0.2.2:8090/getAllMajorList').then(function (response) {
             var data = response.data;
@@ -124,7 +125,8 @@ function MentorProfile({ navigation }) {
         });
     }, [])
     return (
-        <View style={{ flex: 2, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#27BAFF'}}>
+            <View style = {styles.PageStyle}>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.Title}>
                     멘토 프로필 리스트
@@ -133,7 +135,6 @@ function MentorProfile({ navigation }) {
                     <Image source={filter}></Image>
                 </TouchableOpacity>
             </View>
-            <View style={{ borderBottomColor: 'black', borderBottomWidth: .5, marginBottom: 10, }} />
             <FlatList
                 data={MentorList}
                 renderItem={renderCard}
@@ -236,17 +237,19 @@ function MentorProfile({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </Modal>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     cards: {
-        width: 205,
+        width: 180,
         height: 250,
         marginLeft: 10,
         marginRight: 1,
-        borderWidth:.1
+        borderWidth:.1,
+        borderRadius: 20,
     },
     MainTitle: {
         fontSize: 17,
@@ -282,7 +285,7 @@ const styles = StyleSheet.create({
     MentorMajor: {
         fontFamily: 'NanumSquareRoundB',
         fontSize: 15,
-        marginRight: 'auto',
+        marginRight: 20,
         marginTop: 10,
         marginBottom: 10,
         color: 'black',
@@ -290,7 +293,7 @@ const styles = StyleSheet.create({
     MentorLectures: {
         fontFamily: 'NanumSquareRoundB',
         fontSize: 15,
-        marginRight: 'auto',
+        marginRight: 21,
         marginTop: 10,
         marginBottom: 10,
         color: 'black',
@@ -358,6 +361,18 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         fontSize: 15,
         fontFamily: 'Jalnan',
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 400,
+        height: 684,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 20,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
 })
 

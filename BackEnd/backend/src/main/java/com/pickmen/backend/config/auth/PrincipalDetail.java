@@ -2,9 +2,12 @@ package com.pickmen.backend.config.auth;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.model.UserLecture;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,11 +52,18 @@ public class PrincipalDetail implements UserDetails {
      return user.getId();
    }
 
+
    public String getNickName(){
      return user.getNickname();
    }
 
-   
+   public Major getMajor(){
+     return user.getMajor();
+   }
+
+   public List<UserLecture> getLecture(){
+     return user.getUserLectures();
+   }
 
   @Override
   public String getPassword() {

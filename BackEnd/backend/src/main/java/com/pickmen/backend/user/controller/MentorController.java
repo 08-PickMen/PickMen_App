@@ -1,13 +1,9 @@
 package com.pickmen.backend.user.controller;
 
-import java.security.Principal;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.pickmen.backend.config.auth.PrincipalDetail;
-import com.pickmen.backend.dto.ResponseDto;
+import com.pickmen.backend.dto.MentorProfileDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.MentorService;
@@ -16,19 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.pickmen.backend.config.auth.PrincipalDetail;
-import com.pickmen.backend.dto.MentorDto;
-import com.pickmen.backend.dto.MentorProfileDto;
-import com.pickmen.backend.user.model.User;
-import com.pickmen.backend.user.service.MentorService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,9 +56,15 @@ public class MentorController {
 	}*/
 	@GetMapping("/mentorList")
 	public @ResponseBody ResponseEntity<List<MentorProfileDto>> mentorList() {
+
 		return new ResponseEntity<List<MentorProfileDto>>(mentorService.getMentorList(), HttpStatus.OK);
 	}
 	
+
+	@GetMapping("/newmentorList")
+	public @ResponseBody ResponseEntity<List<MentorProfileDto>>  newmentorList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		return new ResponseEntity<List<MentorProfileDto>> (mentorService.recommendMentor(principalDetail),HttpStatus.OK);
+	}
 	// Mentor 프로필 업데이트
 	// /mentor/mentorUpdate
 	@PutMapping("/mentor/{id}/mentorUpdate")
@@ -79,9 +74,5 @@ public class MentorController {
 		return new ResponseEntity<User>(mentorService.updateMentor(id, user), HttpStatus.OK);
 	}
 
-	@GetMapping("mentors/byTeachSector")
-	public @ResponseBody ResponseEntity<List<User>> byTeachSector(String teachSector) {
-		return new ResponseEntity<List<User>>(userRepository.MentorFindByTeachSector(teachSector), HttpStatus.OK); 
-  }
 
 }

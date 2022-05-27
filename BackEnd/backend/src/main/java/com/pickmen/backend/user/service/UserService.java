@@ -153,7 +153,6 @@ public class UserService {
 		return userRepository.save(findUser);
 	}
 
-	// 한명의 유저의 필요한 정보들을 반환하는 로직
 	@Transactional
 	public UserDto getUserDto(long user_id) {
 		User user = userRepository.findById(user_id).orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
@@ -161,4 +160,8 @@ public class UserService {
 		
 		return userDto;
 	}
+
+
+
+
 }
