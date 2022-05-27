@@ -133,9 +133,12 @@ public class MentorService {
 				if(o2_major.getName().equals(major.getName()))
 				o2_score+=1;
 
-				if(o1_score<o2_score){
+				if(o1_score<o2_score)
 					return -1;
-				}
+
+				else if(o1_score>o2_score)
+					 return  1;
+				else 
 				return 0;
 			}
 			
