@@ -7,6 +7,8 @@ import axios from 'axios';
 import filter from '../../../icons/filter.png';
 import Exit from '../../../icons/Exit.png';
 import DropDownPicker from 'react-native-dropdown-picker';
+import TeachIcon from '../../../icons/teach.png';
+import MajorIcon from '../../../icons/Major.png';
 import { CheckBox } from 'react-native-elements';
 
 // 멘토 프로필 리스트 페이지
@@ -23,28 +25,35 @@ function MentorProfile({ navigation }) {
     const [isLecture, setIsLecture] = React.useState(false);
     const [isRating, setIsRating] = React.useState(false);
     const [MajorText, setMajorText] = React.useState('');
+    const [MajorText2, setMajorText2] = React.useState('');
     const [LectureText, setLectureText] = React.useState('');
+    const [LectureText2, setLectureText2] = React.useState('');
 
 
     const [ModalVisible, setModalVisible] = React.useState(false);
     // 간략한 멘토 프로필을 렌더링하는 함수
     const renderCard = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id })}>
+            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id, item_Major_id : item.majorDto.name, item_lecture1_id : item.lectureDto1.name, item_lecture2_id : item.lectureDto2.name})}>
                 <Card style={styles.cards}>
                     <Card.Content style={{ flexDirection: 'row' }}>
                     </Card.Content>
                     <Card.Content>
                         <View>
-                            <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 80, height: 80, borderRadius: 120 }}></Image>
+                            <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 60, height: 60, borderRadius: 120 }}></Image>
                             <View style={{ flexDirection: 'column' }}>
                                 <Text style={styles.MainTitle}>멘토</Text>
                                 <Text style={styles.nickName}>{item.nickname}</Text>
                             </View>
                             <View>
-                                <Text style={styles.teachSector}>멘토 분야 :</Text>
-                                <Text style={styles.teachSector}></Text>
-                                <Text style={styles.MentoGrade}>학점 : {item.averageRating}</Text>
+                                <View style = {{flexDirection : 'row'}}>
+                                    <Image source={MajorIcon} style={{ width: 17, height: 17, marginTop : 10, marginRight : 10,}}></Image>
+                                    <Text style={styles.MentorMajor}>{item.majorDto.name}</Text>
+                                </View>
+                            </View>
+                            <View style = {{flexDirection : 'row'}}>
+                                    <Image source={TeachIcon} style={{ width: 17, height: 17, marginTop : 10, marginRight : 10,}}></Image>
+                                    <Text style={styles.MentorLectures}>{item.lectureDto1.name},{'\n'}{item.lectureDto2.name}</Text>
                             </View>
                         </View>
                     </Card.Content>
@@ -55,12 +64,12 @@ function MentorProfile({ navigation }) {
         )
     };
     // 멘토 프로필을 조건에 맞게 설정하는 함수
-    function updateList(MajorText,profileList, isMajor, isLecture) {
-        if(isMajor) {
+    function updateList(MajorText, LectureText, isMajor, isLecture) {
+        if (isMajor) {
             if (MajorText) {
-                const newData = profileList.filter(function (item) {
-                    const itemData = (item.nickname ? item.nickname.toUpperCase() : ''.toUpperCase());
-                    const textData = MajorText.toUpperCase();
+                const newData = MentorList2.filter(function (item) {
+                    const itemData = item.majorDto.name ? item.majorDto.name.toUpperCase() : ''.toUpperCase();
+                    const textData = MajorText2.toUpperCase();
                     return itemData.indexOf(textData) > -1
                 });
                 setMentorList(newData);
@@ -68,14 +77,29 @@ function MentorProfile({ navigation }) {
                 setMentorList(MentorList2);
             }
         }
+        console.log('isLecture : ', isLecture)
+        if (isLecture) {
+            if (LectureText) {
+                const newData = MentorList2.filter(function (item) {
+                    const itemData = (item.lectureDto1.name ? item.lectureDto1.name.toUpperCase() : ''.toUpperCase())
+                    const textData = LectureText.toUpperCase();
+                    const itemData2 = (item.lectureDto2.name ? item.lectureDto2.name.toUpperCase() : ''.toUpperCase())
+                    return itemData.indexOf(textData) > -1 || itemData2.indexOf(textData) > -1
+                });
+                setMentorList(newData);
+                setLectureText(LectureText2);
+            } else {
+                setMentorList(MentorList2);
+            }
+        }
     }
     // 멘토 프로필 리스트를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
+        axios.get('http://10.0.2.2:8090/newmentorList').then(async function (response) {
             var data = response.data;
             setMentorList(data);
-            console.log(data[data.length-1])
             setMentorList2(data);
+            console.log(data)
         });
         axios.get('http://10.0.2.2:8090/getAllMajorList').then(function (response) {
             var data = response.data;
@@ -101,7 +125,8 @@ function MentorProfile({ navigation }) {
         });
     }, [])
     return (
-        <View style={{ flex: 2, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#27BAFF'}}>
+            <View style = {styles.PageStyle}>
             <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.Title}>
                     멘토 프로필 리스트
@@ -110,7 +135,6 @@ function MentorProfile({ navigation }) {
                     <Image source={filter}></Image>
                 </TouchableOpacity>
             </View>
-            <View style={{ borderBottomColor: 'black', borderBottomWidth: .5, marginBottom: 10, }} />
             <FlatList
                 data={MentorList}
                 renderItem={renderCard}
@@ -128,12 +152,12 @@ function MentorProfile({ navigation }) {
                             <Image source={Exit} style={{ marginTop: 15, marginLeft: 160, marginRight: 10, width: 30, height: 30 }}></Image>
                         </TouchableOpacity>
                     </SafeAreaView>
-                    <View style = {{flexDirection : 'row', marginLeft : 40,marginTop : 20,}}>
-                        <CheckBox checked = {isRating} onPress = {()=>setIsRating(!isRating)} style = {{marginTop : 100,}}/>
+                    <View style={{ flexDirection: 'row', marginLeft: 40, marginTop: 20, }}>
+                        <CheckBox checked={isRating} onPress={() => setIsRating(!isRating)} style={{ marginTop: 100, }} />
                         <Text style={styles.ModalCategory_Rating}>평점 순</Text>
                     </View>
-                    <View style = {{flexDirection : 'row', marginLeft : 40,marginTop : 20,}}>
-                        <CheckBox checked = {isMajor} onPress = {()=>setIsMajor(!isMajor)} style = {{marginTop : 100,}}/>
+                    <View style={{flexDirection: 'row', marginLeft: 40, marginTop: 20,}}>
+                        <CheckBox checked={isMajor} onPress={() => setIsMajor(!isMajor)} style={{ marginTop: 100, }} />
                         <Text style={styles.ModalCategory_Major}>전공 별</Text>
                     </View>
                     <View>
@@ -155,14 +179,15 @@ function MentorProfile({ navigation }) {
                             containerStyle={{ width: 350, marginLeft: 'auto', marginRight: 'auto' }}
                             onChangeValue={(itemValue) => {
                                 const getIndex = (itemValue) => {
-                                    for (var i=0; i<MajorList.length; i++) {
+                                    for (var i = 0; i < MajorList.length; i++) {
                                         if (MajorList[i].value == itemValue) {
                                             return i;
                                         }
                                     }
                                 }
-                                if(getIndex(itemValue)>=0) {
+                                if (getIndex(itemValue) >= 0) {
                                     setMajorText(MajorList[getIndex(itemValue)].label);
+                                    setMajorText2(MajorList[getIndex(itemValue)].label);
                                 }
                             }}
                             setValue={setValue}
@@ -170,8 +195,8 @@ function MentorProfile({ navigation }) {
                         />
                     </View>
                     <View style={{ flex: 1 }}>
-                        <View style = {{flexDirection : 'row', marginLeft : 40,marginTop : 20,}}>
-                            <CheckBox checked = {isLecture} onPress = {()=>setIsLecture(!isLecture)} style = {{marginTop : 100,}}/>
+                        <View style={{ flexDirection: 'row', marginLeft: 40, marginTop: 20, }}>
+                            <CheckBox checked={isLecture} onPress={() => setIsLecture(!isLecture)} style={{ marginTop: 100, }} />
                             <Text style={styles.ModalCategory_Lecture}>전문 강의 별</Text>
                         </View>
                         <DropDownPicker
@@ -192,35 +217,39 @@ function MentorProfile({ navigation }) {
                             containerStyle={{ width: 350, marginLeft: 'auto', marginRight: 'auto' }}
                             onChangeValue={(itemValue) => {
                                 const getIndex = (itemValue) => {
-                                    for (var i=0; i<LectureList.length; i++) {
+                                    for (var i = 0; i < LectureList.length; i++) {
                                         if (LectureList[i].value == itemValue) {
                                             return i;
                                         }
                                     }
                                 }
-                                if(getIndex(itemValue)>=0) {
+                                if (getIndex(itemValue) >= 0) {
                                     setLectureText(LectureList[getIndex(itemValue)].label);
+                                    setLectureText2(LectureList[getIndex(itemValue)].label);
                                 }
                             }}
                             setValue={setValue2}
                             setOpen={setOpen2}
                         />
                     </View>
-                    <TouchableOpacity style = {styles.CorrectButton} onPress={()=>{updateList('Jello', MentorList, isMajor, isLecture)}}>
-                        <Text style = {styles.CorrectButtonText}>적용</Text>
+                    <TouchableOpacity style={styles.CorrectButton} onPress={() => { updateList(MajorText, LectureText, isMajor, isLecture) }}>
+                        <Text style={styles.CorrectButtonText}>적용</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     cards: {
-        width: 195,
+        width: 180,
         height: 250,
         marginLeft: 10,
         marginRight: 1,
+        borderWidth:.1,
+        borderRadius: 20,
     },
     MainTitle: {
         fontSize: 17,
@@ -253,11 +282,21 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: 'black'
     },
-    MentoGrade: {
-        fontFamily: 'Jalnan',
-        fontSize: 14,
-        marginRight: 'auto',
-        color: 'black'
+    MentorMajor: {
+        fontFamily: 'NanumSquareRoundB',
+        fontSize: 15,
+        marginRight: 20,
+        marginTop: 10,
+        marginBottom: 10,
+        color: 'black',
+    },
+    MentorLectures: {
+        fontFamily: 'NanumSquareRoundB',
+        fontSize: 15,
+        marginRight: 21,
+        marginTop: 10,
+        marginBottom: 10,
+        color: 'black',
     },
     Title: {
         fontFamily: 'Jalnan',
@@ -286,21 +325,21 @@ const styles = StyleSheet.create({
     ModalCategory_Rating: {
         fontFamily: 'NanumSquareRoundB',
         fontSize: 17,
-        marginTop : 15,
+        marginTop: 15,
         color: 'black',
         marginRight: 'auto',
     },
     ModalCategory_Lecture: {
         fontFamily: 'NanumSquareRoundB',
         fontSize: 17,
-        marginTop : 15,
+        marginTop: 15,
         color: 'black',
         marginRight: 'auto',
     },
     ModalCategory_Major: {
         fontFamily: 'NanumSquareRoundB',
         fontSize: 17,
-        marginTop : 15,
+        marginTop: 15,
         color: 'black',
         marginRight: 'auto',
     },
@@ -310,7 +349,7 @@ const styles = StyleSheet.create({
         paddingTop: 5,
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginBottom : 30,
+        marginBottom: 30,
         borderRadius: 5,
         backgroundColor: "#27BAFF"
     },
@@ -322,6 +361,18 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         fontSize: 15,
         fontFamily: 'Jalnan',
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 400,
+        height: 684,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 20,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
 })
 

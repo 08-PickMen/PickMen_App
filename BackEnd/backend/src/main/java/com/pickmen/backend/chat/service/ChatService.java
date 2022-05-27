@@ -43,6 +43,7 @@ public class ChatService {
 	// 로그인 되어 있는 유저의 채팅방 불러오기 - test 용
 	@Transactional(readOnly = true)
 	public List<UserChatRoomDto> findAllRoom(long user_id) {
+		
 		List<UserChatRoom> listUserChatRoom = userChatRoomRepository.findAllByUserId(user_id);
 		UserChatRoom otherUserChatRoom;
 		List<Chat> chatListForLastChat; chatRepository.findAllByChatRoomId(user_id);
@@ -73,10 +74,11 @@ public class ChatService {
 				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
 						otherUserChatRoom.getUser().getId(), 
 						listUserChatRoom.get(i).getChatRoom().getId(),
-						otherUserChatRoom.getUser().getNickname(), 
+						otherUserChatRoom.getUser().getNickname(),
 						otherUserChatRoom.getUser().getMajor().getName()));
 			}
 		}
+		
 
 		return listUserChatRoomDto;
 	}
@@ -94,11 +96,17 @@ public class ChatService {
 		UserChatRoom compareUserChatRoom2 = new UserChatRoom();
 
 		// UserChatRoom DB를 돌면서
+
+		try {
+			
+
 		for (i = 1; i < userChatRoomRepository.count(); i = i + 2) {
+			
 			compareUserChatRoom1 = userChatRoomRepository.findById(i);
 			compareUserChatRoom2 = userChatRoomRepository.findById(i + 1);
 			// 이미 존재하는 채팅방인지 중복 체크
 			// 채팅방이 이미 존재하면 null을 return
+			System.out.println(compareUserChatRoom2.getUser().getId());
 			if ((compareUserChatRoom1.getUser().getId() == user.getId()
 					&& compareUserChatRoom2.getUser().getId() == user_id)
 					|| (compareUserChatRoom2.getUser().getId() == user.getId()
@@ -107,6 +115,10 @@ public class ChatService {
 				return null;
 			}
 		}
+	} catch (NullPointerException e) {
+		e.printStackTrace();
+		System.out.println("null인거 넘김");
+	}
 
 		// 채팅방이 존재하지 않다면
 		// 로그인 한 유저의 UserChatRoom 생성 후 DB에 저장

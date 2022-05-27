@@ -288,14 +288,11 @@ function ViewPost({navigation}) {
     restBoard(id, title, content, nickName);
  return(
         // Post 전체 UI
-        <View style ={{backgroundColor : '#fff', flex :1,}}>
+        <View style ={{backgroundColor : '#27BAFF', flex :1,}}>
+            <View style = {styles.PageStyle}>
             <View style= {{flexDirection:'row'}}>
                 <Text style = {styles.Text}>게시글</Text>
                 <ShowTab navigation={navigation}/></View>
-                <View style={{
-                    borderBottomColor : 'black',
-                    borderBottomWidth : 1,
-                }}></View>
                 <View>
                     <View>
                         <Text style = {{marginTop : 20, marginLeft : 20}}>작성자 : {nickName}  
@@ -330,6 +327,7 @@ function ViewPost({navigation}) {
                     onEndReachedThreshold={0.6}
                    >
                    </FlatList>
+                   </View>
             </View>
 
     )
@@ -347,7 +345,7 @@ const styles = StyleSheet.create({
          marginBottom : 20
      },
      TextInput: {
-        width : 300,
+        width : 260,
         margin: 12,
         height : 40,
         borderWidth: 1,
@@ -359,8 +357,8 @@ const styles = StyleSheet.create({
     },
     Text: {
         color : "#27BAFF",
-        marginTop : 10,
-        marginLeft : 10,
+        marginTop : 20,
+        marginLeft : 20,
         marginBottom : 10,
         fontSize : 15,
         fontFamily : 'Jalnan',
@@ -482,7 +480,19 @@ const styles = StyleSheet.create({
         marginRight : 10,
         marginLeft : 'auto',
         marginBottom : 20,
-    }
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 380,
+        height: 680,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
+    },
    });
 
 export default ViewPost;

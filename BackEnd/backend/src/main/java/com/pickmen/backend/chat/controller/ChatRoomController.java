@@ -26,10 +26,18 @@ import com.pickmen.backend.chat.service.ChatService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.repository.UserRepository;
 
 @RestController
 @RequestMapping("/chat")
 public class ChatRoomController {
+
+
+
+	@Autowired
+	private UserRepository userRepository;
+
+	
 	@Autowired
 	private ChatService chatService;
 
@@ -57,6 +65,11 @@ public class ChatRoomController {
 	@ResponseBody
 	ResponseEntity<UserChatRoomDto> createRoom(@PathVariable long user_id,
 			@AuthenticationPrincipal PrincipalDetail principalDetail) {
+		System.out.println(user_id);
+		System.out.println(principalDetail.getUserId());
+		System.out.println(principalDetail.getUser().getNickname());
+		
+
 		return new ResponseEntity<UserChatRoomDto>(chatService.createRoom(user_id, principalDetail.getUser()),
 				HttpStatus.OK);
 	}

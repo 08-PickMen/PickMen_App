@@ -152,6 +152,17 @@ public class UserService {
 		return userRepository.save(findUser);
 	}
 
+<<<<<<< HEAD
+=======
+	@Transactional
+	public UserDto getUserDto(long user_id) {
+		User user = userRepository.findById(user_id).orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
+		UserDto userDto = UserDto.fromEntity(user);
+		
+		return userDto;
+	}
+
+>>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 
 
 

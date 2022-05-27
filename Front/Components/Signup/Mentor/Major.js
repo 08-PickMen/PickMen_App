@@ -56,7 +56,8 @@ function Major({navigation}){
         setOpen3(false);
     },[])
     return(
-        <View style = {{backgroundColor : '#fff', flex  :1,}}>
+        <View style = {{backgroundColor : '#27BAFF', flex  :1,}}>
+            <View style = {styles.PageStyle}>
             <Text style = {styles.MainTitle}>전공 분야 선택</Text>
             <View style ={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>전공 선택</Text>
@@ -186,6 +187,7 @@ function Major({navigation}){
                     </Text>
                 </TouchableOpacity>
             </View>
+            </View>
         </View>
     )
 }
@@ -224,7 +226,19 @@ const styles = StyleSheet.create({
         paddingRight : 10,
         fontSize : 15,
         fontFamily : 'Jalnan',
-    }
+    },
+    PageStyle:{
+        backgroundColor : 'white',
+        width : 380, 
+        height : 720,
+        borderColor : 'white', 
+        borderWidth : 1, 
+        borderRadius : 30,
+        marginLeft : 'auto', 
+        marginRight : 'auto', 
+        marginTop : 'auto', 
+        marginBottom : 'auto'
+      },
    });
  
 

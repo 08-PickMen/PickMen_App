@@ -20,7 +20,7 @@ public class MajorRunner implements ApplicationRunner {
     
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        
+        System.out.print("Count : " + majorRepository.count());
         if(majorRepository.count()==0){
         try {
             Document document = Jsoup.connect("https://namu.wiki/w/%EC%95%84%EC%A3%BC%EB%8C%80%ED%95%99%EA%B5%90/%ED%95%99%EB%B6%80").userAgent("Chrome/33.0.1750.152").get();

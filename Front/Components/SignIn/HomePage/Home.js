@@ -1,10 +1,10 @@
-import React from 'react';
-import { View, Text,Image} from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text,Image, BackHandler} from 'react-native';
 import 'react-navigation';
 import logo from '../../../icons/PickMenLogo.png';
 import megaphone from '../../../icons/megaphone.png';
 // 홈 화면
-function Home() {
+function Home({navigation}) {
     return(
         <View>
             <View style = {{marginTop : 0.5, borderBottomColor : 'black', borderBottomWidth : 1, borderTopColor : 'black', borderTopWidth : 1, flexDirection : 'row'}}>

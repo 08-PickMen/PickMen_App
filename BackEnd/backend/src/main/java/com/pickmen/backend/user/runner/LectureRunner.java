@@ -24,7 +24,11 @@ public class LectureRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+<<<<<<< HEAD
         String path="input.xlsx";
+=======
+        String path="C:\\input.xlsx";
+>>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 
         try {
             if(lectureRepository.count()==0 ){

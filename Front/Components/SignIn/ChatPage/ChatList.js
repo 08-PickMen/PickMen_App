@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image} from 'react-native';
 import { List } from 'react-native-paper';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -24,10 +24,10 @@ function ChatList({ navigation }) {
                     <Text style = {{marginTop : 10, fontFamily : 'NanumSquareRound', fontSize : 13, color : 'black'}}>{item.lastChat}</Text>
                 </SafeAreaView>
                 <SafeAreaView style = {{flex : 1}}>
-                    <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>소프트웨어학과</Text>
+                    <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>{item.other_id_major}</Text>
                 </SafeAreaView>
                 <View>
-                    <Text style = {{fontSize : 13, marginTop : 10, marginRight : 10}}>05-23 12:49</Text>
+                    <Text style = {{fontSize : 13, marginTop : 10, marginRight : 10}}>{item.formatDateTime}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -53,19 +53,20 @@ function ChatList({ navigation }) {
     }, [])
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
+            <View style = {style.PageStyle}>
             <View >
                 <Text style={style.Title}>
                     멘토 채팅 리스트
                 </Text>
             </View>
-            <View style={{ borderBottomColor: 'black', borderBottomWidth: .5 }} />
             <View>
                 <FlatList
                     data={ChatList}
                     renderItem={renderItem}
                     keyExtractor={item => item.chatRoom_id}
                 ></FlatList>
+            </View>
             </View>
         </View>
     )
@@ -91,6 +92,18 @@ const style = StyleSheet.create({
         color: "#27BAFF",
         marginLeft: 10,
         marginTop: 18,
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 380,
+        height: 680,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
     },
 })
 export default ChatList;

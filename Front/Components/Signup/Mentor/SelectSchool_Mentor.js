@@ -16,7 +16,8 @@ function SelectSchool_Mentor({navigation}) {
         }
     }
     return(
-            <View>
+            <View style = {{flex : 1,backgroundColor : '#27BAFF'}}>
+                <View style = {styles.PageStyle}>
                 <View>
                     <Text style = {styles.Introduce}>학교 선택</Text>
                 </View>
@@ -40,6 +41,7 @@ function SelectSchool_Mentor({navigation}) {
                        onPress = {() => {saveSchool(); navigation.navigate('Major')}}>
                     <Text style={styles.Text}>다음</Text>
                 </TouchableOpacity>
+                </View>
             </View>
             
     )
@@ -75,7 +77,19 @@ const styles = StyleSheet.create({
     paddingRight : 10,
     fontSize : 20,
     fontFamily : 'Jalnan',
-}
+},
+PageStyle:{
+    backgroundColor : 'white',
+    width : 380, 
+    height : 720,
+    borderColor : 'white', 
+    borderWidth : 1, 
+    borderRadius : 30,
+    marginLeft : 'auto', 
+    marginRight : 'auto', 
+    marginTop : 'auto', 
+    marginBottom : 'auto'
+  },
   });
 
 export default SelectSchool_Mentor;
