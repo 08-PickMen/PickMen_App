@@ -58,15 +58,13 @@ function PostList({ navigation }) {
         <View style={{ flexDirection: 'row' }}>
           <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user) }} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
           <Text style={styles.nickname}>{item.nickname}</Text>
+          <Text style={{ marginLeft: 135, marginTop : 20}}>조회 수 {item.count}</Text>
         </View>
         <View>
           <Text style={styles.title}>{item.title}</Text>
         </View>
-        <View>
+        <View style = {{flexDirection : 'row'}}>
           <Text style={styles.content}>{item.content}</Text>
-        </View>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={{ marginLeft: 15, marginTop: 80, }}>조회 수 {item.count}</Text>
         </View>
       </Card>
     </TouchableOpacity>
@@ -124,45 +122,42 @@ function PostList({ navigation }) {
     )
   };
   return (
-    <View style={{ flex: 10, backgroundColor: '#fff', height: 2080 }}>
-      <View>
+    <View style={{flex : 1, backgroundColor: '#27BAFF'}}>
+      <View style = {styles.PageStyle}>
         <View style={{ flexDirection: 'row', marginTop: 10 }}>
           <Text style={styles.MainTitle}>게시글 목록</Text>
           <Searchbar
             placeholder="Search"
             onChangeText={(text) => updateSearch(text)}
             value={search}
-            style={{ marginLeft: 30, width: 200, height: 40 }}
+            style={{ marginLeft: 17, width: 200, height: 40 }}
           />
           <TouchableOpacity onPress={() => { navigation.reset({ index: 1, routes: [{ name: 'Post' }] }); }}>
             <Image source={writeIcon} style={{ width: 40, height: 40, marginLeft: 20, }} />
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 1, borderBottomColor: 'black', borderBottomWidth: .5, marginBottom: 20 }}></View>
+        <View style ={{flexgrow : 1}}>
         <FlatList
           data={data}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
-          onEndReachedThreshold={0.6}
-          contentContainerStyle={{ flex: 1 }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}>
-            </RefreshControl>
-          }>
+          windowSize={2}
+          contentContainerStyle={{flexGrow : 1}}>
         </FlatList>
+        </View>
       </View>
-    </View>
+      </View>
   )
 }
 const styles = StyleSheet.create({
   cards: {
     borderRadius: 10,
-    width: 400,
-    height: 300,
+    width: 370,
+    height: 200,
     borderWidth: 1,
+    marginTop : 10,
     marginBottom: 10,
+    marginLeft : 4,
+    marginRight : 'auto',
   },
   nickname: {
     fontSize: 14,
@@ -179,6 +174,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginLeft: 10,
+
   },
   item: {
     width: '97%',
@@ -186,7 +182,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   title: {
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: 'NanumSquareRoundB',
     marginTop: 20,
     marginBottom: 10,
@@ -194,7 +190,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   content: {
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: 'NanumSquareRoundB',
     marginTop: 20,
     marginBottom: 10,
@@ -218,7 +214,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 15,
     fontFamily: 'Jalnan',
-
   },
+  PageStyle: {
+    backgroundColor: 'white',
+    width: 380,
+    height: 680,
+    borderColor: 'white',
+    borderWidth: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto'
+},
 });
 export default PostList;

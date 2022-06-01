@@ -44,6 +44,7 @@ public class ChatController {
 		log.info("chat_room_id: " + chat.getChatRoom().getId());
 		log.info("content: " + chat.getContent());*/
 		//log.info("id: " + chat.getUser().getId());
+		//log.info("왜안돼왜안돼왜안돼왜안돼왜안돼");
 		log.info("chatRoom Id: " + chatDto.getChat_room_id());
 		//ChatDto.fromEntity()
 		// DB에 저장

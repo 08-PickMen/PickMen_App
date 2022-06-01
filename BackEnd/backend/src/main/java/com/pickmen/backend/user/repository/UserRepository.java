@@ -28,14 +28,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
   
   List<User> findAllByRoleAndMajor(RoleType role, Major major);
 
+  List<User> findAllByRoleOrderByAverageRating(RoleType role);
+  
   Optional<User> findByNickname(String nickname);
   
-  @Query(value = "select * from user where role = 'MENTOR' and teach_sector like '%:sector%' order by average_rating", nativeQuery = true)
-  List<User> MentorFindByTeachSector(@Param("sector")String teachSector);
-
-  @Query(value = "select * from user where role = 'MENTOR' and teach_sector not like '%:sector%' order by average_rating", nativeQuery = true)
-  List<User> MentorFindByNotTeachSector(@Param("sector")String teachSector);
-
   // @Query(value="select * from user where role = MENTOR and and teach_sector not like '%:sector%' ")
   // List<User> MentorFindByMajor(@Param("major")String major,@Param("sector")String teachSector);
 

@@ -144,10 +144,10 @@ public class UserApiController {
      newuser.setCreateDate(user.getCreateDate());
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
-     newuser.setRole(RoleType.MENTEE);
-     // 학교, 전공 저장(학교, 전공은 Object)
      newuser.setSchool(user.getSchool());
      newuser.setMajor(user.getMajor());
+     newuser.setRole(RoleType.MENTEE);
+     // 학교, 전공 저장(학교, 전공은 Object)
 
      // 관심 강의 리스트는 userService.join에서 추가
     try {

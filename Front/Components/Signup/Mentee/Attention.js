@@ -11,6 +11,10 @@ function Attention({navigation}){
     const [value, setValue] = useState('');
     const [open2, setOpen2] = useState(false);
     const [value2, setValue2] = useState('');
+    const [open3, setOpen3] = useState(false);
+    const [value3, setValue3] = useState('');
+    const [majorList, setMajorList] = useState([]);
+    const [majorValue, setMajorValue] = useState('');
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedValue2, setSelectedValue2] = useState('');
     const [lecture1, setLecture1] = useState('');
@@ -21,6 +25,7 @@ function Attention({navigation}){
         try {
             await AsyncStorage.setItem('lecture1', String(lecture1));
             await AsyncStorage.setItem('lecture2', String(lecture2));
+            await AsyncStorage.setItem('MajorValue', String(majorValue));
         } catch (e) {
             console.log(e);
         }
@@ -37,12 +42,61 @@ function Attention({navigation}){
             }
             setLectureList(newData);
         })
+        axios.get('http://10.0.2.2:8090/getAllMajorList').then(response => {
+            var count = response.data.length;
+            var newData = [];
+            for(var i = 0; i < count; i++) {
+                newData.push({
+                    label: response.data[i].name,
+                    value: response.data[i].id,
+                });
+            }
+            setMajorList(newData);
+        })
         setOpen(false);
         setOpen2(false);
     },[])
 
     return(
-        <View>
+        <View style = {{flex : 1, backgroundColor : '#27BAFF'}}>
+            <View style = {styles.PageStyle}>
+            <Text style = {styles.MainTitle}>전공 분야 선택</Text>
+            <View style ={{marginTop : 50,}}>
+                <Text style = {styles.Sector}>전공 선택</Text>
+            </View>
+            <View>
+            <DropDownPicker
+                style = {{width : 350, marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0'}}
+                open={open}
+                value={value}
+                zIndex={3000}
+                zIndexInverse={1000}
+                searchable={true}
+                dropDownContainerStyle={{borderColor : '#a0a0a0'}}
+                searchContainerStyle={{borderColor : '#a0a0a0', borderBottomWidth : .15}}
+                listItemContainerStyle={{borderColor : '#a0a0a0', borderTopWidth : 0}}
+                searchTextInputStyle={{height : 30, borderRadius : 0, borderWidth : 0, borderColor : '#a0a0a0'}}
+                items={majorList}
+                placeholder="전공 학과를 선택하세요."
+                placeholderStyle={{borderColor : '#a0a0a0', fontFamily : 'NanumSquareRoundB', fontSize : 14}}
+                searchPlaceholder = '학과 검색'
+                containerStyle={{width : 350, marginLeft : 'auto', marginRight : 'auto'}}
+                onChangeValue={(itemValue) => {
+                    const getIndex = (itemValue) => {
+                        for (var i=0; i<majorList.length; i++) {
+                            if (majorList[i].value == itemValue) {
+                                return i;
+                            }
+                        }
+                    }
+                    if(getIndex(itemValue)>=0) {
+                        setMajorValue(majorList[getIndex(itemValue)].value);
+                    }
+                }}
+                setValue={setValue}
+                setOpen={setOpen}
+            />
+            </View>
             <Text style = {styles.MainTitle}>관심 강의 선택</Text>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 강의 1</Text>
@@ -50,9 +104,11 @@ function Attention({navigation}){
             <View>
             <DropDownPicker
                 style = {{width : 350, marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0'}}
-                open={open}
-                value={value}
+                open={open2}
+                value={value2}
                 searchable={true}
+                zIndex={2000}
+                zIndexInverse={2000}
                 dropDownContainerStyle={{borderColor : '#a0a0a0', height : 170}}
                 searchContainerStyle={{borderColor : '#a0a0a0', borderBottomWidth : .15}}
                 listItemContainerStyle={{borderColor : '#a0a0a0', borderTopWidth : 0}}
@@ -76,8 +132,8 @@ function Attention({navigation}){
                     }
                 }}
 
-                setValue={setValue}
-                setOpen={setOpen}
+                setValue={setValue2}
+                setOpen={setOpen2}
             />
             </View>
             <View style ={{marginTop : 140,}}>
@@ -86,9 +142,11 @@ function Attention({navigation}){
             <View>
             <DropDownPicker
                 style = {{width : 350, marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0'}}
-                open={open2}
-                value={value2}
+                open={open3}
+                value={value3}
                 searchable={true}
+                zIndex={1000}
+                zIndexInverse={3000}
                 dropDownContainerStyle={{borderColor : '#a0a0a0', height : 170}}
                 searchContainerStyle={{borderColor : '#a0a0a0', borderBottomWidth : .15}}
                 listItemContainerStyle={{borderColor : '#a0a0a0', borderTopWidth : 0}}
@@ -111,8 +169,8 @@ function Attention({navigation}){
                         setSelectedValue2(lectureList[getIndex(itemValue)].label);
                     }
                 }}
-                setValue={setValue2}
-                setOpen={setOpen2}
+                setValue={setValue3}
+                setOpen={setOpen3}
             />
             </View>
             <View>
@@ -130,6 +188,7 @@ function Attention({navigation}){
                         확인
                     </Text>
                 </TouchableOpacity>
+            </View>
             </View>
         </View>
     )
@@ -169,7 +228,19 @@ const styles = StyleSheet.create({
         paddingRight : 10,
         fontSize : 15,
         fontFamily : 'Jalnan',
-    }
+    },
+    PageStyle:{
+        backgroundColor : 'white',
+        width : 380, 
+        height : 720,
+        borderColor : 'white', 
+        borderWidth : 1, 
+        borderRadius : 30,
+        marginLeft : 'auto', 
+        marginRight : 'auto', 
+        marginTop : 'auto', 
+        marginBottom : 'auto'
+      },
    });
  
 

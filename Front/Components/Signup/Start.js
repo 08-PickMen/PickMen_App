@@ -5,7 +5,8 @@ import 'react-navigation';
 import logo from '../../icons/PickMenLogo.png';
 function Start({navigation}) {
     return(
-            <View>
+            <View style = {{flex : 1, backgroundColor : '#27BAFF'}}>
+                <View style = {styles.PageStyle}>
                 <View>
                 <Image source={logo} style={styles.logoStyle}></Image>
                 </View>
@@ -30,6 +31,7 @@ function Start({navigation}) {
                     marginRight : 'auto',
                     fontFamily : 'Jalnan',
                 }} onPress={()=> navigation.navigate('LoginPage')}>로그인하기</Text>
+                </View>
                 </View>  
             </View>
     )
@@ -63,7 +65,19 @@ const styles = StyleSheet.create({
        paddingRight : 10,
        fontSize : 15,
        fontFamily : 'Jalnan',
-   }
+   },
+   PageStyle:{
+    backgroundColor : 'white',
+    width : 380, 
+    height : 720,
+    borderColor : 'white', 
+    borderWidth : 1, 
+    borderRadius : 30,
+    marginLeft : 'auto', 
+    marginRight : 'auto', 
+    marginTop : 'auto', 
+    marginBottom : 'auto'
+  },
   });
 
 export default Start;
