@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -72,29 +73,32 @@ public class User {
   private LocalDateTime createDate; // 생성일
 
 
+
+  
    // 새로 입력   
     
-   @JsonManagedReference
-   @OneToMany(mappedBy = "user")
+   @JsonManagedReference(value = "user-userchatRoom")
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
    private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
    @Column(nullable= true)
    private String nickname;
    
    // 전공 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
-   @JsonBackReference
+   @JsonBackReference(value = "major-user")
    @ManyToOne
    @JoinColumn(name = "majorId")
    private Major major;
+
    
    // 관심 강의 입력 추가(프론트에서 전달해줌)
    // User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
-   @JsonManagedReference
+   @JsonManagedReference(value = "user-userLecture")
    @OneToMany(mappedBy = "user")
    private List<UserLecture> userLectures = new ArrayList<>();
  
    // 학교 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)
-   @JsonBackReference
+   @JsonBackReference(value = "school-user")
    @ManyToOne
    @JoinColumn(name = "schoolId")
    private School school;
@@ -124,4 +128,8 @@ public class User {
    @Column(nullable= true)
    private String mentoringContents;
  
+   // 멘토링 후기
+   @JsonManagedReference(value = "review-user")
+   @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL)
+   private List<Review> reviews = new ArrayList<>(); 
 }

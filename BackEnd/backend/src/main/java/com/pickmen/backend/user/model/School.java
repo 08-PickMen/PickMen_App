@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class School {
 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -32,7 +33,7 @@ public class School {
 	@Column(nullable = true, unique = true)
 	private String name;
 	
-	@JsonManagedReference
+	@JsonManagedReference(value = "school-user")
 	@OneToMany(mappedBy = "school")
 	private List<User> users = new ArrayList<>();
 }

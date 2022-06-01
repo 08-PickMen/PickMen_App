@@ -102,18 +102,11 @@ public class MentorService {
 
 	public List<MentorProfileDto> recommendMentor(@AuthenticationPrincipal PrincipalDetail principalDetail){
 		List<UserLecture> lecture=principalDetail.getLecture();
-<<<<<<< HEAD
 		Major major=principalDetail.getMajor();
 		List<User> userlist= userRepository.findAllByRoleOrderByAverageRating(RoleType.MENTOR);
 
 		
 		userlist.sort(new Comparator<User>(){
-=======
-		List<User> userlist= userRepository.findAllByRoleOrderByAverageRating(RoleType.MENTOR);
-		
-		try{
-		Collections.sort(userlist, new Comparator<User>(){
->>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 
 			@Override
 			public int compare(User o1, User o2) {
@@ -123,11 +116,8 @@ public class MentorService {
 
 				List<UserLecture> o1_lecture=o1.getUserLectures();
 				List<UserLecture> o2_lecture=o2.getUserLectures();
-<<<<<<< HEAD
 				Major o1_major=o1.getMajor();
 				Major o2_major=o2.getMajor();
-=======
->>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 
 				for(int i=0; i<lecture.size(); i++){
 				for(int j=0; j<lecture.size(); j++){
@@ -137,7 +127,6 @@ public class MentorService {
 					o2_score+=2;
 				}
 			}
-<<<<<<< HEAD
 
 				if(o1_major.getName().equals(major.getName()))
 				o1_score+=1;
@@ -155,20 +144,6 @@ public class MentorService {
 			
 		});
 
-=======
-				if(o1_score>o2_score)
-					return -1;
-				else if(o1_score<o2_score)
-					return 1;
-				else
-					return 0;
-			}
-			
-		});
-		for(User user: userlist){
-			System.out.println(user.getNickname());
-		}
->>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 		List<MentorProfileDto> mentorProfileDtos = new ArrayList<>();
 		Lecture lecture1 = new Lecture();
 		Lecture lecture2= new Lecture();
@@ -178,7 +153,6 @@ public class MentorService {
 			if (userlist.get(i).getUserLectures().size() != 0) {
 				lecture1 = userlist.get(i).getUserLectures().get(0).getLecture();
 				lecture2 = userlist.get(i).getUserLectures().get(1).getLecture();
-<<<<<<< HEAD
 			}			
 			mentorProfileDtos.add(MentorProfileDto.fromEntity(userlist.get(i), lecture1, lecture2));
 		}
@@ -186,18 +160,5 @@ public class MentorService {
 
 		return mentorProfileDtos;
 
-=======
-				System.out.println(lecture1.getName());
-				System.out.println(lecture2.getName());
-			}			
-			mentorProfileDtos.add(MentorProfileDto.fromEntity(userlist.get(i), lecture1, lecture2));
-		}
-		return mentorProfileDtos;
-	}catch(Exception e){
-		e.printStackTrace();
-		return null;
-	}
-	
->>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 	}
 }

@@ -2,9 +2,8 @@ package com.pickmen.backend.user.model;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 
 import lombok.Builder;
 import lombok.Getter;
@@ -31,19 +29,18 @@ public class Advertisement {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // DB 설정의 넘버링 전략을 따라감
     private long id;
 
-    private String target;
+    @ManyToOne(fetch = FetchType.EAGER) 
+    @JoinColumn(name = "userId")
+    private User user; // 작성이
+    
+    @Column(nullable= true)
+    private String content;
 
     private Boolean active;
 
-    private String content;
-
     private Date duration;
-    
-    //private School school;
 
-    /*@ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
-    @JoinColumn(name = "userId")
-    private User user_id;  */  
-    
-    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "schoolId")
+    private School school;
 }

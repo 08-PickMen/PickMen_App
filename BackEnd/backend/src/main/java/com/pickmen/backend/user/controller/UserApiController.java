@@ -102,6 +102,7 @@ public class UserApiController {
    {
 
      User newuser=new User();
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
@@ -142,6 +143,7 @@ public class UserApiController {
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
      newuser.setCreateDate(user.getCreateDate());
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
      newuser.setSchool(user.getSchool());

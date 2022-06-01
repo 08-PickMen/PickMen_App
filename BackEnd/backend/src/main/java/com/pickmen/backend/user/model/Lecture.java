@@ -3,6 +3,7 @@ package com.pickmen.backend.user.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Lecture {
 	private String name;
 	
 	// User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
-	@JsonManagedReference
-	@OneToMany(mappedBy = "lecture")
+	@JsonManagedReference(value = "lecture-userLecture")
+	@OneToMany(mappedBy = "lecture", cascade = CascadeType.ALL)
 	private List<UserLecture> users = new ArrayList<>();
 }

@@ -38,7 +38,7 @@ public class Major {
 	@Column(nullable = true, unique = true)
 	private String name;
 	
-	@JsonManagedReference
+	@JsonManagedReference(value = "major-user")
 	@OneToMany(mappedBy = "major", cascade = CascadeType.ALL)
 	private List<User> users = new ArrayList<>();
 }
