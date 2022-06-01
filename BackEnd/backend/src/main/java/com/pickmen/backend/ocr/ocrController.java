@@ -17,23 +17,7 @@ class ocrController {
 
     @PostMapping("certificate")
     public String detectText(@RequestParam(value = "file", required = false) MultipartFile uploadfile) throws IOException{
-
-
-        // for(MultipartFile file: uploadfile)
-        // {
-        //     if(!file.isEmpty())
-        //     {
-        //         FileDto dto=new FileDto(UUID.randomUUID().toString(),file.getOriginalFilename(),file.getContentType());
-        //         list.add(dto);
-        //         File newFileName=new File(dto.getUuid()+"_"+dto.getFileName());
-                
-        //         file.transferTo(newFileName);
-        //         System.out.println(newFileName);
-        //     }
-        // }
-        System.out.println("test2");
         return ocrService.detectText(uploadfile);
-        //ocrService.detectText();
     }
 
 
