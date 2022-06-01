@@ -1,8 +1,9 @@
 package com.pickmen.backend.dto;
 
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class FileDto {
     private String uuid;
     private String fileName;

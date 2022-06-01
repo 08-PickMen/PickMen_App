@@ -148,6 +148,8 @@ public class UserApiController {
      newuser.setMajor(user.getMajor());
      newuser.setRole(RoleType.MENTEE);
      // 학교, 전공 저장(학교, 전공은 Object)
+     
+     newuser.setLivingWhere(user.getLivingWhere());
 
      // 관심 강의 리스트는 userService.join에서 추가
     try {

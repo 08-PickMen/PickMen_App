@@ -19,44 +19,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Service
-public class ImageService{
+public class ImageService {
 
-    public String upload(MultipartFile file){
+    public String upload(MultipartFile file) {
 
-        List<FileDto> list=new ArrayList<>();
-        String filename="";
+        List<FileDto> list = new ArrayList<>();
+        String filename = "";
 
-
-    try{
-            if(!file.isEmpty())
-            {
-                FileDto dto=new FileDto(UUID.randomUUID().toString(),file.getOriginalFilename(),file.getContentType());
+        try {
+            if (!file.isEmpty()) {
+                FileDto dto = new FileDto(UUID.randomUUID().toString(), file.getOriginalFilename(),
+                        file.getContentType());
                 list.add(dto);
                 System.out.println(list);
-                File newFileName=new File(dto.getUuid()+"_"+dto.getFileName());
-                
+                File newFileName = new File(dto.getUuid() + "_" + dto.getFileName());
+
                 file.transferTo(newFileName);
-                filename=newFileName.toString();
+                filename = newFileName.toString();
                 System.out.println(filename);
             }
-    }
-    catch(Exception e){
-        e.printStackTrace();
-        return "";
-    }
-    return filename;
-    
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+        return filename;
+
     }
 
-    public ResponseEntity<Resource> delete(String filename){
+    public ResponseEntity<Resource> delete(String filename) {
         String path = "C:\\upload\\";
 
-        //파일 형식 붙여야 함.
+        // 파일 형식 붙여야 함.
         File resource = new File(path + filename);
 
-        if(!resource.exists()) {
+        if (!resource.exists()) {
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
         resource.delete();
@@ -66,22 +63,19 @@ public class ImageService{
 
     public ResponseEntity<Resource> display(String filename) {
         String path = "C:\\upload\\";
-<<<<<<< HEAD
-=======
         String folder = "";
->>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 
-        //파일 형식 붙여야 함.
+        // 파일 형식 붙여야 함.
         Resource resource = new FileSystemResource(path + filename);
-        if(!resource.exists()) {
+        if (!resource.exists()) {
             return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
         }
         HttpHeaders header = new HttpHeaders();
         Path filePath = null;
-        try{
+        try {
             filePath = Paths.get(path + filename);
             header.add("Content-type", Files.probeContentType(filePath));
-        }catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<Resource>(HttpStatus.CONFLICT);
         }
