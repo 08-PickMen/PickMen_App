@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1054110816028",
+    "project_id": "pickmen-chat",
+    "storage_bucket": "pickmen-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054110816028:android:8e706312d8df7965188cd9",
+        "android_client_info": {
+          "package_name": "com.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1054110816028-cfaf74sca6kng7u3u66us6r864f6puc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjvHJfs8REG1NHEOEl-No7APWn39SSkeQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1054110816028-cfaf74sca6kng7u3u66us6r864f6puc9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
