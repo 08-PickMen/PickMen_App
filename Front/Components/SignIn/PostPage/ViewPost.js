@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
         marginLeft : 20,
         marginBottom : 10,
         fontSize : 15,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRoundB',
 
     },
     ContentText: {
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
         marginLeft : 20,
         marginBottom : 10,
         fontSize : 15,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRound',
 
     },
     CountText: {
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
         marginRight : 20,
         marginBottom : 10,
         fontSize : 15,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRoundB',
 
     },
     TitleText: {
@@ -389,7 +389,7 @@ const styles = StyleSheet.create({
         marginLeft : 20,
         marginBottom : 10,
         fontSize : 20,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRoundB',
 
     },
     Button : {
