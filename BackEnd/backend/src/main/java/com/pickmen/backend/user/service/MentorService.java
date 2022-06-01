@@ -15,6 +15,7 @@ import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.model.UserLecture;
 import com.pickmen.backend.user.repository.LectureRepository;
 import com.pickmen.backend.user.repository.MajorRepository;
+import com.pickmen.backend.user.repository.UserLectureRepository;
 import com.pickmen.backend.user.repository.UserRepository;
 
 import org.hibernate.cache.spi.entry.CollectionCacheEntry;
@@ -41,6 +42,9 @@ public class MentorService {
 	
 	@Autowired
 	private LectureRepository lectureRepository;
+	
+	@Autowired
+	private UserLectureRepository userLectureRepository;
 	
 	@Transactional(readOnly = true)
 	public User getMentor(long id) {
@@ -86,14 +90,33 @@ public class MentorService {
 	}*/
 	
 	@Transactional
-	public User updateMentor(long id, User user) {
+	public User updateMentor(long id, User user, List<Long> lectureList) {
 		Optional<User> optionalMentor = userRepository.findById(id);
 	    User findMentor = optionalMentor.orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));	    
 	    
-	    // 프로필 이미지 변경
-	    findMentor.setProfileImage(user.getProfileImage());
+	    // 닉네임, 자기소개, 거주지, 멘토링 내용 변경
+	    findMentor.setNickname(user.getNickname());
+	    findMentor.setIntroduceMyself(user.getIntroduceMyself());
+	    findMentor.setLivingWhere(user.getLivingWhere());
+	    findMentor.setMentoringContents(user.getMentoringContents());
 	    
 	    // 가르치는 분야 변경
+	    if(lectureList != null) {
+		    int i;
+			UserLecture userLecture = new UserLecture();
+			// 기존 가르치는 분야 삭제
+			userLectureRepository.deleteAllByUserId(findMentor.getId());
+	
+			for (i = 0; i < lectureList.size(); i++) {
+				userLecture = UserLecture.builder().user(findMentor)
+						.lecture(lectureRepository.findById(lectureList.get(i)).orElseThrow()).build();
+	
+				userLectureRepository.save(userLecture);
+			}
+	    }
+	    else {
+	    	System.out.println("전공 강의 분야 변경 없음");
+	    }
 	    
 	    // 멘토링 가능 유무 변경 . Boolean type의 Getter의 경우 getXXX이 아닌 isXXX임.
 	    findMentor.setActiveCanTeach(user.isActiveCanTeach());	    

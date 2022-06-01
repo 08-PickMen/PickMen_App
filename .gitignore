@@ -61,3 +61,6 @@ buck-out/
 
 # Application Setting File
 BackEnd/backend/src/main/resources/application.yml
+
+# target
+/Backend/backend/target/
