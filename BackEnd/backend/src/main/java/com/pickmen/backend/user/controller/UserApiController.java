@@ -201,10 +201,10 @@ public class UserApiController {
   }
   
   // 한명의 유저의 필요한 정보들을 반환  
-  @GetMapping("/getUserDto/{user_id}")
-   public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
-	  return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
-  }
+  // @GetMapping("/getUserDto/{user_id}")
+  //  public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
+	//   return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
+  // }
 }
 
 

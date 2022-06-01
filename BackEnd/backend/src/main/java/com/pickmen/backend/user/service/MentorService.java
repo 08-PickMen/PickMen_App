@@ -1,7 +1,6 @@
 package com.pickmen.backend.user.service;
 
 import java.util.ArrayList;
-<<<<<<< HEAD
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -25,33 +24,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-=======
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-
-import com.pickmen.backend.RoleType;
-import com.pickmen.backend.config.auth.PrincipalDetail;
-import com.pickmen.backend.dto.MentorProfileDto;
-import com.pickmen.backend.user.model.Lecture;
-import com.pickmen.backend.user.model.Major;
-import com.pickmen.backend.user.model.User;
-import com.pickmen.backend.user.model.UserLecture;
-import com.pickmen.backend.user.repository.LectureRepository;
-import com.pickmen.backend.user.repository.MajorRepository;
-import com.pickmen.backend.user.repository.UserRepository;
-
-import org.hibernate.cache.spi.entry.CollectionCacheEntry;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
->>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
