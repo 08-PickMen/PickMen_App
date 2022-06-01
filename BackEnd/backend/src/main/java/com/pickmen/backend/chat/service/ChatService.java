@@ -73,8 +73,7 @@ public class ChatService {
 						otherUserChatRoom.getUser().getId(), 
 						listUserChatRoom.get(i).getChatRoom().getId(),
 						otherUserChatRoom.getUser().getNickname(), 
-						//otherUserChatRoom.getUser().getMajor().getName(),
-						"",
+						otherUserChatRoom.getUser().getMajor().getName(),
 						chatListForLastChat.get(0).getContent(),
 						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"))));
 			}
@@ -83,8 +82,7 @@ public class ChatService {
 						otherUserChatRoom.getUser().getId(), 
 						listUserChatRoom.get(i).getChatRoom().getId(),
 						otherUserChatRoom.getUser().getNickname(),
-						"")); 
-						//otherUserChatRoom.getUser().getMajor().getName()));
+						otherUserChatRoom.getUser().getMajor().getName()));
 			}
 		}
 		

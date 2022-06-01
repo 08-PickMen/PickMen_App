@@ -7,7 +7,6 @@ import java.util.Optional;
 import com.pickmen.backend.dto.LectureDto;
 import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.SchoolDto;
-import com.pickmen.backend.dto.UserDto;
 import com.pickmen.backend.user.model.Lecture;
 import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.School;
@@ -153,6 +152,8 @@ public class UserService {
 		return userRepository.save(findUser);
 	}
 
+<<<<<<< HEAD
+=======
 	@Transactional
 	public UserDto getUserDto(long user_id) {
 		User user = userRepository.findById(user_id).orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
@@ -161,6 +162,7 @@ public class UserService {
 		return userDto;
 	}
 
+>>>>>>> cfbbf7cc56f6e753fd0319eeb372f33119ec92da
 
 
 
