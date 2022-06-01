@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
 
 
-function Map({ navigation }) {
+function Map({ navigation , route}) {
     const [location, setLocation] = useState({
         latitude: 37.2830557,
         longitude: 127.0448373,
@@ -16,6 +16,8 @@ function Map({ navigation }) {
     });
     const [liveinWhere, setLiveinWhere] = useState('');
     const mapRef = useRef(null);
+    const [isSetLocation, setIsSetLocation] = useState(false);
+
     const onRegionChange = (region) => {
         setLocation({
             latitude: region.latitude,
@@ -84,7 +86,8 @@ function Map({ navigation }) {
                 }}>
                     <TouchableOpacity style={styles.Button} onPress={()=>{
                         saveLocation();
-                        navigation.navigate('Introduce_Mentor')}}>
+                        setIsSetLocation(true);
+                        navigation.navigate('Introduce_Mentor', {item_isSetLocation : isSetLocation})}}>
                         <Text style={styles.Text}>확인</Text>
                     </TouchableOpacity>
                 </View>

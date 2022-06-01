@@ -1,30 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet, Platform, Alert, SliderComponent } from 'react-native';
 import { TouchableOpacity, TextInput } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import 'react-navigation'
 import status from '../../../utils/status';
-
-async function DuplicateCheck(nickName) {
-    await axios.get('http://10.0.2.2:8090/DuplicateCheck', {
-        params: {
-            nickname: nickName
-        }
-    }).
-        then(response => {
-            if (response.status == 200) {
-                var data = nickName;
-                AsyncStorage.setItem('nickname', data);
-                AsyncStorage.setItem('status', 'true');
-            } else {
-                console.log(response.data)
-            }
-        }).catch(error => {
-            console.log(error)
-        })
-}
 
 async function ImageSave(image) {
     await AsyncStorage.setItem('image', JSON.stringify(image));
@@ -42,10 +23,35 @@ function GradeAccess({ navigation }) {
     const [profileImage, setprofileImage] = React.useState(null);
     const [CorrectText, setCorrectText] = React.useState('');
     const [Gradefile, setGradefile] = React.useState('');
-    async function CheckStatus() {
-        var data = await AsyncStorage.getItem('status');
-        status.length = 0;
-        status.push(data);
+    const [signCheck, setSignCheck] = React.useState(false);
+    const [placeholder, setPlaceholder] = React.useState('내용을 입력해주세요.');
+    const [checkText, setCheckText] = React.useState('');
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+    const DuplicateCheck = (nickName) => {      
+        axios.get('http://10.0.2.2:8090/DuplicateCheck', {
+            params: {
+                nickname: nickName
+            }
+        }).then(response => {
+            console.log(response.data.status)
+            if(response.data.status == '200') {
+                console.log('중복체크 성공')
+                setCheckText('중복체크 성공')
+            } else if(response.data.status == '500') {
+                console.log('중복체크 실패')
+                setCheckText('중복체크 실패')
+            }
+        })
+        return 0;
+    }
+    const saveNickName = async (nickName) => {
+        try {
+            await AsyncStorage.setItem('nickName', nickName);
+        } catch (e) {
+            console.log(e);
+        }
     }
     async function ImageUpload() {
         launchImageLibrary({}, async function (response) {
@@ -64,7 +70,13 @@ function GradeAccess({ navigation }) {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(response => {
-                console.log(response.data);
+                console.log(response.status);
+                if(response.request._response == '인증 실패'){
+                    Alert.alert('실패', '성적 확인이 실패했습니다.');
+                } else {
+                    Alert.alert('성공', '성공적으로 성적이 인증 되었습니다.');
+                    setSignCheck(true);
+                }
             })
         })
 
@@ -87,6 +99,14 @@ function GradeAccess({ navigation }) {
         })
 
     }
+    const renderCheckText = () => {
+        const backgroundColor = checkText === '중복체크 실패' ? '#ff0000' : '#27baff';
+        return (
+            <View>
+                <Text style = {{marginLeft : 20, fontFamily : 'Jalnan', fontSize : 17, color : backgroundColor}}>{checkText}</Text>
+            </View>    
+        )
+    }
     return (
         <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
             <View style={styles.PageStyle}>
@@ -97,16 +117,14 @@ function GradeAccess({ navigation }) {
                     <Text style={styles.Text}>닉네임</Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <TextInput style={styles.TextInput} placeholder="내용을 입력해주세요." onChangeText={(nickName) => setNickName(nickName)} />
+                    <TextInput style={styles.TextInput} placeholder = {placeholder} onChangeText={(nickName) => setNickName(nickName)} />
                     <TouchableOpacity style={styles.CheckButton} onPress={() => {
-                        DuplicateCheck(nickName); CheckStatus(); {
-                            if (status[0] == 'true') {
-                                setCorrectText('사용가능한 닉네임입니다.');
-                            }
-                        }
-                    }}>
+                        DuplicateCheck(nickName);}}>
                         <Text style={styles.ButtonText}>중복인증</Text>
                     </TouchableOpacity>
+                </View>
+                <View>
+                    {renderCheckText()}
                 </View>
                 <View>
                     <Text style={styles.CorrectText}>{CorrectText}</Text>
@@ -141,7 +159,14 @@ function GradeAccess({ navigation }) {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.CorrectButton}
-                        onPress={() => { navigation.navigate('Information_Mentor') }}>
+                        onPress={() => {
+                            if(signCheck){
+                                saveNickName(nickName);
+                                navigation.navigate('Information_Mentor')
+                            } else {
+                                Alert.alert('실패', '성적인증에 실패하셨습니다.');
+                            }
+                            }}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
                 </View>
@@ -212,7 +237,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     Text: {
-        marginTop: 5,
+        marginTop: 35,
         paddingLeft: 10,
         paddingRight: 10,
         fontWeight: 'bold',

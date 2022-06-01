@@ -201,7 +201,6 @@ const styles = StyleSheet.create({
      marginRight : 'auto', 
      marginTop : 200,
      borderRadius:5,
- 
      backgroundColor : "#27BAFF"
     },
     MainTitle : {
