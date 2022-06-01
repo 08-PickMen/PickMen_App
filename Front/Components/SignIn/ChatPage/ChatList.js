@@ -14,21 +14,19 @@ function ChatList({ navigation }) {
 
     // 채팅 리스트를 render하는 함수
     const Item = ({ item }) => (
-        <TouchableOpacity  style={{marginTop : 20,marginBottom : 10,}} onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id }) }}>
+        <TouchableOpacity  style={{marginTop : 20,marginBottom : 10,}} onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id, item_nickname : item.other_id_nickname}) }}>
             <View style={style.cards}>
                 <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginLeft : 20,marginRight: 20, width: 60, height: 60, borderRadius: 120, borderWidth : 1, borderColor  :'#a0a0a0'}}></Image>
                 <SafeAreaView style = {{}}>
-                    <View>
+                    <View style = {{flexDirection : "row"}}>
                         <Text style = {{marginRight : 15, fontFamily : 'Jalnan', fontSize : 15, color : 'black'}}>{item.other_id_nickname}</Text>
+                        <Text style = {{fontSize : 13, marginLeft : 100,}}>{item.formatDateTime}</Text>
                     </View>
                     <Text style = {{marginTop : 10, fontFamily : 'NanumSquareRound', fontSize : 13, color : 'black'}}>{item.lastChat}</Text>
                 </SafeAreaView>
                 <SafeAreaView style = {{flex : 1}}>
                     <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>{item.other_id_major}</Text>
                 </SafeAreaView>
-                <View>
-                    <Text style = {{fontSize : 13, marginTop : 10, marginRight : 10}}>{item.formatDateTime}</Text>
-                </View>
             </View>
         </TouchableOpacity>
     );
@@ -44,11 +42,7 @@ function ChatList({ navigation }) {
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
             var data = response.data;
-            if (response.data.length > 1)
-                setChatList(data.reverse());
-            else
-                setChatList(data);
-            console.log(data)
+            setChatList(data);
         })
     }, [])
 

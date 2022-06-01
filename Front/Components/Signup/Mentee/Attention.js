@@ -60,7 +60,7 @@ function Attention({navigation}){
     return(
         <View style = {{flex : 1, backgroundColor : '#27BAFF'}}>
             <View style = {styles.PageStyle}>
-            <Text style = {styles.MainTitle}>전공 분야 선택</Text>
+            <Text style = {styles.MainTitle}>전공 및 관심 분야 선택</Text>
             <View style ={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>전공 선택</Text>
             </View>
@@ -97,7 +97,6 @@ function Attention({navigation}){
                 setOpen={setOpen}
             />
             </View>
-            <Text style = {styles.MainTitle}>관심 강의 선택</Text>
             <View style={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 강의 1</Text>
             </View>
@@ -136,7 +135,7 @@ function Attention({navigation}){
                 setOpen={setOpen2}
             />
             </View>
-            <View style ={{marginTop : 140,}}>
+            <View style ={{marginTop : 50,}}>
                 <Text style = {styles.Sector}>관심 강의 2</Text>
             </View>
             <View>
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
      paddingTop : 5, 
      marginLeft : 'auto',
      marginRight : 'auto', 
-     marginTop : 200,
+     marginTop : 100,
      borderRadius:5,
  
      backgroundColor : "#27BAFF"
