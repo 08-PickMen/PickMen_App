@@ -238,7 +238,22 @@ function ViewPost({navigation}) {
         return (
             <Card style = {{borderWidth : .5}}>
                 <View style = {{flexDirection : 'row', marginTop : 10,}}>
-                        <TouchableOpacity onPress={()=>{navigation.navigate('MentorProfileDetailFromReply',{item_id : item.user_id})}}>
+                        <TouchableOpacity onPress={()=>{
+                            if(item.role =='MENTOR') {
+                                navigation.navigate('MentorProfileDetailFromReply',{item_id : item.user_id})
+                            } else {
+                                Alert.alert(
+                                    '멘토가 아닙니다.',
+                                    '',
+                                    [
+                                        {
+                                            text: '확인',
+                                            onPress: () => {},
+                                        }
+                                    ]
+                                );
+                            }
+                            }}>
                             <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user_id}} style = {styles.ReplyImage}/>
                         </TouchableOpacity>
                     <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
@@ -250,7 +265,7 @@ function ViewPost({navigation}) {
                     <Text style = {styles.ReplyCreateDate}>20{item.createDateTime}</Text>
                 </View>
                 <View>
-                    <TouchableOpacity style = {{marginLeft : 'auto'}} onPress={()=>deleteReply(item.user.id, item.id, id)}>
+                    <TouchableOpacity style = {{marginLeft : 'auto'}} onPress={()=>deleteReply(item.user_id, item.id, id)}>
                         <Image source= {deleteicon} style = {styles.ReplyDelete}/>
                     </TouchableOpacity>
                 </View>
@@ -483,16 +498,16 @@ const styles = StyleSheet.create({
     },
     PageStyle: {
         backgroundColor: 'white',
-        width: 380,
+        width: 400,
         height: 680,
         borderColor: 'white',
         borderWidth: 1,
-        borderRadius: 30,
+        borderRadius : 10,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto'
-    },
+      },
    });
 
 export default ViewPost;

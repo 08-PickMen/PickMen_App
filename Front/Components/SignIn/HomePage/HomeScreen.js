@@ -8,14 +8,14 @@ import 'react-navigation';
 import Home from './Home';
 import Mentor from '../MentorProfile/Mentor';
 import Board from '../PostPage/Board';
-import Profile from '../MyProfile/Profile';
+import ProfileScreen from '../MyProfile/ProfileScreen';
 import ViewChat from '../ChatPage/Chatboard';
 
 // 전체 홈 화면 바텀 탭 Stack
 const Tab = createBottomTabNavigator();
 
 // 전체 홈 화면 바텀 탭 페이지
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation , route}) {
     return (
         <NavigationContainer independent={true} >
             <Tab.Navigator screenOptions={{
@@ -59,7 +59,7 @@ function HomeScreen({ navigation }) {
                     },
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
-                <Tab.Screen name="MyProfile" component={Profile} options={{
+                <Tab.Screen name="ProfileScreen" component={ProfileScreen} options={{
                     tabBarIcon: () => {
                         return (
                             <Image source={IconStyles.MyProfile.source} style={{ width: 25, height: 25 }} />

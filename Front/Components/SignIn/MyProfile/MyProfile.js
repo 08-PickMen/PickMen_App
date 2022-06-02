@@ -4,9 +4,10 @@ import 'react-navigation';
 import axios from 'axios';
 import { Card, Title } from 'react-native-paper';
 import myprofile from '../../localData/MyProfile';
+import { NavigationContainer } from '@react-navigation/native';
 
 // 접속한 유저의 프로필 정보를 불러오는 페이지
-function Profile() {
+function MyProfile({navigation}) {
     const [lecturelist, setLecturelist] = useState([]);
     const [lecturelist2, setLecturelist2] = useState([]);
     const [major, setMajor] = useState('');
@@ -21,54 +22,63 @@ function Profile() {
             setMajor(response.data.data.majorName);
             setSchool(response.data.data.schoolName);
         })
+        console.log(myprofile)
     }, [])
+    const renderRole = (role) => {
+        if(role == 'MENTEE'){
+            return (
+                <Text>관심 강의</Text>
+            )
+        } else {
+            return(
+                <Text>전문 강의</Text>
+            )
+        }
+    }
     return (
-        <View style={{ backgroundColor: '#27BAFF', flex : 1}}>
+        <View style={{ backgroundColor: '#27BAFF', flex: 1 }}>
             <Card style={styles.cards}>
                 <Card.Title>
                     <Title>프로필</Title>
                 </Card.Title>
                 <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + myprofile[0].id }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 150, height: 150, borderRadius: 100 }} />
-                <TouchableOpacity>
-                    <Text style={{ marginTop: 20, marginLeft: 'auto', marginRight: 'auto', fontSize: 16, color: '#27BAFF' }}>Change Profile photo</Text>
-                </TouchableOpacity>
                 <Card.Content>
                     <View style={{ marginTop: 20 }}>
-                        <Text>Nickname</Text>
+                        <Text>닉네임</Text>
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{myprofile[0].nickname}</Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
-                        <Text>Email</Text>
+                        <Text>이메일</Text>
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{myprofile[0].email}</Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
-                        <Text>University</Text>
+                        <Text>소속 대학</Text>
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{school}</Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
-                        <Text>Major</Text>
+                        <Text>학과</Text>
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{major} </Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
-                        <Text>Lecture</Text>
+                        {renderRole(myprofile[0].role)}
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{lecturelist.name}, {lecturelist2.name} </Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
-                    <TouchableOpacity style={{ marginTop: 10 }}>
+                    <TouchableOpacity style={{ marginTop: 10 }} onPress = {()=>navigation.navigate("EditProfile_Mentee")}>
                         <Text style={{ fontSize: 16, color: '#27BAFF' }}>Personal Information Settings</Text>
                     </TouchableOpacity>
                 </Card.Content>
@@ -80,11 +90,11 @@ function Profile() {
 const styles = StyleSheet.create({
     cards: {
         backgroundColor: 'white',
-        width: 380,
+        width: 400,
         height: 680,
         borderColor: 'white',
         borderWidth: 1,
-        borderRadius: 30,
+        borderRadius: 10,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 'auto',
@@ -132,4 +142,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default Profile;
+export default MyProfile;

@@ -75,14 +75,16 @@ function Post({ navigation }) {
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
     return (
-        <View>
+        <View style = {{flex : 1, backgroundColor : '#27BAFF'}}>
+            <View style = {styles.PageStyle}>
             <Text style={styles.Text}>게시글 쓰기</Text>
-            <View style={{
-                borderBottomColor: 'black',
-                borderBottomWidth: 1,
-            }}></View>
             <View style={{ flexDirection: 'row', marginTop: 10 }}>
-                <TouchableOpacity style={{ marginLeft: 30, marginRight: 5 }}>
+                <TouchableOpacity 
+                    onPress={()=>navigation.dispatch(CommonActions.reset({
+                        index : 0,
+                        routes : [{name : 'PostPage'}]
+                    }))}
+                    style={{ marginLeft: 30, marginRight: 5 }}>
                     <Text style={styles.ExitText}>X</Text>
                 </TouchableOpacity>
                 <Text style={styles.PostText}>글 쓰기</Text>
@@ -96,9 +98,12 @@ function Post({ navigation }) {
                 </TextInput>
             </View>
             <View>
-                <TextInput style={styles.TextInput} multiline={true} placeholder='내용을 입력해주세요.' onChangeText={(Content) => setContent(Content)}>
+                <TextInput style={styles.TextInput} multiline={true} 
+                textAlignVertical='top'
+                placeholder='내용을 입력해주세요.' onChangeText={(Content) => setContent(Content)}>
 
                 </TextInput>
+            </View>
             </View>
         </View>
 
@@ -181,7 +186,19 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontFamily: 'Jalnan',
 
-    }
+    },
+    PageStyle: {
+        backgroundColor: 'white',
+        width: 400,
+        height: 680,
+        borderColor: 'white',
+        borderWidth: 1,
+        borderRadius : 10,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto'
+      },
 });
 
 export default Post;

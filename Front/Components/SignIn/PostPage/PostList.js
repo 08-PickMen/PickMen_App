@@ -170,7 +170,7 @@ function PostList({ navigation }) {
         <View style={{ flexgrow: 1 }}>
           <FlatList
             data={data}
-            renderItem={renderItem}
+            renderItem={(item)=> renderItem(item)}
             windowSize={2}
             contentContainerStyle={{ flexGrow: 1 }}>
           </FlatList>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 4,
+    marginLeft: 15,
     marginRight: 'auto',
   },
   nickname: {
@@ -248,14 +248,11 @@ const styles = StyleSheet.create({
   },
   PageStyle: {
     backgroundColor: 'white',
-    width: 380,
+    width: 400,
     height: 680,
     borderColor: 'white',
     borderWidth: 1,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
+    borderRadius : 10,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 'auto',

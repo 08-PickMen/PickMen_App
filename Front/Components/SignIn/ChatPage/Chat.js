@@ -16,7 +16,7 @@ import backButtonIcon from '../../../icons/left-arrow.png';
 import { CheckBox, Chip } from 'react-native-elements';
 import CheckBoxIcon from 'react-native-elements/dist/checkbox/CheckBoxIcon';
 import star from '../../../icons/star.png';
-import blackStar from '../../../icons/blackStar.png';
+import whiteStar from '../../../icons/whitestar.png';
 const TextEncodingPolyfill = require('text-encoding');
 var StompClient = null;
 // Text Encoder polyfill
@@ -84,8 +84,8 @@ function Chat({ navigation, route }) {
         }
     }
     const renderReviewText = (rated) => {
-        
-        if(rated==true) {
+
+        if (rated == true) {
             return (
                 <View>
                     <Text>평가를 완료하셨습니다.</Text>
@@ -172,18 +172,18 @@ function Chat({ navigation, route }) {
         const review = {
             content: String(content),
             mentor: {
-               id : Number(other_id)
+                id: Number(other_id)
             },
             rating: Number(checked1 + checked2 + checked3 + checked4 + checked5),
         }
-        axios.post('http://10.0.2.2:8090/chat/room/makeReview/'+chatRoom_id,JSON.stringify(review),
-           {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(response => {
-            console.log(response)
-        })
+        axios.post('http://10.0.2.2:8090/chat/room/makeReview/' + chatRoom_id, JSON.stringify(review),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }).then(response => {
+                console.log(response)
+            })
     }
     const renderInputToolbar = props => {
         return (
@@ -202,7 +202,7 @@ function Chat({ navigation, route }) {
                 </TouchableOpacity>
                 <Text style={styles.nickName}>{other_id_nickname}</Text>
                 <TouchableOpacity disabled={item_rated}
-                onPress={() => setModalVisible(true)} style={{ marginLeft: 'auto', marginRight: 20, marginTop: 15, }}>
+                    onPress={() => setModalVisible(true)} style={{ marginLeft: 'auto', marginRight: 20, marginTop: 15, }}>
                     {renderReviewText(item_rated)}
                 </TouchableOpacity>
             </View>
@@ -217,32 +217,48 @@ function Chat({ navigation, route }) {
                         <CheckBox
                             checked={checked1}
                             onPress={() => setChecked1(!checked1)}
-                            checkedIcon={<Image source={blackStar} style={styles.RatingIconStyle} />}
-                            uncheckedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            checkedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            uncheckedIcon={<Image source={whiteStar} style={styles.RatingIconStyle} />}
                         ></CheckBox>
                         <CheckBox
                             checked={checked2}
-                            onPress={() => setChecked2(!checked2)}
-                            checkedIcon={<Image source={blackStar} style={styles.RatingIconStyle} />}
-                            uncheckedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            onPress={() => {
+                                setChecked1(!checked1);
+                                setChecked2(!checked2);
+                            }}
+                            checkedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            uncheckedIcon={<Image source={whiteStar} style={styles.RatingIconStyle} />}
                         ></CheckBox>
                         <CheckBox
                             checked={checked3}
-                            onPress={() => setChecked3(!checked3)}
-                            checkedIcon={<Image source={blackStar} style={styles.RatingIconStyle} />}
-                            uncheckedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            onPress={() => {setChecked3(!checked3);
+                                setChecked1(!checked1);
+                                setChecked2(!checked2);
+                            }}
+                            checkedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            uncheckedIcon={<Image source={whiteStar} style={styles.RatingIconStyle} />}
                         ></CheckBox>
                         <CheckBox
                             checked={checked4}
-                            onPress={() => setChecked4(!checked4)}
-                            checkedIcon={<Image source={blackStar} style={styles.RatingIconStyle} />}
-                            uncheckedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            onPress={() => {setChecked4(!checked4);
+                                setChecked3(!checked3);
+                                setChecked2(!checked2);
+                                setChecked1(!checked1);
+                            }}
+                            checkedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            uncheckedIcon={<Image source={whiteStar} style={styles.RatingIconStyle} />}
                         ></CheckBox>
                         <CheckBox
                             checked={checked5}
-                            onPress={() => setChecked5(!checked5)}
-                            checkedIcon={<Image source={blackStar} style={styles.RatingIconStyle} />}
-                            uncheckedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            onPress={() => {
+                                setChecked5(!checked5);
+                                setChecked4(!checked4);
+                                setChecked3(!checked3);
+                                setChecked2(!checked2);
+                                setChecked1(!checked1);
+                            }}
+                            checkedIcon={<Image source={star} style={styles.RatingIconStyle} />}
+                            uncheckedIcon={<Image source={whiteStar} style={styles.RatingIconStyle} />}
                         ></CheckBox>
                     </View>
                     <View>
@@ -255,7 +271,13 @@ function Chat({ navigation, route }) {
                         <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.NotRatingButton}>
                             <Text style={styles.Text}>평가 안하기</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {MakeReview(content); setModalVisible(false); setItemRated(true)}} style={styles.RatingButton}>
+                        <TouchableOpacity onPress={() => {
+                            MakeReview(content); setModalVisible(false); setItemRated(true);
+                            navigation.dispatch(CommonActions.reset({
+                                index: 0,
+                                routes: [{ name: 'ChatPage' }],
+                            }))
+                        }} style={styles.RatingButton}>
                             <Text style={styles.Text}>평가하기</Text>
                         </TouchableOpacity>
                     </View>

@@ -89,15 +89,15 @@ const style = StyleSheet.create({
     },
     PageStyle: {
         backgroundColor: 'white',
-        width: 380,
+        width: 400,
         height: 680,
         borderColor: 'white',
         borderWidth: 1,
-        borderRadius: 30,
+        borderRadius : 10,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto'
-    },
+      },
 })
 export default ChatList;

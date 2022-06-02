@@ -5,6 +5,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import MentorProfileDetail from './MentorProfileDetail';
 import MentorProfile from './MentorProfile';
+import ChatPage from '../ChatPage/ChatList';
 // 전체 Mentor Page stack
 const stack = createStackNavigator();
 // 전체 Mentor Page
@@ -13,10 +14,10 @@ function Mentor() {
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{
                 headerShown : false 
-            }} initialRouteName = "MentorPage">
+            }} initialRouteName = "MentorProfilePage">
                 <stack.Screen name="MentorProfilePage" component={MentorProfile}/>
                 <stack.Screen name="MentorProfileDetailPage" component={MentorProfileDetail}/>                
-
+                <stack.Screen name="ChatPage" component={ChatPage}/>
             </stack.Navigator>
         </NavigationContainer>
     )

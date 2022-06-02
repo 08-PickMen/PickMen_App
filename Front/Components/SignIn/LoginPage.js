@@ -70,7 +70,7 @@ function LoginPage({ navigation }) {
             if (response.data.status == 200) {
                 saveUserId(response.data.data.id);
                 loadprofile();
-                navigation.navigate('HomeScreen');
+                navigation.navigate('HomeScreen',{item_nickname : response.data.data.nickname});
             } else {
                 alert('아이디 또는 비밀번호가 틀렸습니다.');
                 navigation.navigate('LoginPage');

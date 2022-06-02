@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import 'react-navigation'
@@ -25,11 +25,11 @@ function SelectSchool_Mentor({ navigation }) {
                 newData.push({
                     label: response.data[i].name,
                     value: response.data[i].id,
-                },);
+                });
             }
             setSchoolList(newData);
         })
-    },[])
+    }, [])
     return (
         <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
             <View style={styles.PageStyle}>
@@ -37,38 +37,38 @@ function SelectSchool_Mentor({ navigation }) {
                     <Text style={styles.Introduce}>학교 선택</Text>
                 </View>
                 <View>
-            <DropDownPicker
-                style = {{width : 300, marginLeft : 'auto', marginRight : 'auto', borderColor : '#a0a0a0'}}
-                open={open}
-                value={value}
-                zIndex={3000}
-                zIndexInverse={1000}
-                searchable={true}
-                dropDownContainerStyle={{borderColor : '#a0a0a0'}}
-                searchContainerStyle={{borderColor : '#a0a0a0', borderBottomWidth : .15}}
-                listItemContainerStyle={{borderColor : '#a0a0a0', borderTopWidth : 0}}
-                searchTextInputStyle={{height : 30, borderRadius : 0, borderWidth : 0, borderColor : '#a0a0a0'}}
-                items={schoolList}
-                placeholder="학교를 선택하세요."
-                placeholderStyle={{borderColor : '#a0a0a0', fontFamily : 'NanumSquareRoundB', fontSize : 14}}
-                searchPlaceholder = '학교 검색'
-                containerStyle={{width : 300, marginLeft : 'auto', marginRight : 'auto'}}
-                onChangeValue={(itemValue) => {
-                    const getIndex = (itemValue) => {
-                        for (var i=0; i<schoolList.length; i++) {
-                            if (schoolList[i].value == itemValue) {
-                                return i;
+                    <DropDownPicker
+                        style={{ width: 300, marginLeft: 'auto', marginRight: 'auto', borderColor: '#a0a0a0' }}
+                        open={open}
+                        value={value}
+                        zIndex={3000}
+                        zIndexInverse={1000}
+                        searchable={true}
+                        dropDownContainerStyle={{ borderColor: '#a0a0a0' }}
+                        searchContainerStyle={{ borderColor: '#a0a0a0', borderBottomWidth: .15 }}
+                        listItemContainerStyle={{ borderColor: '#a0a0a0', borderTopWidth: 0 }}
+                        searchTextInputStyle={{ height: 30, borderRadius: 0, borderWidth: 0, borderColor: '#a0a0a0' }}
+                        items={schoolList}
+                        placeholder="학교를 선택하세요."
+                        placeholderStyle={{ borderColor: '#a0a0a0', fontFamily: 'NanumSquareRoundB', fontSize: 14 }}
+                        searchPlaceholder='학교 검색'
+                        containerStyle={{ width: 300, marginLeft: 'auto', marginRight: 'auto' }}
+                        onChangeValue={(itemValue) => {
+                            const getIndex = (itemValue) => {
+                                for (var i = 0; i < schoolList.length; i++) {
+                                    if (schoolList[i].value == itemValue) {
+                                        return i;
+                                    }
+                                }
                             }
-                        }
-                    }
-                    if(getIndex(itemValue)>=0) {
-                        setSchoolValue(schoolList[getIndex(itemValue)].value);
-                    }
-                }}
-                setValue={setValue}
-                setOpen={setOpen}
-            />
-            </View>
+                            if (getIndex(itemValue) >= 0) {
+                                setSchoolValue(schoolList[getIndex(itemValue)].value);
+                            }
+                        }}
+                        setValue={setValue}
+                        setOpen={setOpen}
+                    />
+                </View>
                 <TouchableOpacity style={styles.startButton}
                     onPress={() => { saveSchool(); navigation.navigate('Major') }}>
                     <Text style={styles.Text}>다음</Text>

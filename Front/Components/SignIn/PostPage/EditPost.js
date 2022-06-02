@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
         marginTop: 'auto',
         marginBottom: 'auto'
     },
+    
 });
 
 export default EditPost;

@@ -34,7 +34,7 @@ function MentorProfile({ navigation }) {
     // 간략한 멘토 프로필을 렌더링하는 함수
     const renderCard = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id, item_Major_id : item.majorDto.name, item_lecture1_id : item.lectureDto1.name, item_lecture2_id : item.lectureDto2.name})}>
+            <TouchableOpacity onPress={() => navigation.navigate('MentorProfileDetailPage', { item_id: item.id, item_Major_id : item.majorDto.name, item_lecture1_id : item.lectureDto1.name, item_lecture2_id : item.lectureDto2.name, item_averageRating : item.averageRating})}>
                 <Card style={styles.cards}>
                     <Card.Content style={{ flexDirection: 'row' }}>
                     </Card.Content>
@@ -64,7 +64,13 @@ function MentorProfile({ navigation }) {
         )
     };
     // 멘토 프로필을 조건에 맞게 설정하는 함수
-    function updateList(MajorText, LectureText, isMajor, isLecture) {
+    function updateList(MajorText, LectureText, isMajor, isLecture,isRating) {
+        setMentorList(MentorList2);
+        if (isRating) {
+            setMentorList(MentorList2.sort(function (a, b) {
+                return b.averageRating - a.averageRating;
+            }));
+        }
         if (isMajor) {
             if (MajorText) {
                 const newData = MentorList2.filter(function (item) {
@@ -77,7 +83,6 @@ function MentorProfile({ navigation }) {
                 setMentorList(MentorList2);
             }
         }
-        console.log('isLecture : ', isLecture)
         if (isLecture) {
             if (LectureText) {
                 const newData = MentorList2.filter(function (item) {
@@ -232,7 +237,7 @@ function MentorProfile({ navigation }) {
                             setOpen={setOpen2}
                         />
                     </View>
-                    <TouchableOpacity style={styles.CorrectButton} onPress={() => { updateList(MajorText, LectureText, isMajor, isLecture) }}>
+                    <TouchableOpacity style={styles.CorrectButton} onPress={() => { updateList(MajorText, LectureText, isMajor, isLecture, isRating) }}>
                         <Text style={styles.CorrectButtonText}>적용</Text>
                     </TouchableOpacity>
                 </View>
@@ -365,15 +370,15 @@ const styles = StyleSheet.create({
     PageStyle: {
         backgroundColor: 'white',
         width: 400,
-        height: 684,
+        height: 680,
         borderColor: 'white',
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius : 10,
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto'
-    },
+      },
 })
 
 export default MentorProfile;
