@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,6 +40,7 @@ import lombok.ToString;
 // JPA 는 Java의 ORM
 
 @Table(name = "user")
+@Data
 @Getter
 @Setter
 @ToString
@@ -94,7 +96,7 @@ public class User {
    // 관심 강의 입력 추가(프론트에서 전달해줌)
    // User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
    @JsonManagedReference(value = "user-userLecture")
-   @OneToMany(mappedBy = "user")
+   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
    private List<UserLecture> userLectures = new ArrayList<>();
  
    // 학교 입력 추가(프론트에서 리스트에서 선택하여 전달해주는 식으로)

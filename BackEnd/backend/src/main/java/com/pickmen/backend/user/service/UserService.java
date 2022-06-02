@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.pickmen.backend.dto.LectureDto;
 import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.SchoolDto;
+import com.pickmen.backend.dto.UserDto;
 import com.pickmen.backend.user.model.Lecture;
 import com.pickmen.backend.user.model.Major;
 import com.pickmen.backend.user.model.School;
@@ -23,6 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
@@ -35,30 +37,33 @@ public class UserService {
 
 	@Autowired
 	private LectureRepository lectureRepository;
-	
+
 	@Autowired
 	private MajorRepository majorRepository;
-	
+
 	@Autowired
 	private SchoolRepository schoolRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	@Autowired
+	private ImageService imageService;
 
 	/*
-	@Transactional
-	public User join(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setRole(user.getRole());
-		return userRepository.save(user);
-	}*/
+	 * @Transactional
+	 * public User join(User user) {
+	 * user.setPassword(passwordEncoder.encode(user.getPassword()));
+	 * user.setRole(user.getRole());
+	 * return userRepository.save(user);
+	 * }
+	 */
 
 	// lectureList 넣어서 Test하는 회원가입 api - 테스트 완료
 	@Transactional
 	public User join(User user, List<Long> lectureList) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setRole(user.getRole());
-		
+
 		User saveUser = userRepository.save(user);
 		int i;
 		UserLecture userLecture = new UserLecture();
@@ -71,61 +76,61 @@ public class UserService {
 		}
 		return saveUser;
 	}
-	
+
 	// 로그인한 유저의 관심 강의 리스트 반환 (LectureDto로 lecture id와 name들만 리스트로 반환)
 	@Transactional
 	public List<LectureDto> getUserLectureList(Long user_id) {
 		List<UserLecture> userLectures = userLectureRepository.findAllByUserId(user_id);
 		List<LectureDto> lectureDtos = new ArrayList<>();
 		int i;
-		
-		for(i = 0; i < userLectures.size(); i++) {
+
+		for (i = 0; i < userLectures.size(); i++) {
 			lectureDtos.add(LectureDto.fromEntity(userLectures.get(i)));
 		}
-		
+
 		return lectureDtos;
 	}
-	
+
 	// 전공 전체 리스트를 MajorDto로 변환하여 id와 name들의 리스트로 반환
 	@Transactional
 	public List<MajorDto> getAllMajorList() {
 		List<Major> majors = majorRepository.findAll();
 		List<MajorDto> majorDtos = new ArrayList<>();
 		int i;
-		
-		for(i = 0; i < majors.size(); i++) {
+
+		for (i = 0; i < majors.size(); i++) {
 			majorDtos.add(MajorDto.fromEntity(majors.get(i)));
 		}
-		
+
 		return majorDtos;
 	}
-	
+
 	// 관심 강의(전문 강의) 전체 리스트를 LectureDto로 변환하여 id와 name들의 리스트로 반환
 	@Transactional
 	public List<LectureDto> getAllLectureList() {
 		List<Lecture> lectures = lectureRepository.findAll();
 		List<LectureDto> lectureDtos = new ArrayList<>();
 		int i;
-		
-		for(i = 0; i < lectures.size(); i++) {
+
+		for (i = 0; i < lectures.size(); i++) {
 			lectureDtos.add(LectureDto.fromEntity(lectures.get(i)));
 		}
-		
+
 		return lectureDtos;
-		
+
 	}
-	
+
 	// 학교 전체 리스트를 SchoolDto로 변환하여 id와 name들의 리스트로 반환
 	@Transactional
 	public List<SchoolDto> getAllSchoolList() {
 		List<School> schools = schoolRepository.findAll();
 		List<SchoolDto> schoolDtos = new ArrayList<>();
 		int i;
-		
-		for(i = 0; i < schools.size(); i++) {
+
+		for (i = 0; i < schools.size(); i++) {
 			schoolDtos.add(SchoolDto.fromEntity(schools.get(i)));
 		}
-		
+
 		return schoolDtos;
 	}
 
@@ -136,23 +141,42 @@ public class UserService {
 	}
 
 	@Transactional
-	public User updateUser(User user) {
+	public User updateUser(User user, List<Long> lectureList, MultipartFile uploadfile) {
 		Optional<User> optionalUser = userRepository.findById(user.getId());
 		User findUser = optionalUser.orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
 
-		if (null != user.getPassword() && !"".equals(user.getPassword())) {
+		/*if (null != user.getPassword() && !"".equals(user.getPassword())) {
 			findUser.setPassword(passwordEncoder.encode(user.getPassword()));
-		}
+		}*/
 		// if (null != user.getEmail() && !"".equals(user.getEmail())) {
 		// System.out.println("hello");
 		// findUser.setEmail(user.getEmail());
 		// }
 		// 이메일 수정은 안됨
+		
+		// 닉네임 수정
+		if (user.getNickname() != null) {
+			findUser.setNickname(user.getNickname());
+		}
+		
+		// 관심 분야 변경
+		if (lectureList != null) {
+			int i;
+			UserLecture userLecture = new UserLecture();
+			// 기존 가르치는 분야 삭제
+			userLectureRepository.deleteAllByUserId(findUser.getId());
 
-		return userRepository.save(findUser);
+			for (i = 0; i < lectureList.size(); i++) {
+				userLecture = UserLecture.builder().user(findUser)
+						.lecture(lectureRepository.findById(lectureList.get(i)).orElseThrow()).build();
+
+				userLectureRepository.save(userLecture);
+			}
+		} else {
+			System.out.println("전공 강의 분야 변경 없음");
+		}
+		findUser.setProfileImage(imageService.upload(uploadfile));
+		return userRepository.save(findUser); 
 	}
-
-
-
 
 }

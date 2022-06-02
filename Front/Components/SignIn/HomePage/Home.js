@@ -5,6 +5,7 @@ import megaphone from '../../../icons/megaphone.png';
 import logo from '../../../icons/PickMenLogo.png';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import axios from 'axios';
+import FastImage from 'react-native-fast-image';
 import { Card } from 'react-native-paper';
 import TeachIcon from '../../../icons/teach.png';
 import MajorIcon from '../../../icons/Major.png';
@@ -87,7 +88,7 @@ function Home({ navigation }) {
                     borderColor: '#a0a0a0', flexWrap: 'wrap'
                 }}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Image source={{ uri: "http://10.0.2.2:8090/getProfile?userid=" + Number(item.id) }} style={styles.ProfileImage} />
+                        <FastImage source={{ uri: "http://10.0.2.2:8090/getProfile?userid=" + Number(item.id), cache : FastImage.cacheControl.web}} style={styles.ProfileImage} />
                         <View>
                             <Text style={styles.nickname}>{item.nickname}</Text>
                             <View style={{ flexDirection: 'row' }}>
@@ -121,7 +122,7 @@ function Home({ navigation }) {
                     borderColor: '#a0a0a0',
                 }}>
                     <View style={{ flexDirection: 'row' }}>
-                        <Image source={{ uri: "http://10.0.2.2:8090/getProfile?userid=" + Number(item.user.id) }} style={styles.ProfileImage} />
+                        <FastImage source={{ uri: "http://10.0.2.2:8090/getProfile?userid=" + Number(item.user.id), cache : FastImage.cacheControl.web}} style={styles.ProfileImage} />
                         <Text style={styles.nickname}>{item.nickname}</Text>
                     </View>
                     <View style = {{flexDirection : 'row'}}>
@@ -142,16 +143,12 @@ function Home({ navigation }) {
         )
     }
     const renderTitle = (role) => {
-        if (role == 'MENTEE') {
-            return (
+            return(
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.frontTitle}>추천</Text>
                     <Text style={styles.Title}>프로필 리스트</Text>
                 </View>
             )
-        } else {
-            <View />
-        }
     }
     const renderItem = ({ item }) => {
         return (

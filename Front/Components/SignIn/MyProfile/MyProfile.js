@@ -4,6 +4,8 @@ import 'react-navigation';
 import axios from 'axios';
 import { Card, Title } from 'react-native-paper';
 import myprofile from '../../localData/MyProfile';
+import FastImage from 'react-native-fast-image';
+import { useIsFocused } from '@react-navigation/native';
 import { NavigationContainer } from '@react-navigation/native';
 
 // 접속한 유저의 프로필 정보를 불러오는 페이지
@@ -12,18 +14,27 @@ function MyProfile({navigation}) {
     const [lecturelist2, setLecturelist2] = useState([]);
     const [major, setMajor] = useState('');
     const [school, setSchool] = useState('');
+    const [id, setId] = useState('');
+    const [lecture1, setLecture1] = useState('');
+    const [lecture2, setLecture2] = useState('');
+    const [nickname, setNickname] = useState('');
+    const [email, setEmail] = useState('');
+    const isFocused = useIsFocused();
     // 접속한 유저의 관심 분야를 불러오는 함수
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/getLectureList').then(function (response) {
             setLecturelist(response.data[0]);
             setLecturelist2(response.data[1]);
+            console.log(response.data[0], response.data[1]);
         })
-        axios.get('http://10.0.2.2:8090/user/detailInfo').then(function (response) {
+        axios.get('http://10.0.2.2:8090/user/detailInfo').then(function (response) {  
             setMajor(response.data.data.majorName);
             setSchool(response.data.data.schoolName);
         })
-        console.log(myprofile)
-    }, [])
+        setId(myprofile[0].id);
+        setNickname(myprofile[0].nickname);
+        setEmail(myprofile[0].email);
+    }, [isFocused])
     const renderRole = (role) => {
         if(role == 'MENTEE'){
             return (
@@ -41,20 +52,22 @@ function MyProfile({navigation}) {
                 <Card.Title>
                     <Title>프로필</Title>
                 </Card.Title>
-                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + myprofile[0].id }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 150, height: 150, borderRadius: 100 }} />
+                <FastImage source={{uri :'http://10.0.2.2:8090/getProfile?userid=' + Number(id),
+                cache : FastImage.cacheControl.web
+                }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 150, height: 150, borderRadius: 100 }} />
                 <Card.Content>
                     <View style={{ marginTop: 20 }}>
                         <Text>닉네임</Text>
                     </View>
                     <View>
-                        <Title style={{ fontSize: 18 }}>{myprofile[0].nickname}</Title>
+                        <Title style={{ fontSize: 18 }}>{nickname}</Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
                         <Text>이메일</Text>
                     </View>
                     <View>
-                        <Title style={{ fontSize: 18 }}>{myprofile[0].email}</Title>
+                        <Title style={{ fontSize: 18 }}>{email}</Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>

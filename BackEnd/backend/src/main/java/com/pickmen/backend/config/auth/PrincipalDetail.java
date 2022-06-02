@@ -67,6 +67,9 @@ public class PrincipalDetail implements UserDetails {
    public Major getMajor(){
      return user.getMajor();
    }
+   public String getEmail(){
+     return user.getEmail();
+   }
 
    public List<UserLecture> getLecture(){
      return user.getUserLectures();

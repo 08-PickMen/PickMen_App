@@ -4,6 +4,7 @@ import { Card, TouchableRipple } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import 'react-navigation';
 import axios from 'axios';
+import FastImage from 'react-native-fast-image';
 import filter from '../../../icons/filter.png';
 import Exit from '../../../icons/Exit.png';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -40,7 +41,7 @@ function MentorProfile({ navigation }) {
                     </Card.Content>
                     <Card.Content>
                         <View>
-                            <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id) }} style={{ marginLeft: 'auto', marginRight: 'auto', width: 60, height: 60, borderRadius: 120 }}></Image>
+                            <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.id), cache : FastImage.cacheControl.web}} style={{ marginLeft: 'auto', marginRight: 'auto', width: 60, height: 60, borderRadius: 120 }}></FastImage>
                             <View style={{ flexDirection: 'column' }}>
                                 <Text style={styles.MainTitle}>멘토</Text>
                                 <Text style={styles.nickName}>{item.nickname}</Text>

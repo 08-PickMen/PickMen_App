@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions, useIsFocused } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import myprofile from '../../localData/MyProfile';
 import axios from 'axios';
 
 function EditProfile_Mentee({ navigation }) {
@@ -16,8 +18,8 @@ function EditProfile_Mentee({ navigation }) {
     const [value2, setValue2] = useState('');
     const [lecture, setLecture] = useState('');
     const [lecture2, setLecture2] = useState('');
-    const ids = [Number(lecture), Number(lecture2)];
-    const data = new FormData();
+    const isFocused = useIsFocused();
+    var data = new FormData();
 
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/getAllLectureList').then(response => {
@@ -30,12 +32,16 @@ function EditProfile_Mentee({ navigation }) {
             }
             setLectureList(newData);
         })
-    }, [])
-
-    async function ProfileUpload() {
+    }, [isFocused])
+    async function saveImage() {
+        try {
+            await AsyncStorage.setItem('profileImage', JSON.stringify(data));
+        } catch (e) {
+        }
+    }
+    function ProfileUpload() {
         launchImageLibrary({}, response => {
             if (response.assets[0].uri) {
-                console.log(response);
                 setprofileImage(response.assets[0].fileName.substring(0, 30) + '...');
             }
             data.append('profile', {
@@ -43,7 +49,9 @@ function EditProfile_Mentee({ navigation }) {
                 name: 'image.jpg',
                 type: 'image/jpeg',
             });
+            saveImage();
         })
+
     }
     const renderCheckText = () => {
         const backgroundColor = checkText === '중복체크 실패' ? '#ff0000' : '#27baff';
@@ -70,8 +78,16 @@ function EditProfile_Mentee({ navigation }) {
         })
         return 0;
     }
-    const userUpdate = () => {
-        axios.post('http://10.0.2.2:8090/user/update', null, {
+    const userUpdate = async () => {
+        var newdata = await AsyncStorage.getItem('profileImage');
+        const ids = [Number(lecture), Number(lecture2)];
+        var profileImage = new FormData();
+        profileImage.append('profile', {
+            uri: String(JSON.parse(newdata)._parts[0][1].uri,"utf-8"),
+            name: String(JSON.parse(newdata)._parts[0][1].name,"utf-8"),
+            type: String(JSON.parse(newdata)._parts[0][1].type,"utf-8"),
+        })
+        axios.post('http://10.0.2.2:8090/user/update', profileImage, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -80,7 +96,20 @@ function EditProfile_Mentee({ navigation }) {
                 lectureList: ids.join(',')
             },
         }).then(response => {
-            console.log(response.data)
+            myprofile.length = 0;
+            myprofile.push({
+                averageRating : response.data.data.averageRating,
+                email : response.data.data.email,
+                id : response.data.data.id,
+                userLectures : response.data.data.userLectures,
+                nickname : response.data.data.nickname,
+                introduceMyself : response.data.data.introduceMyself,
+                livingWhere : response.data.data.livingWhere,
+                role : response.data.data.role,
+                mentoringContents : response.data.data.mentoringContents,
+            })
+        }).catch(error => {
+            console.log(error)
         })
     }
     return (
@@ -189,10 +218,20 @@ function EditProfile_Mentee({ navigation }) {
                     <TouchableOpacity
                         onPress={() => {
                             userUpdate();
-                            navigation.dispatch(CommonActions.reset({
-                                index: 0,
-                                routes: [{ name: 'MyProfile' }]
-                            }))
+                            Alert.alert(
+                                '정보가 수정되었습니다.',
+                                '',
+                                [
+                                    {
+                                        text: '확인',
+                                        onPress: () => { navigation.dispatch(CommonActions.reset({
+                                            index: 0,
+                                            routes: [{ name: 'EditProfile_Mentee' }, { name: 'MyProfile' },]
+                                          }))},
+                        
+                                    }
+                                ]
+                            )
                         }}
                         style={styles.CorrectButton}>
                         <Text style={styles.ButtonText}>적용</Text>

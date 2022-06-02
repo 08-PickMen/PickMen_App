@@ -11,6 +11,7 @@ import data from './PostData';
 import writeicon from '../../../icons/writing.png';
 import deleteicon from '../../../icons/delete.png';
 import {Card, TouchableRipple} from 'react-native-paper';
+import FastImage from 'react-native-fast-image';
 
 // 전체 게시글 리스트를 불러오는 함수
 async function loadPost() {
@@ -254,7 +255,7 @@ function ViewPost({navigation}) {
                                 );
                             }
                             }}>
-                            <Image source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user_id}} style = {styles.ReplyImage}/>
+                            <FastImage source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user_id, cache : FastImage.cacheControl.web}} style = {styles.ReplyImage}/>
                         </TouchableOpacity>
                     <Text style = {styles.ReplyNickName}>{item.nickname}</Text>
                 </View>

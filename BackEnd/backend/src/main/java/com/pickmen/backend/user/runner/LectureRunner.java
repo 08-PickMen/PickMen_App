@@ -19,50 +19,42 @@ import org.springframework.stereotype.Component;
 @Component
 public class LectureRunner implements ApplicationRunner {
 
-    @Autowired LectureRepository lectureRepository;
-
+    @Autowired
+    LectureRepository lectureRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        String path="C:\\input.xlsx";
+        String path = "C:\\input.xlsx";
 
         try {
-            if(lectureRepository.count()==0 ){
+            if (lectureRepository.count() == 0) {
                 FileInputStream fis = new FileInputStream(new File(path));
-                //excel 파일 위치 설정 필요함.
+                // excel 파일 위치 설정 필요함.
                 XSSFWorkbook workbook = new XSSFWorkbook(fis);
-        
-                Sheet sheet=workbook.getSheetAt(0);
-                Iterator<Row> rowIterator=sheet.iterator();
-        
-                String prev="";
-            
-                while(rowIterator.hasNext()){
-                    Row row=rowIterator.next();
-                    if(row.getCell(1).getStringCellValue().equals("과목명")){
-                        
-                    }
-                    else{
-                        Lecture lecture=new Lecture().builder().name(row.getCell(1).getStringCellValue()).build();
-                        if(prev!=lecture.getName()){
+
+                Sheet sheet = workbook.getSheetAt(0);
+                Iterator<Row> rowIterator = sheet.iterator();
+
+                String prev = "";
+
+                while (rowIterator.hasNext()) {
+                    Row row = rowIterator.next();
+                    if (row.getCell(1).getStringCellValue().equals("과목명")) {
+
+                    } else {
+                        Lecture lecture = new Lecture().builder().name(row.getCell(1).getStringCellValue()).build();
+                        if (prev != lecture.getName()) {
                             lectureRepository.save(lecture);
-                            prev=lecture.getName();
+                            prev = lecture.getName();
                         }
-                    
-                        }
+
                     }
                 }
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-       
+
     }
-        
 
-
-
-
-
-
-        
-    }
+}

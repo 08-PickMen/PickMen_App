@@ -5,6 +5,7 @@ import {Avatar} from 'react-native-elements';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import { CommonActions } from "@react-navigation/native";
 import axios from 'axios';
+import FastImage from "react-native-fast-image";
 import TeachIcon from '../../../icons/teach.png';
 import MajorIcon from '../../../icons/Major.png';
 import EmailIcon from '../../../icons/email.png';
@@ -153,7 +154,7 @@ const MentorProfileDetail = ({navigation, route}) => {
       <SafeAreaView style = {{flex : 1, backgroundColor : '#27BAFF'}}>
         <Card style = {styles.CardStyle}>
           <SafeAreaView style = {{marginLeft : 15, marginTop : 20,flexDirection : 'row'}}>
-            <Avatar rounded source = {{uri : 'http://10.0.2.2:8090/getProfile?userid='+mentor_id}} size = 'large'/>
+            <FastImage source = {{uri : 'http://10.0.2.2:8090/getProfile?userid='+mentor_id, cache : FastImage.cacheControl.web}} style={{ marginLeft: 'auto', marginRight: 'auto', width: 60, height: 60, borderRadius: 120 }}/>
             <SafeAreaView>
               <SafeAreaView style = {{flexDirection : 'row'}}>
                 <View style = {{marginRight : 70}}>

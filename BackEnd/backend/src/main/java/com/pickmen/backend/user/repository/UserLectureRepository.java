@@ -8,4 +8,5 @@ import com.pickmen.backend.user.model.UserLecture;
 
 public interface UserLectureRepository extends JpaRepository<UserLecture, Long>{
 	List<UserLecture> findAllByUserId(Long user_id);
+	void deleteAllByUserId(Long user_id);
 }

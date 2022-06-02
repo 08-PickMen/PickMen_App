@@ -41,11 +41,15 @@ async function loadprofile() {
         myprofile.length = 0;
         console.log(response.data);
         myprofile.push({
-            id: response.data.data.id,
-            nickname: response.data.data.nickname,
+            averageRating: response.data.data.averageRating,
             email: response.data.data.email,
+            id: response.data.data.id,
+            userLectures: response.data.data.userLectures,
+            nickname: response.data.data.nickname,
+            introduceMyself: response.data.data.introduceMyself,
+            livingWhere: response.data.data.livingWhere,
             role: response.data.data.role,
-            teachSector: response.data.data.teachSector,
+            mentoringContents: response.data.data.mentoringContents,
         })
     })
 }
@@ -70,7 +74,7 @@ function LoginPage({ navigation }) {
             if (response.data.status == 200) {
                 saveUserId(response.data.data.id);
                 loadprofile();
-                navigation.navigate('HomeScreen',{item_nickname : response.data.data.nickname});
+                navigation.navigate('HomeScreen', { item_nickname: response.data.data.nickname });
             } else {
                 alert('아이디 또는 비밀번호가 틀렸습니다.');
                 navigation.navigate('LoginPage');

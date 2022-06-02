@@ -33,6 +33,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -117,6 +118,10 @@ public class UserApiController {
       detailDto dto=new detailDto();
       dto.setMajorName(principalDetail.getMajor().getName());
       dto.setSchoolName(principalDetail.getSchool().getName());
+      dto.setEmail(principalDetail.getEmail());
+      dto.setUserId(principalDetail.getUserId());
+      dto.setNickName(principalDetail.getNickName());
+      dto.setUserLecture(principalDetail.getLecture());
       return new ResponseDto<>(HttpStatus.OK.value(), dto);
     } catch (Exception e) {
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
@@ -158,7 +163,7 @@ public class UserApiController {
   @GetMapping("/getProfile")
   public ResponseEntity<Resource> getProfile(@RequestParam(value = "userid", required = false) long userid)
   {
-    User user=userRepository.getById(userid);
+    User user=userRepository.findById(userid).orElseThrow();
     return imageService.display(user.getProfileImage());
   }
 
@@ -179,6 +184,8 @@ public class UserApiController {
      newuser.setLivingWhere(user.getLivingWhere());
      newuser.setRole(RoleType.MENTEE);
      // 학교, 전공 저장(학교, 전공은 Object)
+     
+     newuser.setLivingWhere(user.getLivingWhere());
 
      // 관심 강의 리스트는 userService.join에서 추가
     try {
@@ -190,15 +197,15 @@ public class UserApiController {
   }
 
   @PostMapping("/user/update")
-  public @ResponseBody ResponseDto<Integer> user(@RequestParam(value = "file", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail) {
+  public @ResponseBody ResponseDto<User> user(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail,
+		 @RequestParam List<Long> lectureList) {
     try {
       user.setId(principalDetail.getUserId());
-      user.setProfileImage(imageService.upload(uploadfile));
-      User savedUser = userService.updateUser(user);
-
-      return new ResponseDto<>(HttpStatus.OK.value(), 1);
+      User savedUser = userService.updateUser(user, lectureList,uploadfile);
+      return new ResponseDto<>(HttpStatus.OK.value(), savedUser);
     } catch (Exception e) {
-      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), 1);
+      e.printStackTrace();
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
   }
   

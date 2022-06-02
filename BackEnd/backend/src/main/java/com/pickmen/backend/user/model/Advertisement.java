@@ -31,7 +31,7 @@ public class Advertisement {
 
     @ManyToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name = "userId")
-    private User user; // 작성이
+    private User user; // 작성이 
     
     @Column(nullable= true)
     private String content;

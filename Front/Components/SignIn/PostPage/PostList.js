@@ -3,6 +3,7 @@ import axios from 'axios';
 import { View, TouchableOpacity, FlatList, Text, StyleSheet, Image, RefreshControl, ScrollView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import filter from 'lodash.filter';
+import FastImage from 'react-native-fast-image';
 import postdata from './PostData';
 import newPostData from '../../localData/newPostData';
 import { Card } from 'react-native-paper'
@@ -84,7 +85,7 @@ function PostList({ navigation }) {
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
       <Card style={styles.cards}>
         <View style={{ flexDirection: 'row' }}>
-          <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user) }} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
+          <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user) }} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
           <Text style={styles.nickname}>{item.nickname}</Text>
           <Text style={{ marginLeft: 135, marginTop: 20 }}>조회 수 {item.count}</Text>
         </View>
