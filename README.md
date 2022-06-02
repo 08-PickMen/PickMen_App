@@ -24,28 +24,23 @@ $ \Rightarrow $ 같은 학교, 인근 지역 내의 성적표 인증을 바탕�
        <br>
 - Spring-Boot
   - Back-end server 구현
-    <br>
+       <br>
        <br>
 - SockJS
   - 실시간 통신, 채팅을 위해 사용
-    <br>
-       <br>
+ <br><br>
 - Google Cloud Vision OCR API
   - 이미지에서 텍스트 추출
   - 성적표 인증을 위해 사용
-    <br>
-       <br>
->
+     <br><br>
+
 - Google Maps API
-  - 지역에 따른 멘토링 서비스를 위해
-사용
-    <br>
-       <br>
+  - 지역에 따른 멘토링 서비스를 위해 사용
+    <br><br>
 
 - Firebase
   - 채팅 알림을 위해 사용
-
-   <br>
+<br>
 ## :green_heart: 개발 도구 및 버전
 - ![react-native-cli](https://img.shields.io/static/v1?label=react-native-cli&message=v2.0.1&color=blueviolet)
 - ![react-native](https://img.shields.io/static/v1?label=react-native&message=v0.67.4&color=orange)
