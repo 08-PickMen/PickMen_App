@@ -41,6 +41,7 @@ $ \Rightarrow $ 같은 학교, 인근 지역 내의 성적표 인증을 바탕�
 - Firebase
   - 채팅 알림을 위해 사용
 <br>
+
 ## :green_heart: 개발 도구 및 버전
 - ![react-native-cli](https://img.shields.io/static/v1?label=react-native-cli&message=v2.0.1&color=blueviolet)
 - ![react-native](https://img.shields.io/static/v1?label=react-native&message=v0.67.4&color=orange)
