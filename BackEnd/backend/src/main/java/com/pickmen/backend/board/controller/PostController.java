@@ -43,6 +43,11 @@ public class PostController {
     return postService.getPostList(pageable);
   }
 
+  @GetMapping("post/getPost/livingwhere")
+  public Page<Post> postList(@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable, @AuthenticationPrincipal PrincipalDetail principalDetail){
+    return postRepository.findByLivingwhere(principalDetail.getLivingWhere(), pageable);
+  }
+
   @GetMapping("post/getPost/{id}")
   public ResponseDto<Post> postList(@PathVariable Long id){
     try {
@@ -123,7 +128,8 @@ public class PostController {
     try{
 
     User user=userRepository.getById(principalDetail.getUserId());
-    Post board=Post.builder().title(title).content(content).nickname(user.getNickname()).build();
+    Post board=Post.builder().title(title).content(content).nickname(user.getNickname()).livingwhere(user.getLivingWhere()).build();
+    
     postService.write(board,user);
    // boardService.write(board, principalDetail.getUser());
     

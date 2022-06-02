@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { View, TouchableOpacity, FlatList, Text, StyleSheet, Image, RefreshControl } from 'react-native';
+import { View, TouchableOpacity, FlatList, Text, StyleSheet, Image, RefreshControl, ScrollView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import filter from 'lodash.filter';
 import postdata from './PostData';
@@ -30,6 +30,7 @@ function PostList({ navigation }) {
             content: response.data.content[count].content,
             count: response.data.content[count].count,
             nickname: response.data.content[count].user.nickname,
+            role: response.data.content[count].user.role,
           })
         }
         setData(newData)
@@ -51,6 +52,33 @@ function PostList({ navigation }) {
     await axios.post('http://10.0.2.2:8090/post/upcountPost?id=' + id).then(response => {
     })
   }
+  const renderRole = (role) => {
+    const backgroundColor = role === 'MENTOR' ? '#ff0000' : '#27BAFF';
+    if (role == 'MENTOR') {
+      return (
+        <Text style={{
+          fontSize: 15,
+          fontFamily: 'NanumSquareRoundB',
+          marginTop: 20,
+          marginBottom: 10,
+          marginLeft: 10,
+          color: backgroundColor
+        }}>[멘토 구함]</Text>
+      )
+
+    } else if (role == 'MENTEE') {
+      return (
+        <Text style={{
+          fontSize: 15,
+          fontFamily: 'NanumSquareRoundB',
+          marginTop: 20,
+          marginBottom: 10,
+          marginLeft: 10,
+          color: backgroundColor
+        }}>[멘티 구함]</Text>
+      )
+    }
+  }
   // 게시글 리스트를 보여주는 함수
   const Item = ({ item, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
@@ -58,14 +86,17 @@ function PostList({ navigation }) {
         <View style={{ flexDirection: 'row' }}>
           <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user) }} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
           <Text style={styles.nickname}>{item.nickname}</Text>
-          <Text style={{ marginLeft: 135, marginTop : 20}}>조회 수 {item.count}</Text>
+          <Text style={{ marginLeft: 135, marginTop: 20 }}>조회 수 {item.count}</Text>
         </View>
-        <View>
+        <ScrollView>
+        <View style={{ flexDirection: 'row', flexWrap : 'wrap'}}>
+          {renderRole(item.role)}
           <Text style={styles.title}>{item.title}</Text>
         </View>
-        <View style = {{flexDirection : 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           <Text style={styles.content}>{item.content}</Text>
         </View>
+        </ScrollView>
       </Card>
     </TouchableOpacity>
   );
@@ -122,8 +153,8 @@ function PostList({ navigation }) {
     )
   };
   return (
-    <View style={{flex : 1, backgroundColor: '#27BAFF'}}>
-      <View style = {styles.PageStyle}>
+    <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
+      <View style={styles.PageStyle}>
         <View style={{ flexDirection: 'row', marginTop: 10 }}>
           <Text style={styles.MainTitle}>게시글 목록</Text>
           <Searchbar
@@ -136,16 +167,16 @@ function PostList({ navigation }) {
             <Image source={writeIcon} style={{ width: 40, height: 40, marginLeft: 20, }} />
           </TouchableOpacity>
         </View>
-        <View style ={{flexgrow : 1}}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          windowSize={2}
-          contentContainerStyle={{flexGrow : 1}}>
-        </FlatList>
+        <View style={{ flexgrow: 1 }}>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            windowSize={2}
+            contentContainerStyle={{ flexGrow: 1 }}>
+          </FlatList>
         </View>
       </View>
-      </View>
+    </View>
   )
 }
 const styles = StyleSheet.create({
@@ -154,10 +185,10 @@ const styles = StyleSheet.create({
     width: 370,
     height: 200,
     borderWidth: 1,
-    marginTop : 10,
+    marginTop: 10,
     marginBottom: 10,
-    marginLeft : 4,
-    marginRight : 'auto',
+    marginLeft: 4,
+    marginRight: 'auto',
   },
   nickname: {
     fontSize: 14,
@@ -229,6 +260,6 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     marginTop: 'auto',
     marginBottom: 'auto'
-},
+  },
 });
 export default PostList;

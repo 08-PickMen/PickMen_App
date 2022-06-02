@@ -16,7 +16,45 @@ function Information_Mento({ navigation }) {
     var [count, setCount] = useState(0);
     var [userName, setUserName] = useState('');
     var [test, newTest] = useState('');
+    const [checkIdText, setCheckIdText] = useState('');
+    const [checkPasswordText, setCheckPasswordText] = useState('');
 
+    const checkId = (username) => {
+        axios.get('http://10.0.2.2:8090/DuplicateCheckId', {
+            params: {
+                username: username,
+            }
+        }).then(response => {
+            if(response.data.status == '200') {
+                setCheckIdText('사용 가능한 아이디입니다.')
+            } else {
+                setCheckIdText('중복된 아이디입니다.')
+            }
+        })
+    }
+    const checkPassword = (password, correctPassword) => {
+        if(password == correctPassword) {
+            setCheckPasswordText('비밀번호가 일치합니다.')
+        } else {
+            setCheckPasswordText('비밀번호가 일치하지 않습니다.')
+        }
+    }
+    const renderCheckPassword = () => {
+        const backgroundColor = checkPasswordText == '비밀번호가 일치하지 않습니다.' ? '#ff0000' : '#27BAFF';
+        return (
+            <View>
+                <Text style={{ marginLeft : 30, marginTop : 10, fontFamily : 'Jalnan', fontSize : 15, color: backgroundColor }}>{checkPasswordText}</Text>
+            </View>
+        )
+    }
+    const renderCheckId = () => {
+        const backgroundColor = checkIdText == '중복된 아이디입니다.' ? '#ff0000' : '#27BAFF';
+        return (
+            <View>
+                <Text style={{ marginLeft : 30, marginTop : 10, fontFamily : 'Jalnan', fontSize : 15, color: backgroundColor }}>{checkIdText}</Text>
+            </View>
+        )
+    }
     async function returnEmail() {
         var data = await AsyncStorage.getItem('email');
         setValue(data)
@@ -28,14 +66,14 @@ function Information_Mento({ navigation }) {
         setSendPassword(data)
     }
     async function register(username, email, password) {
-        var nickname = await AsyncStorage.getItem('nickname');
+        var nickname = await AsyncStorage.getItem('nickName');
         var data2 = await AsyncStorage.getItem('image');
         var lecture1 = await AsyncStorage.getItem('lecture1');
         var lecture2 = await AsyncStorage.getItem('lecture2');
         var majorValue = await AsyncStorage.getItem('MajorValue');
         var school = await AsyncStorage.getItem('school');
+        var livingWhere = await AsyncStorage.getItem('liveinWhere');
         const ids = [Number(lecture1), Number(lecture2)];
-        console.log(ids.join(','))
         var changeImage = JSON.parse(data2)._parts
         var InputImage = new FormData();
         InputImage.append('profile', {
@@ -43,7 +81,7 @@ function Information_Mento({ navigation }) {
             name: "image.jpg",
             type: 'image/jpeg',
         })
-        console.log(username)
+        
         await axios.post('http://10.0.2.2:8090/signup/mentee', InputImage, {
             headers: {
                 "Content-Type": "multipart/form-data",
@@ -56,6 +94,7 @@ function Information_Mento({ navigation }) {
                 lectureList: ids.join(','),
                 major : Number(majorValue),
                 school : Number(school),
+                livingWhere : livingWhere,
             },
         }
         ).then(function (response) {
@@ -73,6 +112,12 @@ function Information_Mento({ navigation }) {
                 <View>
                     <Text style={styles.Text}>ID</Text>
                     <TextInput style={styles.TextInput} placeholder="내용을 입력해주세요." onChangeText={(username) => { setUserName(username) }} />
+                    <View style = {{flexDirection : 'row'}}>
+                        {renderCheckId()}
+                        <TouchableOpacity onPress = {()=> checkId(userName)}style = {{marginLeft : 'auto', marginRight : 30, backgroundColor : '#27BAFF', borderRadius : 10, width : 80, height : 40,}}>
+                            <Text style={{ color: '#fff', marginTop: 'auto',marginLeft : 'auto',marginRight : 'auto',marginBottom : 'auto',fontFamily : 'Jalnan'}} onPress={() => { checkId(userName) }}>중복확인</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
                 <View>
                     <Text style={styles.Text}>이메일 주소</Text>
@@ -90,22 +135,10 @@ function Information_Mento({ navigation }) {
                     }} />
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text style={styles.CorrectText}>{correctText}</Text>
+                    <View>{renderCheckPassword()}</View>
                     <TouchableOpacity style={styles.CorrectButton}
                         onPress={() => {
-                            if (Password === correctPassword && Password !== '') {
-                                setCorrectText('비밀번호가 일치합니다.');
-                                setCount(1);
-                            }
-                            else {
-                                setCorrectText('비밀번호가 일치하지 않습니다.');
-                                setCount(0);
-                            }
-                            if (count == 0) {
-                                styles.CorrectText = styles.FailText;
-                            } else {
-                                styles.CorrectText = styles.backupText;
-                            }
+                            checkPassword(Password, correctPassword)
                             savePassword(Password);
                         }}>
                         <Text style={styles.ButtonText}>비밀번호 확인</Text>
@@ -114,11 +147,9 @@ function Information_Mento({ navigation }) {
                 <View>
                     <TouchableOpacity style={styles.Button}
                         onPress={() => {
-                            if (count == 1) {
+                            if (checkPasswordText == '비밀번호가 일치합니다.' && checkIdText == '사용 가능한 아이디입니다.') {
                                 register(userName, sendEmail, sendPassword);
-                                navigation.navigate('RegisterComplete')
                             }
-
                         }}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
@@ -144,7 +175,7 @@ const styles = StyleSheet.create({
         height: 40,
         paddingTop: 5,
         marginLeft: 'auto',
-        marginRight: 40,
+        marginRight: 20,
         borderRadius: 5,
         backgroundColor: "#27BAFF"
     },

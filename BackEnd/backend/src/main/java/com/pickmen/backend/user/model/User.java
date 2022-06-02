@@ -75,6 +75,8 @@ public class User {
   private LocalDateTime createDate; // 생성일
 
 
+
+  
    // 새로 입력   
     
    @JsonManagedReference(value = "user-userchatRoom")
@@ -89,6 +91,7 @@ public class User {
    @ManyToOne
    @JoinColumn(name = "majorId")
    private Major major;
+
    
    // 관심 강의 입력 추가(프론트에서 전달해줌)
    // User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)

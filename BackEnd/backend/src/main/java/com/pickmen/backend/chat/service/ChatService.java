@@ -75,14 +75,17 @@ public class ChatService {
 						otherUserChatRoom.getUser().getNickname(), 
 						otherUserChatRoom.getUser().getMajor().getName(),
 						chatListForLastChat.get(0).getContent(),
-						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"))));
+						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm")),
+						otherUserChatRoom.getChatRoom().isRated()
+						));
 			}
 			else {
 				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
 						otherUserChatRoom.getUser().getId(), 
 						listUserChatRoom.get(i).getChatRoom().getId(),
 						otherUserChatRoom.getUser().getNickname(),
-						otherUserChatRoom.getUser().getMajor().getName()));
+						otherUserChatRoom.getUser().getMajor().getName(),
+						otherUserChatRoom.getChatRoom().isRated()));
 			}
 		}
 		
@@ -241,5 +244,20 @@ public class ChatService {
 		// 멘토 평점을 소수점 2자리까지 반올림하여 저장
 		user.setAverageRating((float)Math.round((mentorReviewRatingSum / reviews.size()) * 100) / 100);
 		return ReviewDto.fromEntity(review);
+	}
+
+	@Transactional
+	public boolean isRatedOn(long chatRoom_id){
+		try {
+			ChatRoom chatroom = new ChatRoom();
+			chatroom = chatRoomRepository.findById(chatRoom_id).get();
+			chatroom.setRated(true);
+			chatRoomRepository.save(chatroom);
+		
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

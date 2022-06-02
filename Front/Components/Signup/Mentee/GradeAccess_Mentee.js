@@ -5,23 +5,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 import 'react-navigation'
 import axios from 'axios';
-import status from '../../../utils/status'
 
-async function DuplicateCheck(nickName) {
-    await axios.get('http://10.0.2.2:8090/DuplicateCheck', {
-        params: {
-            nickname: nickName
-        }
-    }).
-        then(response => {
-            if (response.status == 200) {
-                var data = nickName;
-                AsyncStorage.setItem('nickname', data);
-            }
-        }).catch(error => {
-            console.log(error)
-        })
-}
+
 async function ImageSave(image) {
     await AsyncStorage.setItem('image', JSON.stringify(image));
 }
@@ -30,7 +15,7 @@ async function ImageLoad() {
     var data = await AsyncStorage.getItem('image');
     console.log(data);
 }
-function GradeAccess_Menti({ navigation }) {
+function GradeAccess_Menti({ navigation, route}) {
 
     var data = new FormData();
     const [nickname, setNickname] = useState('');
@@ -38,10 +23,47 @@ function GradeAccess_Menti({ navigation }) {
     const [profileImage, setprofileImage] = useState('');
     const [textImage, setTextImage] = useState('');
     const [CorrectText, setCorrectText] = useState('');
-    async function CheckStatus() {
-        var data = await AsyncStorage.getItem('status');
-        status.length = 0;
-        status.push(data);
+    const [LocationCheck, setLocationCheck] = useState('위치를 설정해주세요.');
+    const [checkNickname, setCheckNickname] = useState('');
+
+    function DuplicateCheck(nickName) {
+        axios.get('http://10.0.2.2:8090/DuplicateCheck', {
+            params: {
+                nickname: nickName
+            }
+        }).
+            then(response => {
+                if (response.data.status == '200') {
+                    setCheckNickname('중복되는 닉네임이 없습니다.')
+                } else {
+                    setCheckNickname('중복되는 닉네임입니다.')
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+    }
+    const saveNickName = async (nickName) => {
+        try {
+            await AsyncStorage.setItem('nickName', nickName);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    const renderCheckNickname = () => {
+        const backgroundColor = checkNickname == '중복되는 닉네임입니다.' ? '#ff0000' : '#27BAFF';
+        return (
+            <View>
+                <Text style = {{marginTop : 10, marginLeft : 40, fontFamily : 'Jalnan', fontSize : 15, color : backgroundColor}}>{checkNickname}</Text>
+            </View>
+        )
+    }
+    function renderCheck(){
+        const backgroundColor = LocationCheck === '위치를 설정해주세요.' ? '#ff0000' : '#27BAFF';
+        return(
+            <View>
+                <Text style = {{marginTop : 10, marginLeft : 40, fontFamily : 'Jalnan', fontSize : 15, color : backgroundColor}}>{LocationCheck}</Text>
+            </View>
+        )
     }
     async function ImageUpload() {
         launchImageLibrary({}, response => {
@@ -75,18 +97,13 @@ function GradeAccess_Menti({ navigation }) {
                     <TextInput style={styles.TextInput} placeholder="내용을 입력해주세요." onChangeText={(NickName) => setNickname(NickName)} />
                     <TouchableOpacity style={styles.CheckButton}
                         onPress={
-                            () => {
-                                DuplicateCheck(nickname);
-                                CheckStatus(); {
-                                    console.log(status[0])
-                                    if (status[0] == 'true') {
-                                        setCorrectText('사용가능한 닉네임입니다.');
-                                    }
-                                }
-                            }
+                            () => DuplicateCheck(nickname)
                         }>
                         <Text style={styles.ButtonText}>중복인증</Text>
                     </TouchableOpacity>
+                </View>
+                <View>
+                    {renderCheckNickname()}
                 </View>
                 <View>
                     <Text style={styles.CorrectText}>{CorrectText}</Text>
@@ -104,8 +121,20 @@ function GradeAccess_Menti({ navigation }) {
                     </TouchableOpacity>
                 </View>
                 <View>
+                    <Text style={styles.Text}>위치 설정</Text>
+                    <View style = {{flexDirection : 'row', marginBottom : 20,}}>{renderCheck()}
+                    <TouchableOpacity style = {styles.MapButton} onPress={()=>{navigation.navigate("Map_mentee"); {
+                        if(!route.params?.item_isSetLocation){
+                            setLocationCheck('설정 완료');
+                        }
+                    }}}>
+                        <Text style = {styles.ButtonText}>위치 찾기</Text>
+                    </TouchableOpacity>
+                    </View>
+                </View>
+                <View>
                     <TouchableOpacity style={styles.CorrectButton}
-                        onPress={() => navigation.navigate('Information_Mentee')}>
+                        onPress={() => {saveNickName(nickname);navigation.navigate('Information_Mentee')}}>
                         <Text style={styles.ButtonText}>확인</Text>
                     </TouchableOpacity>
                 </View>
@@ -139,6 +168,15 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: 30,
+        borderRadius: 5,
+        backgroundColor: "#27BAFF"
+    },
+    MapButton: {
+        width: 100,
+        height: 40,
+        paddingTop: 5,
+        marginLeft: 'auto',
+        marginRight: 20,
         borderRadius: 5,
         backgroundColor: "#27BAFF"
     },

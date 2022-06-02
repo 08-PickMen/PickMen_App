@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pickmen.backend.chat.model.Chat;
 import com.pickmen.backend.chat.model.ChatDto;
 import com.pickmen.backend.chat.model.ChatRoom;
@@ -99,9 +100,11 @@ public class ChatRoomController {
 	}
 
 	// 채팅방 종료(멘토링 종료) 시 멘토 평가(review)를 받아서 저장
-	@PostMapping("/room/makeReview")
+	@PostMapping("/room/makeReview/{chatroom_id}")
 	@ResponseBody
-	public ResponseEntity<ReviewDto> makeReview(@RequestBody Review review) {
+	@JsonProperty("review")
+	public ResponseEntity<ReviewDto> makeReview(@RequestBody Review review,@PathVariable long chatroom_id) {
+		chatService.isRatedOn(chatroom_id);
 		return new ResponseEntity<ReviewDto>(chatService.makeReivew(review), HttpStatus.OK);
 	}
 }

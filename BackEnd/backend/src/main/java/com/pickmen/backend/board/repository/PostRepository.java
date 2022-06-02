@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-
+  
+    public Page<Post> findByLivingwhere(String livingwhere,Pageable pageable);
     public Page<Post> findByNickname(String nickname,Pageable pageable);
     public Page<Post> findByTitleContaining(String title,Pageable pageable);
     public Page<Post> findByTitleOrContentContaining(String title,String content,Pageable pageable);

@@ -2,7 +2,6 @@ import React ,{useEffect}from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { Image , Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CommonActions } from '@react-navigation/native';
 import 'react-navigation';
@@ -13,7 +12,7 @@ import Profile from '../MyProfile/Profile';
 import ViewChat from '../ChatPage/Chatboard';
 
 // 전체 홈 화면 바텀 탭 Stack
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 // 전체 홈 화면 바텀 탭 페이지
 function HomeScreen({ navigation }) {
@@ -25,9 +24,6 @@ function HomeScreen({ navigation }) {
                 }}
                 initialRouteName="Home"
                 activeColor="#27BAFF"
-                barStyle ={{
-                    backgroundColor : '#FFF',
-                }}
                 labeled = {true}
                 >
                 <Tab.Screen name="MentorProfile" component={Mentor} options={{
@@ -36,7 +32,6 @@ function HomeScreen({ navigation }) {
                             <Image source={IconStyles.Profile.source} style={{ width: 30, height: 30 }} />
                         )
                     },
-                    tabBarLabel : <Text style={{fontFamily : 'Jalnan', color : 'black'}}>멘토 프로필</Text>,
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }}
                 />
@@ -46,7 +41,6 @@ function HomeScreen({ navigation }) {
                             <Image source={IconStyles.Post.source} style={{ width: 25, height: 25, marginLeft : 5}} />
                         )
                     },
-                    tabBarLabel : <Text style={{fontFamily : 'Jalnan', color : 'black', marginRight : 5,}}>게시글</Text>,
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
                 <Tab.Screen name="Home" component={Home} options={{
@@ -55,7 +49,6 @@ function HomeScreen({ navigation }) {
                             <Image source={IconStyles.Home.source} style={{ width: 25, height: 25 }} />
                         )
                     },
-                    tabBarLabel : <Text style={{fontFamily : 'Jalnan', color : 'black', marginRight : 5,}}>홈</Text>,
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
                 <Tab.Screen name="Chat" component={ViewChat} options={{
@@ -64,7 +57,6 @@ function HomeScreen({ navigation }) {
                             <Image source={IconStyles.Chat.source} style={{ width: 25, height: 25 }} />
                         )
                     },
-                    tabBarLabel : <Text style={{fontFamily : 'Jalnan', color : 'black', marginRight : 5,}}>채팅</Text>,
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
                 <Tab.Screen name="MyProfile" component={Profile} options={{
@@ -73,7 +65,6 @@ function HomeScreen({ navigation }) {
                             <Image source={IconStyles.MyProfile.source} style={{ width: 25, height: 25 }} />
                         )
                     },
-                    tabBarLabel : <Text style={{fontFamily : 'Jalnan', color : 'black', marginRight : 5,}}>내 프로필</Text>,
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
             </Tab.Navigator>

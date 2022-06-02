@@ -1,9 +1,15 @@
-import React from 'react';
+import React , {useEffect} from 'react';
 import { View, Text, StyleSheet , Image} from 'react-native';
 import {TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation';
 import logo from '../../icons/PickMenLogo.png';
 function Start({navigation}) {
+    useEffect(() => {
+        AsyncStorage.getAllKeys().then(keys => {
+            AsyncStorage.multiRemove(keys);
+        });
+    },[]);
     return(
             <View style = {{flex : 1, backgroundColor : '#27BAFF'}}>
                 <View style = {styles.PageStyle}>

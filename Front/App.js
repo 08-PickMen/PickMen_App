@@ -22,6 +22,7 @@ import Information_Mentor from './Components/Signup/Mentor/Information_Mentor';
 import Attention from './Components/Signup/Mentee/Attention';
 import Major from './Components/Signup/Mentor/Major';
 import Map from './Components/Signup/Mentor/Map';
+import Map_mentee from './Components/Signup/Mentee/Map';
 const stack = createStackNavigator();
 
 class App extends Component{
@@ -66,6 +67,7 @@ class App extends Component{
         <stack.Screen name="LoginPage" component={LoginPage}/>
         <stack.Screen name="HomeScreen" component={HomeScreen}/>
         <stack.Screen name="Map" component={Map}/>
+        <stack.Screen name="Map_mentee" component={Map_mentee}/>
       </stack.Navigator>
     </NavigationContainer>
   );

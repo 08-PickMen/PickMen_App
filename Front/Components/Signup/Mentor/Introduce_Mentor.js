@@ -3,16 +3,24 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
 
-async function saveMentorInformation(Introduce, livingWhere, mentoring) {
+async function saveMentorInformation(Introduce, mentoring) {
     await AsyncStorage.setItem('introduceMyself', Introduce);
-    await AsyncStorage.setItem('livingWhere', livingWhere);
     await AsyncStorage.setItem('mentoringContents', mentoring);
 }
 
-function Introduce_Mentor({ navigation }) {
+function Introduce_Mentor({ navigation , route }) {
     const [Introduce, setIntroduce] = useState('');
-    const [livingWhere, setLivingWhere] = useState('');
     const [mentoring, setMentoring] = useState('');
+    const [LocationCheck, setLocationCheck] = useState('위치를 설정해주세요.');
+
+    function renderCheck(){
+        const backgroundColor = LocationCheck === '위치를 설정해주세요.' ? '#ff0000' : '#27BAFF';
+        return(
+            <View>
+                <Text style = {{marginTop : 10, marginLeft : 40, fontFamily : 'Jalnan', fontSize : 15, color : backgroundColor}}>{LocationCheck}</Text>
+            </View>
+        )
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
@@ -32,9 +40,15 @@ function Introduce_Mentor({ navigation }) {
                 </View>
                 <View>
                     <Text style={styles.Text}>멘토 거주지</Text>
-                    <TouchableOpacity style = {styles.MapButton} onPress={()=>{navigation.navigate("Map")}}>
+                    <View style = {{flexDirection : 'row', marginBottom : 20,}}>{renderCheck()}
+                    <TouchableOpacity style = {styles.MapButton} onPress={()=>{navigation.navigate("Map"); {
+                        if(!route.params?.item_isSetLocation){
+                            setLocationCheck('설정 완료');
+                        }
+                    }}}>
                         <Text style = {styles.ButtonText}>위치 찾기</Text>
                     </TouchableOpacity>
+                    </View>
                 </View>
                 <View>
                     <Text style={styles.Text}>멘토링 내용</Text>
@@ -47,7 +61,7 @@ function Introduce_Mentor({ navigation }) {
                     ></TextInput>
                 </View>
                 <View>
-                    <TouchableOpacity style={styles.Button} onPress={() => { saveMentorInformation(Introduce, livingWhere, mentoring); navigation.navigate('Certify_Mentor') }}>
+                    <TouchableOpacity style={styles.Button} onPress={() => { saveMentorInformation(Introduce, mentoring); navigation.navigate('Certify_Mentor') }}>
                         <Text style={styles.ButtonText}>다음</Text>
                     </TouchableOpacity>
                 </View>
@@ -74,6 +88,11 @@ const styles = StyleSheet.create({
             'black',
         marginBottom: 10,
     },
+    checkText : {
+        marginTop : 20,
+        fontFamily : 'Jalnan',
+
+    },  
     Button: {
         width: 280,
         height: 40,

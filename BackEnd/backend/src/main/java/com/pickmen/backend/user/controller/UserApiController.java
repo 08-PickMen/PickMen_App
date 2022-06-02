@@ -76,9 +76,23 @@ public class UserApiController {
   @GetMapping("DuplicateCheck")
   public @ResponseBody ResponseDto<Integer> duplicateCheck(@RequestParam("nickname")String nickname) {
     try {
-      System.out.println(userRepository.findByNickname(nickname).get().getNickname());
-      if(userRepository.findByNickname(nickname)==null)
+      if(userRepository.findByNickname(nickname).isEmpty()) {
+        System.out.println("중복되지 않음");
       return new ResponseDto<>(HttpStatus.OK.value(), null);
+      }
+      else
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    } catch (Exception e) {
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    }
+  }
+  @GetMapping("DuplicateCheckId")
+  public @ResponseBody ResponseDto<Integer> duplicateCheckId(@RequestParam("username")String username) {
+    try {
+      if(userRepository.findByUsername(username).isEmpty()) {
+        System.out.println("중복되지 않음");
+      return new ResponseDto<>(HttpStatus.OK.value(), null);
+      }
       else
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     } catch (Exception e) {
@@ -102,6 +116,7 @@ public class UserApiController {
    {
 
      User newuser=new User();
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
@@ -142,10 +157,12 @@ public class UserApiController {
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
      newuser.setCreateDate(user.getCreateDate());
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
      newuser.setSchool(user.getSchool());
      newuser.setMajor(user.getMajor());
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setRole(RoleType.MENTEE);
      // 학교, 전공 저장(학교, 전공은 Object)
      
@@ -203,10 +220,10 @@ public class UserApiController {
   }
   
   // 한명의 유저의 필요한 정보들을 반환  
-  @GetMapping("/getUserDto/{user_id}")
-   public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
-	  return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
-  }
+  // @GetMapping("/getUserDto/{user_id}")
+  //  public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
+	//   return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
+  // }
 }
 
 
