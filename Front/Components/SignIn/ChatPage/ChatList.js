@@ -14,7 +14,7 @@ function ChatList({ navigation }) {
 
     // 채팅 리스트를 render하는 함수
     const Item = ({ item }) => (
-        <TouchableOpacity  style={{marginTop : 20,marginBottom : 10,}} onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id, item_nickname : item.other_id_nickname}) }}>
+        <TouchableOpacity  style={{marginTop : 20,marginBottom : 10,}} onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id, item_nickname : item.other_id_nickname, item_other_id : item.other_id, item_rated : item.rated}) }}>
             <View style={style.cards}>
                 <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginLeft : 20,marginRight: 20, width: 60, height: 60, borderRadius: 120, borderWidth : 1, borderColor  :'#a0a0a0'}}></Image>
                 <SafeAreaView style = {{}}>

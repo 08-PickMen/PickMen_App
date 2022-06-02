@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,10 @@ import com.pickmen.backend.chat.model.UserChatRoomDto;
 import com.pickmen.backend.chat.repository.ChatRepository;
 import com.pickmen.backend.chat.repository.ChatRoomRepository;
 import com.pickmen.backend.chat.repository.UserChatRoomRepository;
+import com.pickmen.backend.dto.ReviewDto;
+import com.pickmen.backend.user.model.Review;
 import com.pickmen.backend.user.model.User;
+import com.pickmen.backend.user.repository.ReviewRepository;
 import com.pickmen.backend.user.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +43,9 @@ public class ChatService {
 
 	@Autowired
 	private UserChatRoomRepository userChatRoomRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
 	// 로그인 되어 있는 유저의 채팅방 불러오기 - test 용
 	@Transactional(readOnly = true)
@@ -66,18 +73,19 @@ public class ChatService {
 						otherUserChatRoom.getUser().getId(), 
 						listUserChatRoom.get(i).getChatRoom().getId(),
 						otherUserChatRoom.getUser().getNickname(), 
-						//otherUserChatRoom.getUser().getMajor().getName(),
-						"",
+						otherUserChatRoom.getUser().getMajor().getName(),
 						chatListForLastChat.get(0).getContent(),
-						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm"))));
+						chatListForLastChat.get(0).getCreateDate().format(DateTimeFormatter.ofPattern("MM-dd HH:mm")),
+						otherUserChatRoom.getChatRoom().isRated()
+						));
 			}
 			else {
 				listUserChatRoomDto.add(new UserChatRoomDto(listUserChatRoom.get(i).getUser().getId(),
 						otherUserChatRoom.getUser().getId(), 
 						listUserChatRoom.get(i).getChatRoom().getId(),
 						otherUserChatRoom.getUser().getNickname(),
-						"")); 
-						//otherUserChatRoom.getUser().getMajor().getName()));
+						otherUserChatRoom.getUser().getMajor().getName(),
+						otherUserChatRoom.getChatRoom().isRated()));
 			}
 		}
 		
@@ -213,5 +221,43 @@ public class ChatService {
 		log.info("Chat id: {}", chatsDto.get(2).getId());
 		log.info("Chat id: {}", chatsDto.get(3).getId());*/
 		return chatsDto;
+	}
+	
+	// 채팅방 종료 시 멘토 평가(review) 작성, 평가가 작성된 멘토의 평점 평균 계산
+	@Transactional
+	public ReviewDto makeReivew(Review review) {
+		User user = userRepository.findById(review.getMentor().getId())
+				.orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
+		
+		// review를 DB에 저장
+		reviewRepository.save(review);
+		
+		// 평가가 작성된 멘토에 해당하는 review들을 검색하여 멘토 평점 평균을 계산
+		List<Review> reviews = reviewRepository.findAllByMentor(review.getMentor());		
+		int i;
+		float mentorReviewRatingSum = 0;
+		
+		for(i = 0; i < reviews.size(); i++) {
+			mentorReviewRatingSum += reviews.get(i).getRating(); 
+		}
+		
+		// 멘토 평점을 소수점 2자리까지 반올림하여 저장
+		user.setAverageRating((float)Math.round((mentorReviewRatingSum / reviews.size()) * 100) / 100);
+		return ReviewDto.fromEntity(review);
+	}
+
+	@Transactional
+	public boolean isRatedOn(long chatRoom_id){
+		try {
+			ChatRoom chatroom = new ChatRoom();
+			chatroom = chatRoomRepository.findById(chatRoom_id).get();
+			chatroom.setRated(true);
+			chatRoomRepository.save(chatroom);
+		
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

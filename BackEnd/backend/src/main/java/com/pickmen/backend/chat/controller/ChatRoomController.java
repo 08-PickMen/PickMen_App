@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pickmen.backend.chat.model.Chat;
 import com.pickmen.backend.chat.model.ChatDto;
 import com.pickmen.backend.chat.model.ChatRoom;
@@ -25,6 +26,8 @@ import com.pickmen.backend.chat.model.UserChatRoomDto;
 import com.pickmen.backend.chat.service.ChatService;
 import com.pickmen.backend.config.auth.PrincipalDetail;
 import com.pickmen.backend.dto.ResponseDto;
+import com.pickmen.backend.dto.ReviewDto;
+import com.pickmen.backend.user.model.Review;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 
@@ -96,5 +99,12 @@ public class ChatRoomController {
 		return chatService.findById(room_id);
 	}
 
-	// Slack Test 5/16 third test
+	// 채팅방 종료(멘토링 종료) 시 멘토 평가(review)를 받아서 저장
+	@PostMapping("/room/makeReview/{chatroom_id}")
+	@ResponseBody
+	@JsonProperty("review")
+	public ResponseEntity<ReviewDto> makeReview(@RequestBody Review review,@PathVariable long chatroom_id) {
+		chatService.isRatedOn(chatroom_id);
+		return new ResponseEntity<ReviewDto>(chatService.makeReivew(review), HttpStatus.OK);
+	}
 }

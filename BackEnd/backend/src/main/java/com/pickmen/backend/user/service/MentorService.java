@@ -1,7 +1,6 @@
 package com.pickmen.backend.user.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +16,6 @@ import com.pickmen.backend.user.repository.LectureRepository;
 import com.pickmen.backend.user.repository.MajorRepository;
 import com.pickmen.backend.user.repository.UserRepository;
 
-import org.hibernate.cache.spi.entry.CollectionCacheEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -104,10 +102,10 @@ public class MentorService {
 
 	public List<MentorProfileDto> recommendMentor(@AuthenticationPrincipal PrincipalDetail principalDetail){
 		List<UserLecture> lecture=principalDetail.getLecture();
+		Major major=principalDetail.getMajor();
 		List<User> userlist= userRepository.findAllByRoleOrderByAverageRating(RoleType.MENTOR);
-		
 		try{
-		Collections.sort(userlist, new Comparator<User>(){
+		userlist.sort(new Comparator<User>(){
 
 			@Override
 			public int compare(User o1, User o2) {
@@ -117,6 +115,8 @@ public class MentorService {
 
 				List<UserLecture> o1_lecture=o1.getUserLectures();
 				List<UserLecture> o2_lecture=o2.getUserLectures();
+				Major o1_major=o1.getMajor();
+				Major o2_major=o2.getMajor();
 
 				for(int i=0; i<lecture.size(); i++){
 				for(int j=0; j<lecture.size(); j++){
@@ -126,18 +126,23 @@ public class MentorService {
 					o2_score+=2;
 				}
 			}
-				if(o1_score>o2_score)
+
+				if(o1_major.getName().equals(major.getName()))
+				o1_score+=1;
+				if(o2_major.getName().equals(major.getName()))
+				o2_score+=1;
+
+				if(o1_score<o2_score)
 					return -1;
-				else if(o1_score<o2_score)
-					return 1;
-				else
-					return 0;
+
+				else if(o1_score>o2_score)
+					 return  1;
+				else 
+				return 0;
 			}
 			
 		});
-		for(User user: userlist){
-			System.out.println(user.getNickname());
-		}
+
 		List<MentorProfileDto> mentorProfileDtos = new ArrayList<>();
 		Lecture lecture1 = new Lecture();
 		Lecture lecture2= new Lecture();
@@ -147,16 +152,15 @@ public class MentorService {
 			if (userlist.get(i).getUserLectures().size() != 0) {
 				lecture1 = userlist.get(i).getUserLectures().get(0).getLecture();
 				lecture2 = userlist.get(i).getUserLectures().get(1).getLecture();
-				System.out.println(lecture1.getName());
-				System.out.println(lecture2.getName());
 			}			
 			mentorProfileDtos.add(MentorProfileDto.fromEntity(userlist.get(i), lecture1, lecture2));
 		}
+
+		
 		return mentorProfileDtos;
-	}catch(Exception e){
-		e.printStackTrace();
-		return null;
-	}
-	
+		}catch(NullPointerException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

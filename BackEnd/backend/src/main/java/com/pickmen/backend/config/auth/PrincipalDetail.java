@@ -48,6 +48,9 @@ public class PrincipalDetail implements UserDetails {
    * @return String password
    */
 
+   public String getLivingWhere(){
+     return user.getLivingWhere();
+   }
    public long getUserId(){
      return user.getId();
    }

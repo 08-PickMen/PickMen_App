@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -41,21 +43,20 @@ public class ChatRoom {
 	private long id;
 	
 	@Column
-	private long post_id;		
+	private long post_id;
 	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "chatRoom")
-	   private List<UserChatRoom> userChatRooms = new ArrayList<>();
+		
+	@ColumnDefault("false")
+	@Column(nullable = false)
+	private boolean isRated;
+	
+	@JsonManagedReference(value = "chatRoom-userChatRoom")
+	@OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
+	private List<UserChatRoom> userChatRooms = new ArrayList<>();
 
 	
 	// ChatRoom 1 : N Chat 
-	@JsonManagedReference
-	@OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY)
+	@JsonManagedReference(value = "chatRoom-chat")
+	@OneToMany(mappedBy = "chatRoom", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Chat> chat = new ArrayList<>();
-	
-	// ChatRoom 1 : N User -> 한 개의 채팅방은 여러명의 유저를 가질 수 있음	
-	/*@OneToMany(mappedBy = "chatRoom")
-	@JoinColumn(name = "chatRoom_id")
-	private List<User> users;*/
-	
 }

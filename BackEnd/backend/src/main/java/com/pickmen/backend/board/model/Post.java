@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.google.firebase.database.annotations.Nullable;
 import com.pickmen.backend.user.model.User;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -47,7 +48,8 @@ public class Post {
   @Lob // 대용량 데이터를 쓸때 사용
   private String content;
 
-  
+
+  @Column(nullable= true)
   private String nickname;
   // @ColumnDefault("0")
   private long count; // 조회
@@ -56,6 +58,9 @@ public class Post {
   @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
   @JoinColumn(name = "userId")
   private User user; // 작성이
+
+  @Column(nullable= true)
+  private String livingwhere;
 
   // Board 1 : N Reply -> 1개의 게시물에는 여러개의 답글이 달릴 수 있으므로
   @JsonManagedReference

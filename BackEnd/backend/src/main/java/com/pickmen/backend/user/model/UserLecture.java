@@ -26,12 +26,12 @@ public class UserLecture {
 	private Long id;
 	
 	// User와 N : N 관계지만 UserLecture을 두어 (User)1:N (UserLecture) N:1(Lecture)
-	@JsonBackReference
+	@JsonBackReference(value = "user-userLecture")
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@JsonBackReference
+	@JsonBackReference(value = "lecture-userLecture")
 	@ManyToOne
 	@JoinColumn(name = "lecture_id")
 	private Lecture lecture;

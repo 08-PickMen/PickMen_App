@@ -116,6 +116,7 @@ public class UserApiController {
    {
 
      User newuser=new User();
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setUsername(user.getUsername());
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
@@ -156,6 +157,7 @@ public class UserApiController {
      newuser.setPassword(user.getPassword());
      newuser.setNickname(user.getNickname());
      newuser.setCreateDate(user.getCreateDate());
+     newuser.setLivingWhere(user.getLivingWhere());
      newuser.setProfileImage(imageService.upload(uploadfile));  
      newuser.setEmail(user.getEmail());
      newuser.setSchool(user.getSchool());
@@ -216,10 +218,10 @@ public class UserApiController {
   }
   
   // 한명의 유저의 필요한 정보들을 반환  
-  @GetMapping("/getUserDto/{user_id}")
-   public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
-	  return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
-  }
+  // @GetMapping("/getUserDto/{user_id}")
+  //  public @ResponseBody ResponseEntity<UserDto> getUserDto(@PathVariable Long user_id) {
+	//   return new ResponseEntity<UserDto>(userService.getUserDto(user_id), HttpStatus.OK);
+  // }
 }
 
 

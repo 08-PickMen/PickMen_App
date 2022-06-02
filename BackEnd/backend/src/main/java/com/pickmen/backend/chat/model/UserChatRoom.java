@@ -33,12 +33,12 @@ public class UserChatRoom {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@JsonBackReference
+	@JsonBackReference(value = "user-userchatRoom")
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@JsonBackReference
+	@JsonBackReference(value = "chatRoom-userChatRoom")
 	@ManyToOne
 	@JoinColumn(name = "chatRoom_id")
 	private ChatRoom chatRoom;

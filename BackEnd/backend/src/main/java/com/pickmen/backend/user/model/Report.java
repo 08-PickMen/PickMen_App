@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,8 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pickmen.backend.ReportType;
-import com.pickmen.backend.board.model.Post;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -36,6 +35,12 @@ public class Report {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // DB 설정의 넘버링 전략을 따라감
     private long id;
 
+    
+    @JsonBackReference(value="report-user")
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
     @Enumerated(EnumType.STRING) // DB 는 RoleType 이 없기 때문에 String 타입이라고 알려줘야 함
     private ReportType type; // ENUM을 쓰는것이 좋다.
   
@@ -44,17 +49,20 @@ public class Report {
     private LocalDateTime createDate; // 생성일
 
     private String description;
-
+/*
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "reportUserId")
     private User reportUser_id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "targetUserId")
     private User targetUser_id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER) // 1개밖에 없으므로, 바로 가지고 옴
     @JoinColumn(name = "targetPostId")
-    private Post targetPost_id;
+    private Post targetPost_id;*/
 
 }
