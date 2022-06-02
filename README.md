@@ -87,7 +87,9 @@ cd Backend/backend
 <summary>1. 회원가입</summary>
 <div markdown="1">       
 
-😎숨겨진 내용😎
+   <img width="10%" src="img/학교 선택.PNG"/>
+   <img width="10%" src="img/학교 인증.PNG"/>
+   <img width="10%" src="img/구글 지도.PNG"/>
 
 </div>
 </details>
@@ -104,6 +106,7 @@ cd Backend/backend
 <div markdown="1">       
 
   1. 멘토 프로필 탐색
+    <img width="30%" src="img/멘토 프로필.PNG"/>
   2. 멘티 구인 게시물 탐색
 
 </div>
