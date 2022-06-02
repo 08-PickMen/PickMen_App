@@ -158,6 +158,7 @@ cd Backend/backend
 😎숨겨진 내용😎
 
 </div>
+   </details>
 
    <br>
    
