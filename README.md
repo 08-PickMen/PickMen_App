@@ -21,7 +21,7 @@ $ \Rightarrow $ 같은 학교, 인근 지역 내의 성적표 인증을 바탕�
 
 ## :yellow_heart: 시스템 구조
 
-<img width="70%" src="img/구조.PNG"/>
+<img width="90%" src="https://user-images.githubusercontent.com/68629997/171659539-db79b600-130b-486f-9497-9b966ef7458f.png"/>
 
 - React-Native
   - Front-end client 구현
