@@ -138,20 +138,42 @@ public class UserService {
 	}
 
 	@Transactional
-	public User updateUser(User user) {
+	public User updateUser(User user, List<Long> lectureList) {
 		Optional<User> optionalUser = userRepository.findById(user.getId());
 		User findUser = optionalUser.orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
 
-		if (null != user.getPassword() && !"".equals(user.getPassword())) {
+		/*if (null != user.getPassword() && !"".equals(user.getPassword())) {
 			findUser.setPassword(passwordEncoder.encode(user.getPassword()));
-		}
+		}*/
 		// if (null != user.getEmail() && !"".equals(user.getEmail())) {
 		// System.out.println("hello");
 		// findUser.setEmail(user.getEmail());
 		// }
 		// 이메일 수정은 안됨
+		
+		// 닉네임 수정
+		if (user.getNickname() != null) {
+			findUser.setNickname(user.getNickname());
+		}
+		
+		// 관심 분야 변경
+		if (lectureList != null) {
+			int i;
+			UserLecture userLecture = new UserLecture();
+			// 기존 가르치는 분야 삭제
+			userLectureRepository.deleteAllByUserId(findUser.getId());
 
-		return userRepository.save(findUser);
+			for (i = 0; i < lectureList.size(); i++) {
+				userLecture = UserLecture.builder().user(findUser)
+						.lecture(lectureRepository.findById(lectureList.get(i)).orElseThrow()).build();
+
+				userLectureRepository.save(userLecture);
+			}
+		} else {
+			System.out.println("전공 강의 분야 변경 없음");
+		}
+
+		return userRepository.save(findUser); 
 	}
 
 }
