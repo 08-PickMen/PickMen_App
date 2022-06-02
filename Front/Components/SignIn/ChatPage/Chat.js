@@ -40,6 +40,7 @@ function Chat({ navigation, route }) {
     const chatRoom_id = route.params.item_id;
     const other_id_nickname = route.params.item_nickname;
     const other_id = route.params.item_other_id;
+    const [item_rated, setItemRated] = useState(route.params.item_rated);
     // 채팅 메시지를 상대방과 접속한 user id를 비교하고 좌측, 우측 채팅 메시지를 나누어서 출력하는 함수
     const renderBubble = props => {
         let username = props.currentMessage.user._id
@@ -79,6 +80,22 @@ function Chat({ navigation, route }) {
                             backgroundColor: '#27BAFF'
                         }
                     }} />
+            )
+        }
+    }
+    const renderReviewText = (rated) => {
+        
+        if(rated==true) {
+            return (
+                <View>
+                    <Text>평가를 완료하셨습니다.</Text>
+                </View>
+            )
+        } else {
+            return (
+                <View>
+                    <Text>평가 버튼</Text>
+                </View>
             )
         }
     }
@@ -184,8 +201,9 @@ function Chat({ navigation, route }) {
                     <Image source={backButtonIcon} style={{ width: 30, height: 30, marginLeft: 10, marginTop: 10 }} />
                 </TouchableOpacity>
                 <Text style={styles.nickName}>{other_id_nickname}</Text>
-                <TouchableOpacity onPress={() => setModalVisible(true)} style={{ marginLeft: 'auto', marginRight: 20, marginTop: 15, }}>
-                    <Text>Test</Text>
+                <TouchableOpacity disabled={item_rated}
+                onPress={() => setModalVisible(true)} style={{ marginLeft: 'auto', marginRight: 20, marginTop: 15, }}>
+                    {renderReviewText(item_rated)}
                 </TouchableOpacity>
             </View>
             <Modal
@@ -237,7 +255,7 @@ function Chat({ navigation, route }) {
                         <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.NotRatingButton}>
                             <Text style={styles.Text}>평가 안하기</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => MakeReview(content)} style={styles.RatingButton}>
+                        <TouchableOpacity onPress={() => {MakeReview(content); setModalVisible(false); setItemRated(true)}} style={styles.RatingButton}>
                             <Text style={styles.Text}>평가하기</Text>
                         </TouchableOpacity>
                     </View>

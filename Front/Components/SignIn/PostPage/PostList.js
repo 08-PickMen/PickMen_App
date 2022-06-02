@@ -63,7 +63,7 @@ function PostList({ navigation }) {
           marginBottom: 10,
           marginLeft: 10,
           color: backgroundColor
-        }}>[멘토 구함]</Text>
+        }}>[멘티 구함]</Text>
       )
 
     } else if (role == 'MENTEE') {
@@ -75,7 +75,7 @@ function PostList({ navigation }) {
           marginBottom: 10,
           marginLeft: 10,
           color: backgroundColor
-        }}>[멘티 구함]</Text>
+        }}>[멘토 구함]</Text>
       )
     }
   }

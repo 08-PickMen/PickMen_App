@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.pickmen.backend.user.model.Major;
+import com.pickmen.backend.user.model.School;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.model.UserLecture;
 
@@ -58,6 +59,9 @@ public class PrincipalDetail implements UserDetails {
 
    public String getNickName(){
      return user.getNickname();
+   }
+   public School getSchool() {
+      return user.getSchool();
    }
 
    public Major getMajor(){

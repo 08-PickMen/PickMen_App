@@ -102,7 +102,7 @@ public class User {
    @ManyToOne
    @JoinColumn(name = "schoolId")
    private School school;
- 
+
    @Column(nullable= true)
    private String profileImage;
    

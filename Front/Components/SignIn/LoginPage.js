@@ -39,6 +39,7 @@ async function loadData() {
 async function loadprofile() {
     await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function (response) {
         myprofile.length = 0;
+        console.log(response.data);
         myprofile.push({
             id: response.data.data.id,
             nickname: response.data.data.nickname,

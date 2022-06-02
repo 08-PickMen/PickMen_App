@@ -10,6 +10,7 @@ import com.pickmen.backend.dto.MajorDto;
 import com.pickmen.backend.dto.ResponseDto;
 import com.pickmen.backend.dto.SchoolDto;
 import com.pickmen.backend.dto.UserDto;
+import com.pickmen.backend.dto.detailDto;
 import com.pickmen.backend.user.model.User;
 import com.pickmen.backend.user.repository.UserRepository;
 import com.pickmen.backend.user.service.ImageService;
@@ -67,7 +68,7 @@ public class UserApiController {
       }
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
-     catch (Exception e) {
+     catch (NullPointerException e) {
       e.printStackTrace();
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
@@ -104,6 +105,19 @@ public class UserApiController {
   public @ResponseBody ResponseDto<User> myProfile(@AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       return new ResponseDto<>(HttpStatus.OK.value(), userRepository.findByUsername(principalDetail.getUsername()).get());
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
+    }
+  }
+
+  @GetMapping("/user/detailInfo")
+  public @ResponseBody ResponseDto<detailDto> detailInfo(@AuthenticationPrincipal PrincipalDetail principalDetail) {
+    try {
+      detailDto dto=new detailDto();
+      dto.setMajorName(principalDetail.getMajor().getName());
+      dto.setSchoolName(principalDetail.getSchool().getName());
+      return new ResponseDto<>(HttpStatus.OK.value(), dto);
     } catch (Exception e) {
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }

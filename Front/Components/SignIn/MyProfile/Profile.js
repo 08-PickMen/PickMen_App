@@ -9,12 +9,17 @@ import myprofile from '../../localData/MyProfile';
 function Profile() {
     const [lecturelist, setLecturelist] = useState([]);
     const [lecturelist2, setLecturelist2] = useState([]);
+    const [major, setMajor] = useState('');
+    const [school, setSchool] = useState('');
     // 접속한 유저의 관심 분야를 불러오는 함수
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/getLectureList').then(function (response) {
             setLecturelist(response.data[0]);
             setLecturelist2(response.data[1]);
-            console.log(myprofile)
+        })
+        axios.get('http://10.0.2.2:8090/user/detailInfo').then(function (response) {
+            setMajor(response.data.data.majorName);
+            setSchool(response.data.data.schoolName);
         })
     }, [])
     return (
@@ -28,7 +33,7 @@ function Profile() {
                     <Text style={{ marginTop: 20, marginLeft: 'auto', marginRight: 'auto', fontSize: 16, color: '#27BAFF' }}>Change Profile photo</Text>
                 </TouchableOpacity>
                 <Card.Content>
-                    <View style={{ marginTop: 60 }}>
+                    <View style={{ marginTop: 20 }}>
                         <Text>Nickname</Text>
                     </View>
                     <View>
@@ -46,11 +51,18 @@ function Profile() {
                         <Text>University</Text>
                     </View>
                     <View>
-                        <Title style={{ fontSize: 18 }}>{'아주대학교'}</Title>
+                        <Title style={{ fontSize: 18 }}>{school}</Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
-                        <Text>TeachSector</Text>
+                        <Text>Major</Text>
+                    </View>
+                    <View>
+                        <Title style={{ fontSize: 18 }}>{major} </Title>
+                    </View>
+                    <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
+                    <View style={{ marginTop: 20 }}>
+                        <Text>Lecture</Text>
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{lecturelist.name}, {lecturelist2.name} </Title>
