@@ -29,7 +29,7 @@ public class ChatController {
 	
 	// 클라이언트에서 "/pub/chat/message/enter" 로 입장 메시지를 보내는 요청 (setApplicationDestinationPrefixes("/pub") 이므로)
 	@MessageMapping("/chat/message/enter")
-	public void enter(@Payload Chat chat) {		
+	public void enter(@Payload Chat chat) {	
 		if (MessageType.ENTER.equals(chat.getMessageType())){
 			chat.setContent(chat.getUser() + "님이 입장하셨습니다.");
 		}
