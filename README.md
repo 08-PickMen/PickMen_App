@@ -67,7 +67,7 @@ $ \Rightarrow $ 같은 학교, 인근 지역 내의 성적표 인증을 바탕�
 
    <br>
 
-## :skyblue_heart: 실행하는데 필요한 프로그램
+## :pink_heart: 실행하는데 필요한 프로그램
 
 #
 <img width="50%" src="https://user-images.githubusercontent.com/71802256/171869641-6f4dc00c-193a-453b-8cc6-ec1a9ef5c1b3.jpg"/>
