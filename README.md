@@ -337,7 +337,15 @@ cd Backend/backend
 <summary>2. 프로필 수정</summary>
 <div markdown="1">
 
-- 임시
+<img width="30%" src="https://user-images.githubusercontent.com/71802256/171924331-b11c2b67-6a9d-4d4c-9fcb-3c0566e2da32.gif"/>
+
+- 프로필 수정
+
+  - 로그인 후 내 프로필 탭을 누르면  내 프로필 정보가 나온다.
+
+  - 하단의 Personal Information Setting을 누르면 프로필 수정 창으로 이동한다.
+  
+  - 멘토의 경우 닉네임, 프로필 이미지, 전문 강의, 그리고 상세 정보 설정을 들어가면 멘토링 내용과 멘토 소개를 입력받아서 수정이 가능하다.
 
 </div>
 </details>
