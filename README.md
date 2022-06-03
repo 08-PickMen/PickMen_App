@@ -67,6 +67,49 @@ $ \Rightarrow $ 같은 학교, 인근 지역 내의 성적표 인증을 바탕�
 
    <br>
 
+## :skyblue_heart: 실행하는데 필요한 프로그램
+
+#
+<img width="50%" src="https://user-images.githubusercontent.com/71802256/171869641-6f4dc00c-193a-453b-8cc6-ec1a9ef5c1b3.jpg"/>
+
+- Java SDK
+
+  - 앞서 설명할 Emulator와 Native Project를 위한 필수 요소입니다.
+  - https://www.oracle.com/java/technologies/downloads/ 에서 쉽게 다운로드 가능합니다.
+  - 최신 버전은 Issue가 있으니 11 시리즈 버전을 사용하는 것을 권장합니다.  
+  #
+
+- Java 환경 변수 설정법
+
+  - Java SDK를 설치하셨으면 환경 변수 설정이 필요합니다.
+
+    <img width="50%" src="https://user-images.githubusercontent.com/71802256/171870662-dd8370c3-a726-4c48-b304-31482be0c778.png"/>
+    
+    - windows 키 - 시스템 환경 변수 편집 - 환경 변수를 들어갑니다.  
+
+    <img width="50%" src="https://user-images.githubusercontent.com/71802256/171871156-aaee5d21-4343-44ef-a95d-45a275808268.png"/>
+
+    - 새 시스템 변수 만들기를 누르시고 다음과 같이 이름을 JAVA_HOME 경로는 SDK가 설치된 경로입니다.  
+    #
+
+<img width="50%" src="https://user-images.githubusercontent.com/71802256/171869380-e205e9da-347b-41fa-ae4d-286e10832795.jpg"/>
+
+- Android Studio
+
+  - Native Project를 실행하는데 있어서 필요한 Emulator를 위한 Tool
+  
+  - 설치하시면 Tools -> SDK Manager를 클릭합니다.
+
+  - SDK Tools 탭에서 Android Emulator의 버전(최신 or 10)을 선택하시고 OK를 클릭합니다.
+
+  - Tools -> AVD Manager를 통해 새로운 Virtual Device를 만듭니다.  
+  #
+<img width="50%" src="https://user-images.githubusercontent.com/71802256/171872034-c7e114b0-28b2-490a-861b-044515d5aef8.jpg"/>
+
+- Node.js 입니다.
+- Backend에는 전혀 필요없지만 APP 실행을 위한 Metro에 사용됩니다.
+- https://nodejs.org/ko/ 로 가시면 쉽게 다운로드가 가능합니다.
+
 ## :purple_heart: 실행 방법
 
 - Clone the repository
