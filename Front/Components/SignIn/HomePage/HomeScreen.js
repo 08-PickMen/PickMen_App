@@ -32,6 +32,11 @@ function HomeScreen({ navigation , route}) {
                             <Image source={IconStyles.Profile.source} style={{ width: 30, height: 30 }} />
                         )
                     },
+                    tabBarLabel: () => {
+                        return (
+                            <Text style={IconStyles.Profile.text}>멘토</Text>
+                        )
+                    },
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }}
                 />
@@ -39,6 +44,11 @@ function HomeScreen({ navigation , route}) {
                     tabBarIcon: () => {
                         return (
                             <Image source={IconStyles.Post.source} style={{ width: 25, height: 25, marginLeft : 5}} />
+                        )
+                    },
+                    tabBarLabel: () => {
+                        return (
+                            <Text style={IconStyles.Post.text}>게시판</Text>
                         )
                     },
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
@@ -49,6 +59,11 @@ function HomeScreen({ navigation , route}) {
                             <Image source={IconStyles.Home.source} style={{ width: 25, height: 25 }} />
                         )
                     },
+                    tabBarLabel: () => {
+                        return (
+                            <Text style={IconStyles.Home.text}>홈</Text>
+                        )
+                    },
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
                 <Tab.Screen name="Chat" component={ViewChat} options={{
@@ -57,12 +72,22 @@ function HomeScreen({ navigation , route}) {
                             <Image source={IconStyles.Chat.source} style={{ width: 25, height: 25 }} />
                         )
                     },
+                    tabBarLabel: () => {
+                        return (
+                            <Text style={IconStyles.Chat.text}>채팅</Text>
+                        )
+                    },
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,
                 }} />
                 <Tab.Screen name="ProfileScreen" component={ProfileScreen} options={{
                     tabBarIcon: () => {
                         return (
                             <Image source={IconStyles.MyProfile.source} style={{ width: 25, height: 25 }} />
+                        )
+                    },
+                    tabBarLabel: () => {
+                        return (
+                            <Text style={IconStyles.MyProfile.text}>내 프로필</Text>
                         )
                     },
                     unmountOnBlur: Platform.OS === 'ios' ? false : true,

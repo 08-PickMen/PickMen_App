@@ -43,11 +43,6 @@ function PostList({ navigation }) {
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
-  // 새로고침 -> 작동안함
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
   // 댓글 Count를 update 하는 함수
   async function updateCount(item, id) {
     await axios.post('http://10.0.2.2:8090/post/upcountPost?id=' + id).then(response => {
@@ -85,13 +80,47 @@ function PostList({ navigation }) {
     <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
       <Card style={styles.cards}>
         <View style={{ flexDirection: 'row' }}>
-          <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user) }} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
+          <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user), cache : FastImage.cacheControl.web}} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
           <Text style={styles.nickname}>{item.nickname}</Text>
           <Text style={{ marginLeft: 135, marginTop: 20 }}>조회 수 {item.count}</Text>
         </View>
         <ScrollView>
         <View style={{ flexDirection: 'row', flexWrap : 'wrap'}}>
-          {renderRole(item.role)}
+        <Text style={{
+          fontSize: 15,
+          fontFamily: 'NanumSquareRoundB',
+          marginTop: 20,
+          marginBottom: 10,
+          marginLeft: 10,
+          color: '#ff0000'
+        }}>[멘티 구함]</Text>
+          <Text style={styles.title}>{item.title}</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.content}>{item.content}</Text>
+        </View>
+        </ScrollView>
+      </Card>
+    </TouchableOpacity>
+  );
+  const Item2 = ({ item, onPress, style }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+      <Card style={styles.cards}>
+        <View style={{ flexDirection: 'row' }}>
+          <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.user), cache : FastImage.cacheControl.web}} style={{ marginLeft: 15, marginTop: 20, width: 60, height: 60, borderRadius: 90 }} />
+          <Text style={styles.nickname}>{item.nickname}</Text>
+          <Text style={{ marginLeft: 135, marginTop: 20 }}>조회 수 {item.count}</Text>
+        </View>
+        <ScrollView>
+        <View style={{ flexDirection: 'row', flexWrap : 'wrap'}}>
+        <Text style={{
+          fontSize: 15,
+          fontFamily: 'NanumSquareRoundB',
+          marginTop: 20,
+          marginBottom: 10,
+          marginLeft: 10,
+          color: '#27BAFF'
+        }}>[멘토 구함]</Text>
           <Text style={styles.title}>{item.title}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
@@ -139,7 +168,7 @@ function PostList({ navigation }) {
   }
   //게시글 리스트를 render하고 게시글을 선택했을 때 게시글 내용으로 이동
   const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
+    if(item.role=='MENTOR'){
     return (
       <Item
         item={item}
@@ -149,9 +178,21 @@ function PostList({ navigation }) {
             routes: [{ name: 'PostPage' }, { name: 'ViewPost' },]
           }))
         }}
-        style={{ backgroundColor }}
       />
     )
+    } else {
+        return (
+          <Item2
+        item={item}
+        onPress={() => {
+          setSelectedId(item.id); loadPost(item, item.id); updateCount(item, item.id); datacountUp(item.id); navigation.dispatch(CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'PostPage' }, { name: 'ViewPost' },]
+          }))
+        }}
+      />
+        )
+    }
   };
   return (
     <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
@@ -172,7 +213,6 @@ function PostList({ navigation }) {
           <FlatList
             data={data}
             renderItem={(item)=> renderItem(item)}
-            windowSize={2}
             contentContainerStyle={{ flexGrow: 1 }}>
           </FlatList>
         </View>
@@ -250,10 +290,11 @@ const styles = StyleSheet.create({
   PageStyle: {
     backgroundColor: 'white',
     width: 400,
-    height: 680,
+    height: 700,
     borderColor: 'white',
     borderWidth: 1,
-    borderRadius : 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 'auto',

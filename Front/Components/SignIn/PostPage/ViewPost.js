@@ -46,6 +46,11 @@ async function loadPost() {
         console.log(error)
     })
 }
+const createRoom = (mentor_id) => {
+    axios.post('http://10.0.2.2:8090/chat/room/createRoom/'+Number(mentor_id)).then(response => {
+      console.log(response.data)
+    })
+}
 // 게시글 삭제 기능
 async function DeletePost(navigation, id) {
     await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
@@ -241,18 +246,28 @@ function ViewPost({navigation}) {
                 <View style = {{flexDirection : 'row', marginTop : 10,}}>
                         <TouchableOpacity onPress={()=>{
                             if(item.role =='MENTOR') {
-                                navigation.navigate('MentorProfileDetailFromReply',{item_id : item.user_id})
+                                navigation.navigate('MentorProfileDetailFromReply',{item_id : item.user_id, item_lectureName1 : item.lectureName1,item_lectureName2 : item.lectureName2, item_majorName : item.majorName})
                             } else {
                                 Alert.alert(
-                                    '멘토가 아닙니다.',
+                                    '멘티와 채팅방을 생성하시겠습니까?',
                                     '',
                                     [
                                         {
                                             text: '확인',
-                                            onPress: () => {},
+                                            onPress: () => {createRoom(item.user_id);navigation.dispatch(CommonActions.reset({
+                                              index : 0,
+                                              routes : [{name : 'PostPage'}],
+                                          }))},
+                                        },
+                                        {
+                                            text: '취소',
+                                            onPress: () => {navigation.dispatch(CommonActions.reset({
+                                                index : 0,
+                                                routes : [{name : 'PostPage'}]
+                                            }))},
                                         }
                                     ]
-                                );
+                                )
                             }
                             }}>
                             <FastImage source={{uri : 'http://10.0.2.2:8090/getProfile?userid='+item.user_id, cache : FastImage.cacheControl.web}} style = {styles.ReplyImage}/>
@@ -263,7 +278,7 @@ function ViewPost({navigation}) {
                     <Text style = {styles.ReplyContent}>{item.content}</Text>
                 </View>
                 <View>
-                    <Text style = {styles.ReplyCreateDate}>20{item.createDateTime}</Text>
+                    <Text style = {styles.ReplyCreateDate}>{item.createDateTime}</Text>
                 </View>
                 <View>
                     <TouchableOpacity style = {{marginLeft : 'auto'}} onPress={()=>deleteReply(item.user_id, item.id, id)}>
@@ -464,7 +479,7 @@ const styles = StyleSheet.create({
     ReplyContent : {
         marginLeft : 20,
         marginTop : 15,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRoundB',
         fontSize : 14,
         color : 'black'
     },
@@ -472,7 +487,7 @@ const styles = StyleSheet.create({
         marginLeft : 20,
         marginTop : 15,
         marginBottom : 15,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRoundB',
         fontSize : 14,
         color : 'black'
     },
@@ -481,7 +496,7 @@ const styles = StyleSheet.create({
         marginTop : 'auto',
         marginBottom : 'auto',
         marginLeft : 15,
-        fontFamily : 'Jalnan',
+        fontFamily : 'NanumSquareRoundB',
         color : 'black'
     },
     ReplyImage : {

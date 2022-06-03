@@ -13,7 +13,6 @@ async function ImageSave(image) {
 
 async function ImageLoad() {
     var data = await AsyncStorage.getItem('image');
-    console.log(data);
 }
 function GradeAccess_Menti({ navigation, route}) {
 
@@ -39,14 +38,12 @@ function GradeAccess_Menti({ navigation, route}) {
                     setCheckNickname('중복되는 닉네임입니다.')
                 }
             }).catch(error => {
-                console.log(error)
             })
     }
     const saveNickName = async (nickName) => {
         try {
             await AsyncStorage.setItem('nickName', nickName);
         } catch (e) {
-            console.log(e);
         }
     }
     const renderCheckNickname = () => {
@@ -68,7 +65,6 @@ function GradeAccess_Menti({ navigation, route}) {
     async function ImageUpload() {
         launchImageLibrary({}, response => {
             if (response.assets[0].uri) {
-                console.log(response);
                 setImage(response.assets[0].uri);
                 setprofileImage(response.assets[0].fileName.substring(0, 30) + '...');
             }
@@ -77,8 +73,6 @@ function GradeAccess_Menti({ navigation, route}) {
                 name: 'image.jpg',
                 type: 'image/jpeg',
             });
-            console.log(data)
-            console.log(data)
             ImageSave(data);
             ImageLoad();
         })

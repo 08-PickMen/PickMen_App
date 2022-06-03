@@ -149,6 +149,7 @@ function Information_Mento({ navigation }) {
                         onPress={() => {
                             if (checkPasswordText == '비밀번호가 일치합니다.' && checkIdText == '사용 가능한 아이디입니다.') {
                                 register(userName, sendEmail, sendPassword);
+                                navigation.navigate('RegisterComplete');
                             }
                         }}>
                         <Text style={styles.ButtonText}>확인</Text>

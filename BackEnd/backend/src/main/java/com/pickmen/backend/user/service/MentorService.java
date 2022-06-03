@@ -171,10 +171,10 @@ public class MentorService {
 						o2_score += 1;
 
 					if (o1_score < o2_score)
-						return -1;
+						return 1;
 
 					else if (o1_score > o2_score)
-						return 1;
+						return -1;
 					else
 						return 0;
 				}

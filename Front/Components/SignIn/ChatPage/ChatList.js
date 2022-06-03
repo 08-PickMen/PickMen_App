@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import chatdata from '../../localData/ChatData';
 import { Card } from 'react-native-paper';
 import axios from 'axios';
+import FastImage from 'react-native-fast-image';
 import join from '../../../icons/enter.png'
 
 // 채팅 리스트 페이지
@@ -16,18 +17,20 @@ function ChatList({ navigation }) {
     const Item = ({ item }) => (
         <TouchableOpacity  style={{marginTop : 20,marginBottom : 10,}} onPress={() => { navigation.navigate('Chat', { item_id: item.chatRoom_id, item_nickname : item.other_id_nickname, item_other_id : item.other_id, item_rated : item.rated}) }}>
             <View style={style.cards}>
-                <Image source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id) }} style={{ marginLeft : 20,marginRight: 20, width: 60, height: 60, borderRadius: 120, borderWidth : 1, borderColor  :'#a0a0a0'}}></Image>
+                <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + Number(item.other_id), cache : FastImage.cacheControl.web}} style={{ marginLeft : 20,marginRight: 20, width: 60, height: 60, borderRadius: 120, borderWidth : 1, borderColor  :'#a0a0a0'}}></FastImage>
                 <SafeAreaView style = {{}}>
                     <View style = {{flexDirection : "row"}}>
                         <Text style = {{marginRight : 15, fontFamily : 'Jalnan', fontSize : 15, color : 'black'}}>{item.other_id_nickname}</Text>
-                        <Text style = {{fontSize : 13, marginLeft : 100,}}>{item.formatDateTime}</Text>
                     </View>
+                    <View style = {{flexDirection : 'row'}}>
                     <Text style = {{marginTop : 10, fontFamily : 'NanumSquareRound', fontSize : 13, color : 'black'}}>{item.lastChat}</Text>
+                    </View>
                 </SafeAreaView>
                 <SafeAreaView style = {{flex : 1}}>
                     <Text style = {{marginRight : 10, fontFamily : 'Jalnan', fontSize : 12, color : '#a0a0a0'}}>{item.other_id_major}</Text>
                 </SafeAreaView>
             </View>
+            <Text style = {{fontSize : 13, marginLeft : 'auto',marginRight : 20,}}>{item.formatDateTime}</Text>
         </TouchableOpacity>
     );
     const renderItem = ({ item }) => {

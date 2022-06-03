@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, Alert, ScrollView } from "react-native";
 import { Card } from 'react-native-paper'
 import { Avatar } from 'react-native-elements';
+import { CommonActions } from "@react-navigation/native";
+import FastImage from "react-native-fast-image";
 import axios from 'axios';
 import TeachIcon from '../../../icons/teach.png';
 import MajorIcon from '../../../icons/Major.png';
@@ -16,6 +18,9 @@ const MentorProfileDetailFromReply = ({ navigation, route }) => {
   const [LectureList, setLectureList] = useState([]);
   const bodyText = "This is not really a bird nest.";
   const mentor_id = route.params.item_id;
+  const majorName = route.params.item_majorName;
+  const lectureName1 = route.params.item_lectureName1;
+  const lectureName2 = route.params.item_lectureName2;
   // 멘토 상세 페이지를 불러오는 함수
   useEffect(() => {
     setLoading(false);
@@ -46,14 +51,17 @@ const MentorProfileDetailFromReply = ({ navigation, route }) => {
       [
         {
           text: '확인',
-          onPress: () => { createRoom(mentor_id); Mentor_id.push(mentor_id); },
+          onPress: () => { createRoom(mentor_id); Mentor_id.push(mentor_id); navigation.dispatch(CommonActions.reset({
+            index : 0,
+            routes : [{name : 'PostPage'}],
+        }))},
         },
         {
           text: '취소',
           onPress: () => {
             navigation.dispatch(CommonActions.reset({
               index: 0,
-              routes: [{ name: 'MentoProfile' }]
+              routes: [{ name: 'PostPage' }]
             }))
           },
         }
@@ -65,7 +73,7 @@ const MentorProfileDetailFromReply = ({ navigation, route }) => {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
         <Card style={styles.CardStyle}>
           <SafeAreaView style={{ marginLeft: 15, marginTop: 20, flexDirection: 'row' }}>
-            <Avatar rounded source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + mentor_id }} size='large' />
+            <FastImage source={{ uri: 'http://10.0.2.2:8090/getProfile?userid=' + mentor_id , cache : FastImage.cacheControl.web}} style ={{ marginLeft: 'auto', marginRight: 'auto', width: 60, height: 60, borderRadius: 120 }} />
             <SafeAreaView>
               <SafeAreaView style={{ flexDirection: 'row' }}>
                 <Text style={styles.NickName}>{Profile.nickname}</Text>
@@ -73,8 +81,14 @@ const MentorProfileDetailFromReply = ({ navigation, route }) => {
                   <Text style={styles.ButtonText}>멘토 연결하기</Text>
                 </TouchableOpacity>
               </SafeAreaView>
-              <Image source={MajorIcon} style={{ marginTop: 15, marginLeft: 15, width: 18, height: 18, marginBottom: 15, }} />
+              <SafeAreaView style = {{flexDirection : 'row'}}>
+                  <Image source={MajorIcon} style={{ marginTop: 15, marginLeft: 15, width: 18, height: 18, marginBottom: 15, }} />
+                  <Text style = {styles.Major}>{majorName}</Text>
+              </SafeAreaView>
+              <SafeAreaView style = {{flexDirection : 'row'}}>
               <Image source={TeachIcon} style={{ marginLeft: 15, width: 18, height: 18, marginBottom: 15, }} />
+              <Text style = {styles.Lectures}>{lectureName1}{'\n'}{lectureName2}</Text>
+              </SafeAreaView>
               <SafeAreaView style={{ flexDirection: 'row' }}>
                 <Image source={EmailIcon} style={{ marginLeft: 15, width: 18, height: 18 }} />
                 <Text style={styles.EmailAddress}>{Profile.email}</Text>
@@ -92,7 +106,7 @@ const MentorProfileDetailFromReply = ({ navigation, route }) => {
               <Text style={styles.LivingWhereText}>{Profile.livingWhere}</Text>
             </SafeAreaView>
             <SafeAreaView style={{ flexDirection: 'row', height: 100, }}>
-              <Text style={styles.Major}>멘토 분야</Text>
+              <Text style={styles.Major2}>멘토 분야</Text>
               <Text style={styles.MajorText}>{LectureList[0]?.name}, {LectureList[1]?.name}</Text>
             </SafeAreaView>
             <SafeAreaView style={{ flexDirection: 'row' }}>
@@ -134,12 +148,34 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 20,
   },
+  Lectures: {
+    fontFamily: 'NanumSquareRoundB',
+    fontSize: 15,
+    marginBottom: 5,
+    color: 'black',
+    marginLeft: 20,
+  },
+  Major: {
+    fontFamily: 'NanumSquareRoundB',
+    fontSize: 15,
+    marginTop : 15,
+    color: 'black',
+    marginLeft: 20,
+  },
+  Major2: {
+    fontFamily: 'NanumSquareRoundB',
+    fontSize: 15,
+    marginTop : 15,
+    color: 'black',
+    marginLeft: 18,
+  },
   ChatButton: {
     width: 110,
     height: 45,
     backgroundColor: '#27BAFF',
     borderRadius: 3,
     marginLeft: 100,
+    marginRight : 30,
 
   },
   ButtonText: {
@@ -191,19 +227,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexWrap: 'wrap',
   },
-  Major: {
-    fontFamily: 'NanumSquareRoundB',
-    fontSize: 15,
-    color: 'black',
-    marginLeft: 18,
-    marginTop: 20,
-    marginRight: 35,
-  },
   MajorText: {
     fontFamily: 'NanumSquareRound',
     fontSize: 15,
+    marginLeft : 15,
     color: 'black',
-    marginTop: 20,
+    marginTop: 13,
     flex: 1,
     flexWrap: 'wrap',
   },

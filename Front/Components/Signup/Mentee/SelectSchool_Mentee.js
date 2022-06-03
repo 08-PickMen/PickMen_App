@@ -1,8 +1,8 @@
 import React , {useEffect, useState}from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
-import PickerBox from 'react-native-picker-select';
 import 'react-navigation'
+import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -63,7 +63,7 @@ function SelectSchool_Mentee({navigation}) {
                                 }
                             }
                             if (getIndex(itemValue) >= 0) {
-                                setSchoolValue(schoolList[getIndex(itemValue)].value);
+                                setSelectedValue(schoolList[getIndex(itemValue)].value);
                             }
                         }}
                         setValue={setValue}

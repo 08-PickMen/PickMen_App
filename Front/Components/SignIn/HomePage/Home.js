@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, BackHandler, FlatList, StyleSheet, Dimensions } from 'react-native';
+import { LogBox } from 'react-native';
 import 'react-navigation';
 import megaphone from '../../../icons/megaphone.png';
 import logo from '../../../icons/PickMenLogo.png';
@@ -17,10 +18,8 @@ function Home({ navigation }) {
     const [postList, setPostList] = useState([]);
     const [role, setRole] = useState('');
     useEffect(() => {
-        const autoTimer = setTimeout(() => setSliderTime(6), 1000);
+        const autoTimer = setTimeout(() => setSliderTime(3), 1000);
         axios.get('http://10.0.2.2:8090/mentorList').then(response => {
-            var count = parseInt(response.data.length);
-            console.log(response.data)
             var newData = [];
             for (var i of response.data) {
                 newData.push({
@@ -53,6 +52,7 @@ function Home({ navigation }) {
         })
         return () => clearTimeout(autoTimer);
     }, [])
+    LogBox.ignoreAllLogs(true);
     const renderRole = (role) => {
         const backgroundColor = role === 'MENTOR' ? '#ff0000' : '#27BAFF';
         if (role == 'MENTOR') {
@@ -124,6 +124,7 @@ function Home({ navigation }) {
                     <View style={{ flexDirection: 'row' }}>
                         <FastImage source={{ uri: "http://10.0.2.2:8090/getProfile?userid=" + Number(item.user.id), cache : FastImage.cacheControl.web}} style={styles.ProfileImage} />
                         <Text style={styles.nickname}>{item.nickname}</Text>
+                        <Text style={styles.countText}>조회 수 {item.count}</Text>
                     </View>
                     <View style = {{flexDirection : 'row'}}>
                         {renderRole(item.user.role)}
@@ -131,7 +132,6 @@ function Home({ navigation }) {
                     </View>
                     <View style = {{flexDirection : 'row'}}>
                         <Text style={styles.contentText}>{item.content}</Text>
-                        <Text style={styles.countText}>조회 수 {item.count}</Text>
                     </View>
                 </Card>
             </View>
