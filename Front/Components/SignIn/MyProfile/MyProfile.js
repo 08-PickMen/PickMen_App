@@ -18,6 +18,7 @@ function MyProfile({navigation}) {
     const [lecture1, setLecture1] = useState('');
     const [lecture2, setLecture2] = useState('');
     const [nickname, setNickname] = useState('');
+    const [role, setRole] = useState('');
     const [email, setEmail] = useState('');
     const isFocused = useIsFocused();
     // 접속한 유저의 관심 분야를 불러오는 함수
@@ -31,9 +32,10 @@ function MyProfile({navigation}) {
             setMajor(response.data.data.majorName);
             setSchool(response.data.data.schoolName);
         })
-        setId(myprofile[0].id);
-        setNickname(myprofile[0].nickname);
-        setEmail(myprofile[0].email);
+        setId(myprofile[0]?.id);
+        setNickname(myprofile[0]?.nickname);
+        setEmail(myprofile[0]?.email);
+        setRole(myprofile[0]?.role);
     }, [isFocused])
     const renderRole = (role) => {
         if(role == 'MENTEE'){
@@ -85,13 +87,19 @@ function MyProfile({navigation}) {
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
                     <View style={{ marginTop: 20 }}>
-                        {renderRole(myprofile[0].role)}
+                        {renderRole(role)}
                     </View>
                     <View>
                         <Title style={{ fontSize: 18 }}>{lecturelist.name}, {lecturelist2.name} </Title>
                     </View>
                     <View style={{ marginTop: 5, borderBottomColor: '#a0a0a0', borderBottomWidth: 1 }} />
-                    <TouchableOpacity style={{ marginTop: 10 }} onPress = {()=>navigation.navigate("EditProfile_Mentee")}>
+                    <TouchableOpacity style={{ marginTop: 10 }} onPress = {()=>{
+                        if(role == 'MENTEE'){
+                            navigation.navigate("EditProfile_Mentee")
+                        } else {
+                            navigation.navigate("EditProfile_Mentor")
+                        }
+                        }}>
                         <Text style={{ fontSize: 16, color: '#27BAFF' }}>Personal Information Settings</Text>
                     </TouchableOpacity>
                 </Card.Content>

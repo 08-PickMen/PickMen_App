@@ -93,28 +93,28 @@ public class MentorController {
 	// /mentor/update
 	@PutMapping("/mentor/update")
 	public @ResponseBody ResponseEntity<User> mentorUpdate(
-			@RequestParam(value = "file", required = false) MultipartFile uploadfile,
-			@RequestBody User user,
+			@RequestParam(value = "profile", required = false) MultipartFile uploadfile,  
+			User user,
 			@AuthenticationPrincipal PrincipalDetail principalDetail,
 			@RequestParam List<Long> lectureList) {
 		// User savedMentor = mentorService.updateMentor(id,
 		// mentorService.getMentor(id));
 		// System.out.println(user);
 		User savedMentor = userRepository.findById(principalDetail.getUserId()).orElseThrow();
-		savedMentor.setProfileImage(imageService.upload(uploadfile));
-		return new ResponseEntity<User>(mentorService.updateMentor(savedMentor.getId(), user, lectureList),
+		//savedMentor.setProfileImage(imageService.upload(uploadfile));
+		return new ResponseEntity<User>(mentorService.updateMentor(savedMentor.getId(), user, lectureList, uploadfile),
 				HttpStatus.OK);
 	}
 
 	// Mentor 프로필 업데이트
 	// /mentor/update
-	@PutMapping("/mentor/update/{id}")
+	/*@PutMapping("/mentor/update/{id}")
 	public @ResponseBody ResponseEntity<User> mentorUpdateTest(@PathVariable long id, @RequestBody User user,
 			@RequestParam List<Long> lectureList) {
 		// User savedMentor = mentorService.updateMentor(id,
 		// mentorService.getMentor(id));
 		// System.out.println(user);
 		return new ResponseEntity<User>(mentorService.updateMentor(id, user, lectureList), HttpStatus.OK);
-	}
+	}*/
 
 }

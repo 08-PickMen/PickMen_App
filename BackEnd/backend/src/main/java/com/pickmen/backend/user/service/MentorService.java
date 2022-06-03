@@ -26,6 +26,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,6 +45,8 @@ public class MentorService {
 
 	@Autowired
 	private UserLectureRepository userLectureRepository;
+	@Autowired
+	private ImageService imageService;
 
 	@Transactional(readOnly = true)
 	public User getMentor(long id) {
@@ -92,7 +95,7 @@ public class MentorService {
 	 */
 
 	@Transactional
-	public User updateMentor(long id, User user, List<Long> lectureList) {
+	public User updateMentor(long id, User user, List<Long> lectureList, MultipartFile uploadfile) {
 		Optional<User> optionalMentor = userRepository.findById(id);
 		User findMentor = optionalMentor.orElseThrow(() -> new UsernameNotFoundException("해당 사용자는 없습니다."));
 
@@ -134,7 +137,8 @@ public class MentorService {
 		if (user.isActiveCanTeach() != findMentor.isActiveCanTeach()) {
 			findMentor.setActiveCanTeach(user.isActiveCanTeach());
 		}
-
+		System.out.println(uploadfile);
+		findMentor.setProfileImage(imageService.upload(uploadfile));
 		return userRepository.save(findMentor);
 	}
 
