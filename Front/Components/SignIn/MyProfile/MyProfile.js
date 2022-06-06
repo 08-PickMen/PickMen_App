@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import 'react-navigation';
 import axios from 'axios';
 import { Card, Title } from 'react-native-paper';
 import myprofile from '../../localData/MyProfile';
 import FastImage from 'react-native-fast-image';
 import { useIsFocused } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
 
 // 접속한 유저의 프로필 정보를 불러오는 페이지
 function MyProfile({navigation}) {
@@ -15,8 +14,6 @@ function MyProfile({navigation}) {
     const [major, setMajor] = useState('');
     const [school, setSchool] = useState('');
     const [id, setId] = useState('');
-    const [lecture1, setLecture1] = useState('');
-    const [lecture2, setLecture2] = useState('');
     const [nickname, setNickname] = useState('');
     const [role, setRole] = useState('');
     const [email, setEmail] = useState('');

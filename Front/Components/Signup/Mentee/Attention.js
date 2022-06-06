@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView,View, Text, StyleSheet,TouchableOpacity, Alert} from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import {View, Text, StyleSheet,TouchableOpacity, Alert} from 'react-native';
 import 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-community/async-storage';

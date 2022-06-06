@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList, TextInput, Image} from 'react-native';
-import { List } from 'react-native-paper';
-import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-community/async-storage';
-import chatdata from '../../localData/ChatData';
-import { Card } from 'react-native-paper';
+import React, { useEffect, useState} from 'react';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
-import join from '../../../icons/enter.png'
 
 // 채팅 리스트 페이지
 function ChatList({ navigation }) {
-    const [ChatList, setChatList] = React.useState([]);
+    const [ChatList, setChatList] = useState([]);
 
     // 채팅 리스트를 render하는 함수
     const Item = ({ item }) => (

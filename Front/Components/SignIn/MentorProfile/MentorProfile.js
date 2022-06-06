@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, SafeAreaView } from 'react-native';
-import { Card, TouchableRipple } from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import Modal from 'react-native-modal';
 import 'react-navigation';
 import axios from 'axios';

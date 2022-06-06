@@ -1,7 +1,6 @@
 import React, { useState , useEffect} from "react";
 import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, Image, Alert, ScrollView, FlatList} from "react-native";
 import {Card} from 'react-native-paper'
-import {Avatar} from 'react-native-elements';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import { CommonActions } from "@react-navigation/native";
 import axios from 'axios';
@@ -9,7 +8,6 @@ import FastImage from "react-native-fast-image";
 import TeachIcon from '../../../icons/teach.png';
 import MajorIcon from '../../../icons/Major.png';
 import EmailIcon from '../../../icons/email.png';
-import Mentor_id from '../../localData/Mentor_id'
 import star from '../../../icons/star.png';
 
 // 상세 멘토 페이지를 불러오는 함수

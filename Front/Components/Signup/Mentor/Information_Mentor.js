@@ -10,10 +10,8 @@ function Information_Mento({ navigation }) {
     var [value, setValue] = useState('');
     var [Password, setPassword] = useState('');
     var [correctPassword, setCorrectPassword] = useState('');
-    var [correctText, setCorrectText] = useState('');
     var [sendEmail, setSendEmail] = useState('');
     var [sendPassword, setSendPassword] = useState('');
-    var [count, setCount] = useState(0);
     var [userName, setUserName] = useState('');
     const [checkIdText, setCheckIdText] = useState('');
     const [checkPasswordText, setCheckPasswordText] = useState('');

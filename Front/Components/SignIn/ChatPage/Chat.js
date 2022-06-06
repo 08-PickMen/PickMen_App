@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { GiftedChat, Bubble, InputToolbar } from 'react-native-gifted-chat';
-import { LogBox, View, BackHandler, Alert, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { LogBox, View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Mentor_id from '../../localData/Mentor_id';
 import 'react-navigation';
@@ -8,13 +8,12 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs'
 import * as encoding from 'text-encoding';
 import Modal from 'react-native-modal';
-import axios, { Axios } from 'axios';
-import { CommonActions } from '@react-navigation/native';
+import axios from 'axios';
+import { CommonActions, useIsFocused } from '@react-navigation/native';
 import Moment from 'moment';
 import paper_planeIcon from '../../../icons/paper-plane.png';
 import backButtonIcon from '../../../icons/left-arrow.png';
-import { CheckBox, Chip } from 'react-native-elements';
-import CheckBoxIcon from 'react-native-elements/dist/checkbox/CheckBoxIcon';
+import { CheckBox } from 'react-native-elements';
 import star from '../../../icons/star.png';
 import whiteStar from '../../../icons/whitestar.png';
 const TextEncodingPolyfill = require('text-encoding');
@@ -28,8 +27,9 @@ Object.assign(global, {
 
 // 채팅방 입장 및 채팅 기능 페이지
 function Chat({ navigation, route }) {
-    const [UserId, setUserId] = useState('')
-    const [messages, setMessages] = useState([])
+    const [UserId, setUserId] = useState('');
+    const [messages, setMessages] = useState([]);
+    const [newmessage, setNewMessages] = useState([]);
     const [ModalVisible, setModalVisible] = useState(false);
     const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(false);
@@ -37,6 +37,7 @@ function Chat({ navigation, route }) {
     const [checked4, setChecked4] = useState(false);
     const [checked5, setChecked5] = useState(false);
     const [content, setContent] = useState('');
+    const Ref = useRef(messages);
     const chatRoom_id = route.params.item_id;
     const other_id_nickname = route.params.item_nickname;
     const other_id = route.params.item_other_id;
@@ -44,7 +45,6 @@ function Chat({ navigation, route }) {
     // 채팅 메시지를 상대방과 접속한 user id를 비교하고 좌측, 우측 채팅 메시지를 나누어서 출력하는 함수
     const renderBubble = props => {
         let username = props.currentMessage.user._id
-        console.log("username: " + username)
         if (username == Number(UserId)) {
             return (
                 <Bubble
@@ -99,16 +99,36 @@ function Chat({ navigation, route }) {
             )
         }
     }
+    function connectToChatServer() {
+        var socket = new SockJS('http://10.0.2.2:8090/ws/chat');
+        StompClient = Stomp.over(function () {
+            return socket;
+        })
+        StompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            StompClient.subscribe('/sub/chat/room/' + chatRoom_id, function (message) {
+                var message = JSON.parse(message.body);
+                setNewMessages(message);
+            });
+            StompClient.send("/pub/chat/enter", {}, JSON.stringify(chatRoom_id, Mentor_id));
+        });
+    }
     // 채팅 api와 연결하고 채팅 메세지 목록을 불러오는 함수
     useEffect(() => {
+        Ref.current = messages;
         async function getUserId() {
             var id = await AsyncStorage.getItem('user_id');
             setUserId(id);
         }
         getUserId();
+        connectToChatServer();
+        return function cleanup() {
+            StompClient.disconnect();
+        }
+    }, [])
+    useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/room/enter/' + chatRoom_id).then(response => {
             var newlist = [];
-            console.log(response.data)
             var count = response.data.length;
             for (var i = 0; i < count; i++) {
                 newlist.push(
@@ -122,21 +142,29 @@ function Chat({ navigation, route }) {
                     })
             }
             newlist.reverse();
-            console.log(newlist)
             setMessages(newlist);
         })
-        var socket = new SockJS('http://10.0.2.2:8090/ws/chat');
-        StompClient = Stomp.over(function () {
-            return socket;
+    },[useIsFocused()]);
+
+    useEffect(() => {
+        axios.get('http://10.0.2.2:8090/chat/room/enter/' + chatRoom_id).then(response => {
+            var newlist = [];
+            var count = response.data.length;
+            for (var i = 0; i < count; i++) {
+                newlist.push(
+                    {
+                        _id: response.data[i].id,
+                        text: response.data[i].content,
+                        createdAt: response.data[i].createDate,
+                        user: {
+                            _id: response.data[i].user_id,
+                        },
+                    })
+            }
+            newlist.reverse();
+            setMessages(newlist);
         })
-        StompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            StompClient.subscribe('/sub/chat', function (message) {
-                console.log(message);
-            });
-            StompClient.send("/pub/chat/enter", {}, JSON.stringify(1, Mentor_id));
-        });
-    }, [])
+    },[chatStatus])
     const backAction = () => {
         navigation.dispatch(CommonActions.reset({
             index: 0,
@@ -145,21 +173,22 @@ function Chat({ navigation, route }) {
     }
     LogBox.ignoreLogs(["EventEmitter.removeListener"]);
     // 채팅 메시지를 전송하는 함수
-    const onSend = useCallback((messages = []) => {
-        setMessages(newMessage => GiftedChat.append(newMessage, messages));
-        console.log(messages)
+    const onSend = useCallback((message = []) => {
+        setMessages(newMessage => GiftedChat.append(newMessage, message));
         StompClient.send('/pub/chat/message', {}, JSON.stringify({
             chat_room_id: chatRoom_id,
-            content: messages[0].text,
+            content: message[0].text,
             user_id: UserId,
-        }));
-    })
+        }))
+    }, [messages]);
     const renderSend = senderProps => {
         const { text, messageIdGenerator, user, onSend } = senderProps;
         return (
             <TouchableOpacity onPress={() => {
                 if (text && onSend) {
-                    onSend({ text: text.trim(), user: user, _id: messageIdGenerator() }, true);
+                    var nextSend = { text: text.trim(), user: user, _id: messageIdGenerator() };
+                    onSend(nextSend, true);
+                    chatStatus.push(nextSend._id);
                 }
             }}>
                 <View style={{ width: 45, height: 45, borderRadius: 30, borderWidth: 0, borderColor: '#a0a0a0', backgroundColor: '#27BAFF', marginTop: 2, marginRight: 10, }}>
@@ -231,7 +260,8 @@ function Chat({ navigation, route }) {
                         ></CheckBox>
                         <CheckBox
                             checked={checked3}
-                            onPress={() => {setChecked3(!checked3);
+                            onPress={() => {
+                                setChecked3(!checked3);
                                 setChecked1(!checked1);
                                 setChecked2(!checked2);
                             }}
@@ -240,7 +270,8 @@ function Chat({ navigation, route }) {
                         ></CheckBox>
                         <CheckBox
                             checked={checked4}
-                            onPress={() => {setChecked4(!checked4);
+                            onPress={() => {
+                                setChecked4(!checked4);
                                 setChecked3(!checked3);
                                 setChecked2(!checked2);
                                 setChecked1(!checked1);
@@ -286,6 +317,8 @@ function Chat({ navigation, route }) {
             <GiftedChat
                 messages={messages} onSend={messages => onSend(messages)}
                 isLoadingEarlier={true}
+                ref={Ref}
+                alwaysShowSend={true}
                 renderBubble={renderBubble}
                 renderAvatar={() => { null }}
                 showAvatarForEveryMessage={true}

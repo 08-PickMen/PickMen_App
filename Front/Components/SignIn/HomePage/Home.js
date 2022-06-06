@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, BackHandler, FlatList, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, StyleSheet} from 'react-native';
 import { LogBox } from 'react-native';
 import 'react-navigation';
-import megaphone from '../../../icons/megaphone.png';
-import logo from '../../../icons/PickMenLogo.png';
 import { SwiperFlatList } from 'react-native-swiper-flatlist';
 import axios from 'axios';
 import FastImage from 'react-native-fast-image';
@@ -51,6 +49,11 @@ function Home({ navigation }) {
             setRole(response.data.data.role);
         })
         return () => clearTimeout(autoTimer);
+    }, [])
+    useEffect(() => {
+        return () => {
+            console.log('unmount');
+        }
     }, [])
     LogBox.ignoreAllLogs(true);
     const renderRole = (role) => {

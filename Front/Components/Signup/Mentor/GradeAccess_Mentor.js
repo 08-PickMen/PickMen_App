@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Platform, Alert, SliderComponent } from 'react-native';
+import { View, Text, StyleSheet, Platform, Alert} from 'react-native';
 import { TouchableOpacity, TextInput } from 'react-native';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import 'react-navigation'
-import status from '../../../utils/status';
 
 async function ImageSave(image) {
     await AsyncStorage.setItem('image', JSON.stringify(image));
@@ -19,13 +18,13 @@ async function ImageCheck() {
 function GradeAccess({ navigation }) {
     var data = new FormData();
     const [nickName, setNickName] = useState('');
-    const [image, setImage] = React.useState(null);
-    const [profileImage, setprofileImage] = React.useState(null);
-    const [CorrectText, setCorrectText] = React.useState('');
-    const [Gradefile, setGradefile] = React.useState('');
-    const [signCheck, setSignCheck] = React.useState(false);
-    const [placeholder, setPlaceholder] = React.useState('내용을 입력해주세요.');
-    const [checkText, setCheckText] = React.useState('');
+    const [image, setImage] = useState(null);
+    const [profileImage, setprofileImage] = useState(null);
+    const [CorrectText, setCorrectText] = useState('');
+    const [Gradefile, setGradefile] = useState('');
+    const [signCheck, setSignCheck] = useState(false);
+    const [placeholder, setPlaceholder] = useState('내용을 입력해주세요.');
+    const [checkText, setCheckText] = useState('');
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
