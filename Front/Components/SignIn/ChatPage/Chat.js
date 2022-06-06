@@ -105,10 +105,19 @@ function Chat({ navigation, route }) {
             return socket;
         })
         StompClient.connect({}, function (frame) {
-            console.log('Connected: ' + frame);
-            StompClient.subscribe('/sub/chat/room/' + chatRoom_id, function (message) {
-                var message = JSON.parse(message.body);
-                setNewMessages(message);
+            StompClient.subscribe('/sub/chat/room/' + chatRoom_id, function (messages) {
+                var message = {
+                    _id: JSON.parse(messages.body).createDate,
+                    text: JSON.parse(messages.body).content,
+                    createdAt: JSON.parse(messages.body).createDate,
+                    user: {
+                        id: JSON.parse(messages.body).user_id,
+                    },
+                }
+                console.log(messages.body);
+                if(message.user.id == other_id){
+                    setMessages((prevMessages) => GiftedChat.append(prevMessages, message));
+                }
             });
             StompClient.send("/pub/chat/enter", {}, JSON.stringify(chatRoom_id, Mentor_id));
         });
@@ -122,6 +131,7 @@ function Chat({ navigation, route }) {
         }
         getUserId();
         connectToChatServer();
+        
         return function cleanup() {
             StompClient.disconnect();
         }
@@ -144,7 +154,7 @@ function Chat({ navigation, route }) {
             newlist.reverse();
             setMessages(newlist);
         })
-    },[useIsFocused()]);
+    },[]);
 
     useEffect(() => {
         axios.get('http://10.0.2.2:8090/chat/room/enter/' + chatRoom_id).then(response => {
@@ -164,7 +174,7 @@ function Chat({ navigation, route }) {
             newlist.reverse();
             setMessages(newlist);
         })
-    },[chatStatus])
+    },[other_id])
     const backAction = () => {
         navigation.dispatch(CommonActions.reset({
             index: 0,
@@ -174,13 +184,16 @@ function Chat({ navigation, route }) {
     LogBox.ignoreLogs(["EventEmitter.removeListener"]);
     // 채팅 메시지를 전송하는 함수
     const onSend = useCallback((message = []) => {
-        setMessages(newMessage => GiftedChat.append(newMessage, message));
+        var now = Moment().add(9, 'hours');
+        console.log('monent : ' + now.format());
         StompClient.send('/pub/chat/message', {}, JSON.stringify({
             chat_room_id: chatRoom_id,
             content: message[0].text,
-            user_id: UserId,
+            createDate : now,
+            user_id: Number(UserId),
         }))
-    }, [messages]);
+        setMessages((prevMessages) => GiftedChat.append(prevMessages, message));
+    });
     const renderSend = senderProps => {
         const { text, messageIdGenerator, user, onSend } = senderProps;
         return (
@@ -188,7 +201,6 @@ function Chat({ navigation, route }) {
                 if (text && onSend) {
                     var nextSend = { text: text.trim(), user: user, _id: messageIdGenerator() };
                     onSend(nextSend, true);
-                    chatStatus.push(nextSend._id);
                 }
             }}>
                 <View style={{ width: 45, height: 45, borderRadius: 30, borderWidth: 0, borderColor: '#a0a0a0', backgroundColor: '#27BAFF', marginTop: 2, marginRight: 10, }}>
