@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import {TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-paper';
 import 'react-navigation'
-function Purpose({navigation}) {
+const Purpose = ({navigation}) => {
     return(
             <Card style = {{flex : 1,backgroundColor : '#27BAFF'}}>
                 <View style = {{backgroundColor : 'white',width : 380, height : 720,borderColor : 'white', borderWidth : 1, borderRadius : 30,marginLeft : 'auto', marginRight : 'auto', marginTop : 'auto', marginBottom : 'auto'}}>

@@ -6,12 +6,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import DropDownPicker from 'react-native-dropdown-picker';
 import axios from 'axios';
 
-function SelectSchool_Mentor({ navigation }) {
+const SelectSchool_Mentor = ({ navigation }) => {
     const [schoolValue, setSchoolValue] = useState('');
     const [schoolList, setSchoolList] = useState([]);
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
-    async function saveSchool() {
+    const saveSchool = async () => {
         try {
             await AsyncStorage.setItem('school', String(schoolValue));
         } catch (e) {

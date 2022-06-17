@@ -12,10 +12,10 @@ import { CommonActions } from '@react-navigation/native';
 import moment from 'moment';
 import 'moment/locale/ko';
 
-function PostList({ navigation }) {
-  const [refreshing, setRefreshing] = React.useState(false);
-  var [data, setData] = React.useState([]);
-  const [search, setSearch] = React.useState(null);
+const PostList = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
+  var [data, setData] = useState([]);
+  const [search, setSearch] = useState(null);
   const [selectedId, setSelectedId] = useState(null)
   useEffect(() => {
     axios.get('http://10.0.2.2:8090/post/getPost')
@@ -44,7 +44,7 @@ function PostList({ navigation }) {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
   // 댓글 Count를 update 하는 함수
-  async function updateCount(item, id) {
+  const updateCount = async (item, id) => {
     await axios.post('http://10.0.2.2:8090/post/upcountPost?id=' + id).then(response => {
     })
   }
@@ -131,7 +131,7 @@ function PostList({ navigation }) {
     </TouchableOpacity>
   );
   // 게시글을 눌렀을 때 게시글 정보를 저장하는 함수
-  function loadPost(item, id) {
+  const loadPost = (item, id) => {
     var count = data.length;
     for (count = count - 1; count >= 0; count--) {
       if (data[count].id == id) {
@@ -141,7 +141,7 @@ function PostList({ navigation }) {
     }
   }
   // 게시글을 눌렀을 때 댓글 횟수를 증가시키는 함수
-  function datacountUp(id) {
+  const datacountUp = (id) => {
     var count = data.length;
     for (count = count - 1; count >= 0; count--) {
       if (data[count].id == id) {
@@ -151,9 +151,9 @@ function PostList({ navigation }) {
     }
   }
   // 게시글 조회
-  function updateSearch(text) {
+  const updateSearch = (text) => {
     if (text) {
-      const newData = postdata.filter(function (item) {
+      const newData = postdata.filter((item) => {
         const itemData = (item.title ? item.title.toUpperCase() : ''.toUpperCase());
         const contentData = (item.content ? item.content.toUpperCase() : ''.toUpperCase());
         const textData = text.toUpperCase();

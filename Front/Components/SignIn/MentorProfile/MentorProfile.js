@@ -13,7 +13,7 @@ import MajorIcon from '../../../icons/Major.png';
 import { CheckBox } from 'react-native-elements';
 
 // 멘토 프로필 리스트 페이지
-function MentorProfile({ navigation }) {
+const MentorProfile = ({ navigation }) => {
     const [MentorList, setMentorList] = React.useState([]);
     const [MentorList2, setMentorList2] = React.useState([]);
     const [MajorList, setMajorList] = React.useState([]);
@@ -65,16 +65,16 @@ function MentorProfile({ navigation }) {
         )
     };
     // 멘토 프로필을 조건에 맞게 설정하는 함수
-    function updateList(MajorText, LectureText, isMajor, isLecture,isRating) {
+    const updateList = (MajorText, LectureText, isMajor, isLecture,isRating) => {
         setMentorList(MentorList2);
         if (isRating) {
-            setMentorList(MentorList2.sort(function (a, b) {
+            setMentorList(MentorList2.sort((a, b) => {
                 return b.averageRating - a.averageRating;
             }));
         }
         if (isMajor) {
             if (MajorText) {
-                const newData = MentorList2.filter(function (item) {
+                const newData = MentorList2.filter((item) => {
                     const itemData = item.majorDto.name ? item.majorDto.name.toUpperCase() : ''.toUpperCase();
                     const textData = MajorText2.toUpperCase();
                     return itemData.indexOf(textData) > -1
@@ -86,7 +86,7 @@ function MentorProfile({ navigation }) {
         }
         if (isLecture) {
             if (LectureText) {
-                const newData = MentorList2.filter(function (item) {
+                const newData = MentorList2.filter((item) => {
                     const itemData = (item.lectureDto1.name ? item.lectureDto1.name.toUpperCase() : ''.toUpperCase())
                     const textData = LectureText.toUpperCase();
                     const itemData2 = (item.lectureDto2.name ? item.lectureDto2.name.toUpperCase() : ''.toUpperCase())
@@ -101,13 +101,13 @@ function MentorProfile({ navigation }) {
     }
     // 멘토 프로필 리스트를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/newmentorList').then(async function (response) {
+        axios.get('http://10.0.2.2:8090/newmentorList').then(async (response) => {
             var data = response.data;
             setMentorList(data);
             setMentorList2(data);
             console.log(data)
         });
-        axios.get('http://10.0.2.2:8090/getAllMajorList').then(function (response) {
+        axios.get('http://10.0.2.2:8090/getAllMajorList').then((response) => {
             var data = response.data;
             var newlist = [];
             for (var i of data) {
@@ -118,7 +118,7 @@ function MentorProfile({ navigation }) {
             }
             setMajorList(newlist);
         });
-        axios.get('http://10.0.2.2:8090/getAllLectureList').then(function (response) {
+        axios.get('http://10.0.2.2:8090/getAllLectureList').then((response) => {
             var data = response.data;
             var newlist = [];
             for (var i of data) {

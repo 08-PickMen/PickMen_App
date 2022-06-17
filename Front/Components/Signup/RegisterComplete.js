@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import 'react-navigation';
-function RegisterComplete({ navigation }) {
+const RegisterComplete = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
             <View style={styles.PageStyle}>

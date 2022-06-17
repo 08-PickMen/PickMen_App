@@ -8,7 +8,7 @@ import { Modal } from 'react-native-paper';
 import myprofile from '../../localData/MyProfile';
 import axios from 'axios';
 
-function EditProfile_Mentor({ navigation }) {
+const EditProfile_Mentor = ({ navigation }) => {
     const [profileImage, setprofileImage] = useState(null);
     const [checkText, setCheckText] = useState('');
     const [nickName, setNickName] = useState('');
@@ -37,13 +37,13 @@ function EditProfile_Mentor({ navigation }) {
             setLectureList(newData);
         })
     }, [isFocused])
-    async function saveImage() {
+    const saveImage = async () =>{
         try {
             await AsyncStorage.setItem('profileImage', JSON.stringify(data));
         } catch (e) {
         }
     }
-    function ProfileUpload() {
+    const ProfileUpload = () => {
         launchImageLibrary({}, response => {
             if (response.assets[0].uri) {
                 setprofileImage(response.assets[0].fileName.substring(0, 30) + '...');

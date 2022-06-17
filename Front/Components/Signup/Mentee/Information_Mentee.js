@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import 'react-navigation'
 
-function Information_Mento({ navigation }) {
+const Information_Mento = ({ navigation }) => {
     var [value, setValue] = useState('');
     var [Password, setPassword] = useState('');
     var [correctPassword, setCorrectPassword] = useState('');
@@ -15,7 +15,7 @@ function Information_Mento({ navigation }) {
     var [sendPassword, setSendPassword] = useState('');
     var [count, setCount] = useState(0);
     var [userName, setUserName] = useState('');
-    var [test, newTest] = useState('');
+    const [test, newTest] = useState('');
     const [checkIdText, setCheckIdText] = useState('');
     const [checkPasswordText, setCheckPasswordText] = useState('');
 
@@ -55,17 +55,17 @@ function Information_Mento({ navigation }) {
             </View>
         )
     }
-    async function returnEmail() {
+    const returnEmail = async () => {
         var data = await AsyncStorage.getItem('email');
         setValue(data)
         setSendEmail(data)
     }
-    async function savePassword(password) {
+    const savePassword = async (password) => {
         await AsyncStorage.setItem('password', String(password));
         var data = await AsyncStorage.getItem('password');
         setSendPassword(data)
     }
-    async function register(username, email, password) {
+    const register = async (username, email, password) => {
         var nickname = await AsyncStorage.getItem('nickName');
         var data2 = await AsyncStorage.getItem('image');
         var lecture1 = await AsyncStorage.getItem('lecture1');
@@ -97,7 +97,7 @@ function Information_Mento({ navigation }) {
                 livingWhere : livingWhere,
             },
         }
-        ).then(function (response) {
+        ).then((response) => {
             console.log(response.data)
             AsyncStorage.removeItem('image');
         })

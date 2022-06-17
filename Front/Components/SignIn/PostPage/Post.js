@@ -7,7 +7,7 @@ import 'react-navigation'
 import { CommonActions } from '@react-navigation/native';
 
 // 전체 게시글을 불러오는 함수
-async function loadBoard() {
+const loadBoard = async () => {
     await axios.get('http://10.0.2.2:8090/post/getPost')
         .then(response => {
             var count = parseInt(response.data.totalElements);
@@ -43,7 +43,7 @@ async function loadBoard() {
         })
 }
 // 게시글 작성 함수
-function WritePost(Title, Content, navigation) {
+const WritePost = (Title, Content, navigation) => {
     console.log(Title, Content)
     axios.post('http://10.0.2.2:8090/post/writePost', null, {
         params: {
@@ -71,7 +71,7 @@ function WritePost(Title, Content, navigation) {
     )
 }
 // 게시글을 작성하는 페이지
-function Post({ navigation }) {
+const Post = ({ navigation }) => {
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
     return (

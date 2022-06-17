@@ -7,7 +7,7 @@ import EditProfile_Mentee from './EditProfile_Mentee';
 import EditProfile_Mentor from './EditProfile_Mentor';
 
 const stack = createStackNavigator();
-function ProfileScreen() {
+const ProfileScreen = () => {
     return (
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{

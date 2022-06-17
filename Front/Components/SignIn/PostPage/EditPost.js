@@ -7,7 +7,7 @@ import 'react-navigation'
 import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 // 게시글 수정 API
-async function updatePost(id, Title, Content) {
+const updatePost = async (id, Title, Content) => {
     await axios.post('http://10.0.2.2:8090/post/updatePost', null, {
         params: {
             id: id,
@@ -19,7 +19,7 @@ async function updatePost(id, Title, Content) {
     })
 }
 // 게시글을 수정하는 함수
-async function BoardEdit(navigation, newTitle, newContent) {
+const BoardEdit = async (navigation, newTitle, newContent) => {
     var data1 = await AsyncStorage.getItem('Post_id');
     var data2 = await AsyncStorage.getItem('user_id');
 
@@ -59,7 +59,7 @@ async function BoardEdit(navigation, newTitle, newContent) {
     )
 }
 // 게시글 수정 화면
-function EditPost({ navigation }) {
+const EditPost = ({ navigation }) => {
     const [Title, setTitle] = useState('');
     const [Content, setContent] = useState('');
     return (

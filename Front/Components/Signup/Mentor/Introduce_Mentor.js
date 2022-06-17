@@ -3,17 +3,17 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-nativ
 import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
 
-async function saveMentorInformation(Introduce, mentoring) {
+const saveMentorInformation = async (Introduce, mentoring) => {
     await AsyncStorage.setItem('introduceMyself', Introduce);
     await AsyncStorage.setItem('mentoringContents', mentoring);
 }
 
-function Introduce_Mentor({ navigation , route }) {
+const Introduce_Mentor = ({ navigation , route }) => {
     const [Introduce, setIntroduce] = useState('');
     const [mentoring, setMentoring] = useState('');
     const [LocationCheck, setLocationCheck] = useState('위치를 설정해주세요.');
 
-    function renderCheck(){
+    const renderCheck = () => {
         const backgroundColor = LocationCheck === '위치를 설정해주세요.' ? '#ff0000' : '#27BAFF';
         return(
             <View>

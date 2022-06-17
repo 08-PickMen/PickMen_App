@@ -4,7 +4,7 @@ import {TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation';
 import logo from '../../icons/PickMenLogo.png';
-function Start({navigation}) {
+const Start = ({navigation}) => {
     useEffect(() => {
         AsyncStorage.getAllKeys().then(keys => {
             AsyncStorage.multiRemove(keys);

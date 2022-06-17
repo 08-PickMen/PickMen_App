@@ -14,7 +14,7 @@ import ViewChat from '../ChatPage/Chatboard';
 const Tab = createBottomTabNavigator();
 
 // 전체 홈 화면 바텀 탭 페이지
-function HomeScreen({ navigation , route}) {
+const HomeScreen = ({ navigation , route}) => {
     return (
         <NavigationContainer independent={true} >
             <Tab.Navigator screenOptions={{

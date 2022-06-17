@@ -9,9 +9,9 @@ import profiledata from '../localData/ProfileData'
 import auth from '@react-native-firebase/auth';
 import myprofile from '../localData/MyProfile';
 // 멘토 리스트 정보를 담을 함수
-async function Test() {
+const saveMentorList = async () => {
     try {
-        await axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
+        await axios.get('http://10.0.2.2:8090/mentorList').then(async (response) =>{
             var data = response.data;
             for (var i = 0; i < data.length; i++) {
                 await AsyncStorage.setItem('data' + i, JSON.stringify(data[i]));
@@ -22,8 +22,8 @@ async function Test() {
     }
 }
 // 멘토 리스트 정보를 불러오는 함수
-async function loadData() {
-    await axios.get('http://10.0.2.2:8090/mentorList').then(async function (response) {
+const loadData = async () =>{
+    await axios.get('http://10.0.2.2:8090/mentorList').then(async (response) => {
         var data = response.data;
         var maxcount = data.length;
         profiledata.length = 0;
@@ -36,8 +36,8 @@ async function loadData() {
     )
 }
 // 자신의 프로필 정보를 불러오는 함수
-async function loadprofile() {
-    await axios.get('http://10.0.2.2:8090/user/myprofile').then(async function (response) {
+const loadprofile = async () => {
+    await axios.get('http://10.0.2.2:8090/user/myprofile').then(async (response) => {
         myprofile.length = 0;
         console.log(response.data);
         myprofile.push({
@@ -54,17 +54,16 @@ async function loadprofile() {
     })
 }
 // 로그인 페이지
-function LoginPage({ navigation }) {
+const LoginPage = ({ navigation }) =>{
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     // 접속한 user id를 저장하는 함수
-    async function saveUserId(user_id) {
+    const saveUserId = async (user_id) => {
         if (user_id)
             await AsyncStorage.setItem('user_id', JSON.stringify(user_id));
-        var data = await AsyncStorage.getItem('user_id');
     }
     // 로그인 정보를 서버에 보내고 성공시 홈 화면으로 이동하는 함수
-    async function LoginAccess(email, password) {
+    const LoginAccess = async (email, password) => {
         axios.post('http://10.0.2.2:8090/login', null, {
             params: {
                 username: email,
@@ -79,12 +78,12 @@ function LoginPage({ navigation }) {
                 alert('아이디 또는 비밀번호가 틀렸습니다.');
                 navigation.navigate('LoginPage');
             }
-        }).catch(function (error) {
+        }).catch((error) => {
             console.log(error)
         })
     }
     // 전체 게시글 정보를 불러오는 함수
-    async function loadBoard() {
+    const loadBoard = async () => {
         await axios.get('http://10.0.2.2:8090/post/getPost')
             .then(response => {
                 var count = parseInt(response.data.numberOfElements);
@@ -120,7 +119,7 @@ function LoginPage({ navigation }) {
                 <TouchableOpacity style={styles.startButton}
                     onPress={() => {
                         LoginAccess(email, password);
-                        Test();
+                        saveMentorList();
                         loadData();
                         loadBoard();
                         navigation.navigate('HomeScreen');

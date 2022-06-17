@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
-function Attention({navigation}){
+const Attention = ({navigation}) => {
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
     const [open2, setOpen2] = useState(false);
@@ -20,7 +20,7 @@ function Attention({navigation}){
     const [lecture2, setLecture2] = useState('');
     const [lectureList, setLectureList] = useState([]);
 
-    async function saveLecture() {
+    const saveLecture = async () => {
         try {
             await AsyncStorage.setItem('lecture1', String(lecture1));
             await AsyncStorage.setItem('lecture2', String(lecture2));

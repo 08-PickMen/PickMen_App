@@ -7,14 +7,14 @@ import 'react-navigation'
 import axios from 'axios';
 
 
-async function ImageSave(image) {
+const ImageSave = async (image) => {
     await AsyncStorage.setItem('image', JSON.stringify(image));
 }
 
-async function ImageLoad() {
+const ImageLoad = async () => {
     var data = await AsyncStorage.getItem('image');
 }
-function GradeAccess_Menti({ navigation, route}) {
+const GradeAccess_Menti = ({ navigation, route}) => {
 
     var data = new FormData();
     const [nickname, setNickname] = useState('');
@@ -25,7 +25,7 @@ function GradeAccess_Menti({ navigation, route}) {
     const [LocationCheck, setLocationCheck] = useState('위치를 설정해주세요.');
     const [checkNickname, setCheckNickname] = useState('');
 
-    function DuplicateCheck(nickName) {
+    const DuplicateCheck = (nickName) => {
         axios.get('http://10.0.2.2:8090/DuplicateCheck', {
             params: {
                 nickname: nickName
@@ -54,7 +54,7 @@ function GradeAccess_Menti({ navigation, route}) {
             </View>
         )
     }
-    function renderCheck(){
+    const renderCheck = () => {
         const backgroundColor = LocationCheck === '위치를 설정해주세요.' ? '#ff0000' : '#27BAFF';
         return(
             <View>
@@ -62,7 +62,7 @@ function GradeAccess_Menti({ navigation, route}) {
             </View>
         )
     }
-    async function ImageUpload() {
+    const ImageUpload = async () => {
         launchImageLibrary({}, response => {
             if (response.assets[0].uri) {
                 setImage(response.assets[0].uri);

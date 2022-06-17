@@ -4,7 +4,7 @@ import axios from 'axios';
 import FastImage from 'react-native-fast-image';
 
 // 채팅 리스트 페이지
-function ChatList({ navigation }) {
+const ChatList = ({ navigation }) => {
     const [ChatList, setChatList] = useState([]);
 
     // 채팅 리스트를 render하는 함수

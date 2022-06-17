@@ -38,9 +38,6 @@ class App extends Component{
     }
   }
   componentDidMount(){
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
-    });
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       Alert.alert('FCM Message arrived!', JSON.stringify(remoteMessage));
     });

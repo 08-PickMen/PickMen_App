@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import 'react-navigation'
 
 
-function Map({ navigation , route}) {
+const Map = ({ navigation , route}) => {
     const [location, setLocation] = useState({
         latitude: 37.2830557,
         longitude: 127.0448373,
@@ -43,7 +43,7 @@ function Map({ navigation , route}) {
             longitudeDelta: 0.0421,
         })
     }
-    async function saveLocation() {
+    const saveLocation = async () => {
         try {
             await AsyncStorage.setItem('liveinWhere', String(liveinWhere));
         } catch (e) {

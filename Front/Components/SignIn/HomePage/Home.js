@@ -10,7 +10,7 @@ import TeachIcon from '../../../icons/teach.png';
 import MajorIcon from '../../../icons/Major.png';
 import star from '../../../icons/star.png';
 // 홈 화면
-function Home({ navigation }) {
+const Home = ({ navigation }) =>{
     const [sliderTime, setSliderTime] = useState(1);
     const [mentorList, setMentorList] = useState([]);
     const [postList, setPostList] = useState([]);

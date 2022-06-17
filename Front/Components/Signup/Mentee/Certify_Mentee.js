@@ -7,14 +7,14 @@ import 'react-navigation'
 import api from 'axios';
 
 
-function Certify({ navigation }) {
+const Certify = ({ navigation }) => {
     const [UserEmail, setState] = useState('');
     const [InfoText, setMailText] = useState('');
     const [InfoText2, setMailText2] = useState('');
     const [CorrectNum, setCorrectNum] = useState('');
     const [data, setData] = useState([]);
 
-    async function SendMail(text) {
+    const SendMail = async (text) => {
         await api.post('http://10.0.2.2:8090/auth/send', null, {
             params: {
                 email: text
@@ -23,12 +23,12 @@ function Certify({ navigation }) {
             .then((response) => {
                 setData(response.data);
             }
-            ).catch(function (error) {
+            ).catch((error) => {
                 console.log(error)
             }
             )
     }
-    async function saveEmail(email) {
+    const saveEmail = async (email) => {
         await AsyncStorage.setItem('email', String(email));
     }
 

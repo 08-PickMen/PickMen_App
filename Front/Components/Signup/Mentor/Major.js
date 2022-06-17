@@ -5,7 +5,7 @@ import 'react-navigation';
 import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-function Major({navigation}){
+const Major = ({navigation}) => {
     const [departmentValue, setDepartmentValue] = useState('');
     const [lecture1, setLecture1] = useState('');
     const [lecture2, setLecture2] = useState('');
@@ -18,7 +18,7 @@ function Major({navigation}){
     const [value2, setValue2] = useState(null);
     const [value3, setValue3] = useState(null);
 
-    async function saveMajor() {
+    const saveMajor = async () => {
         try {
             await AsyncStorage.setItem('Lecture1', String(lecture1));
             await AsyncStorage.setItem('Lecture2', String(lecture2));

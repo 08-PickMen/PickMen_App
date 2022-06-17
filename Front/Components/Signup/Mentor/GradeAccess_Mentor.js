@@ -6,16 +6,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 import 'react-navigation'
 
-async function ImageSave(image) {
+const ImageSave = async (image) => {
     await AsyncStorage.setItem('image', JSON.stringify(image));
 }
 
-
-async function ImageCheck() {
-    await AsyncStorage.removeItem('image');
-}
-
-function GradeAccess({ navigation }) {
+const GradeAccess = ({ navigation }) => {
     var data = new FormData();
     const [nickName, setNickName] = useState('');
     const [image, setImage] = useState(null);
@@ -52,8 +47,8 @@ function GradeAccess({ navigation }) {
             console.log(e);
         }
     }
-    async function ImageUpload() {
-        launchImageLibrary({}, async function (response) {
+    const ImageUpload = async () => {
+        launchImageLibrary({}, async (response) => {
             if (response.assets[0].uri) {
                 setImage(response.assets[0].uri);
                 setGradefile(response.assets[0].fileName.substring(0, 30) + '...');
@@ -80,7 +75,7 @@ function GradeAccess({ navigation }) {
         })
 
     }
-    async function ProfileUpload() {
+    const ProfileUpload = async () => {
         launchImageLibrary({}, response => {
             if (response.assets[0].uri) {
                 console.log(response);
@@ -91,9 +86,6 @@ function GradeAccess({ navigation }) {
                 name: 'image.jpg',
                 type: 'image/jpeg',
             });
-            console.log(data)
-            console.log(data)
-            ImageCheck();
             ImageSave(data);
         })
 

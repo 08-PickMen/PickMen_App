@@ -9,7 +9,7 @@ import ChatPage from '../ChatPage/ChatList';
 // 전체 Mentor Page stack
 const stack = createStackNavigator();
 // 전체 Mentor Page
-function Mentor() {
+const Mentor = () => {
     return (
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{

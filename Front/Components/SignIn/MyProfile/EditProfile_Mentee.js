@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import myprofile from '../../localData/MyProfile';
 import axios from 'axios';
 
-function EditProfile_Mentee({ navigation }) {
+const EditProfile_Mentee = ({ navigation }) => {
     const [profileImage, setprofileImage] = useState(null);
     const [checkText, setCheckText] = useState('');
     const [nickName, setNickName] = useState('');
@@ -33,13 +33,13 @@ function EditProfile_Mentee({ navigation }) {
             setLectureList(newData);
         })
     }, [isFocused])
-    async function saveImage() {
+    const saveImage = async () => {
         try {
             await AsyncStorage.setItem('profileImage', JSON.stringify(data));
         } catch (e) {
         }
     }
-    function ProfileUpload() {
+    const ProfileUpload = () => {
         launchImageLibrary({}, response => {
             if (response.assets[0].uri) {
                 setprofileImage(response.assets[0].fileName.substring(0, 30) + '...');

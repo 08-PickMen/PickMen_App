@@ -14,7 +14,7 @@ import {Card, TouchableRipple} from 'react-native-paper';
 import FastImage from 'react-native-fast-image';
 
 // 전체 게시글 리스트를 불러오는 함수
-async function loadPost() {
+const loadPost = async () => {
     await axios.get('http://10.0.2.2:8090/post/getPost').then(response => {
         var count = parseInt(response.data.totalElements);
         if(count == 1) {
@@ -52,7 +52,7 @@ const createRoom = (mentor_id) => {
     })
 }
 // 게시글 삭제 기능
-async function DeletePost(navigation, id) {
+const DeletePost = async (navigation, id) => {
     await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
         id : parseInt(id),
     } }).then(response => {
@@ -82,7 +82,7 @@ async function DeletePost(navigation, id) {
     )
 }
 // 게시글 수정 페이지로 이동
-async function EditPost(navigation) {
+const EditPost = async (navigation) => {
     Alert.alert(
         '게시글을 수정하겠습니다.',
         '',
@@ -99,7 +99,7 @@ async function EditPost(navigation) {
     )
 }
 // id, title, content, count, nickname 정보를 저장
-async function restBoard(id, nickname, title, content) {
+const restBoard = async (id, nickname, title, content) => {
     if(id && title && content && nickname) {
         await AsyncStorage.setItem('Post_id', String(id));
         await AsyncStorage.setItem('title_id', String(title));
@@ -109,16 +109,16 @@ async function restBoard(id, nickname, title, content) {
 }
 
 // 게시글 id를 저장하고 게시글 삭제 페이지로 이동
-async function DeleteToPost(navigation) {
+const DeleteToPost = async (navigation) => {
     var data = await AsyncStorage.getItem('Post_id');
     DeletePost(navigation, data);
 }
 
 // 현재 접속한 user id와 게시글의 user id가 같은지 확인하고 같으면 수정, 삭제 가능
-function ShowTab({navigation}) {
+const ShowTab = ({navigation}) => {
     const [checkstatus, setCheckstatus] = useState(false);
     // 현재 접속한 user id와 게시글의 user id가 같은지 확인
-    async function loadBoard() {
+    const loadBoard = async () => {
         var data1 = await AsyncStorage.getItem('user_id');
         var data2 = await AsyncStorage.getItem('Compareid');
         if(data1 == data2) {
@@ -158,8 +158,8 @@ function ShowTab({navigation}) {
 }
 
 // 게시글 제목, 내용, 작성자, 조회수, 작성일자를 보여줌
-function ViewPost({navigation}) {
-    async function saveCurrentId(user_id) {
+const ViewPost = ({navigation}) => {
+    const saveCurrentId = async (user_id) => {
         await AsyncStorage.setItem('Compareid', String(user_id));
     }
     
@@ -173,7 +173,7 @@ function ViewPost({navigation}) {
     var [user, setUser] = useState('');
     const [ListTweets, setListTweets] = useState([]);
     // 댓글 목록을 불러옴
-    function loadReply(id) {
+    const loadReply = (id) => {
             axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(id)
                 ).then(response => {
                     console.log(response.data)
@@ -183,7 +183,7 @@ function ViewPost({navigation}) {
             })
     }
     // 댓글 작성 기능
-    function subscribeReply(post_id,content,navigation) {
+    const subscribeReply = (post_id,content,navigation) => {
         axios.post('http://10.0.2.2:8090/Reply/Post/'+post_id,null,{ params: {
             content : content,
         }}).then(response => {
@@ -203,7 +203,7 @@ function ViewPost({navigation}) {
         )
     }
     // 댓글 삭제 기능
-    async function deleteReply(user_id, Reply_id, post_id) {
+    const deleteReply = async (user_id, Reply_id, post_id) => {
         var data = await AsyncStorage.getItem('user_id');
         if(user_id==data) {
             axios.post('http://10.0.2.2:8090/Reply/Delete/'+Reply_id, null, { params : {

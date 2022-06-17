@@ -16,6 +16,7 @@ import backButtonIcon from '../../../icons/left-arrow.png';
 import { CheckBox } from 'react-native-elements';
 import star from '../../../icons/star.png';
 import whiteStar from '../../../icons/whitestar.png';
+
 const TextEncodingPolyfill = require('text-encoding');
 var StompClient = null;
 // Text Encoder polyfill
@@ -26,7 +27,7 @@ Object.assign(global, {
 
 
 // 채팅방 입장 및 채팅 기능 페이지
-function Chat({ navigation, route }) {
+const Chat = ({ navigation, route }) => {
     const [UserId, setUserId] = useState('');
     const [messages, setMessages] = useState([]);
     const [newmessage, setNewMessages] = useState([]);
@@ -99,13 +100,13 @@ function Chat({ navigation, route }) {
             )
         }
     }
-    function connectToChatServer() {
+    const connectToChatServer = () => {
         var socket = new SockJS('http://10.0.2.2:8090/ws/chat');
-        StompClient = Stomp.over(function () {
+        StompClient = Stomp.over(() => {
             return socket;
         })
-        StompClient.connect({}, function (frame) {
-            StompClient.subscribe('/sub/chat/room/' + chatRoom_id, function (messages) {
+        StompClient.connect({}, (frame) => {
+            StompClient.subscribe('/sub/chat/room/' + chatRoom_id,(messages) => {
                 var message = {
                     _id: JSON.parse(messages.body).createDate,
                     text: JSON.parse(messages.body).content,
@@ -125,14 +126,14 @@ function Chat({ navigation, route }) {
     // 채팅 api와 연결하고 채팅 메세지 목록을 불러오는 함수
     useEffect(() => {
         Ref.current = messages;
-        async function getUserId() {
+        const getUserId = async () => {
             var id = await AsyncStorage.getItem('user_id');
             setUserId(id);
         }
         getUserId();
         connectToChatServer();
         
-        return function cleanup() {
+        return cleanup = () => {
             StompClient.disconnect();
         }
     }, [])
