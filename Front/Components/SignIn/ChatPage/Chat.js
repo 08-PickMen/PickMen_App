@@ -138,7 +138,7 @@ const Chat = ({ navigation, route }) => {
         }
     }, [])
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/chat/room/enter/' + chatRoom_id).then(response => {
+        axios.get('http://10.0.2.2:8090/chat/room/' + chatRoom_id).then(response => {
             var newlist = [];
             var count = response.data.length;
             for (var i = 0; i < count; i++) {

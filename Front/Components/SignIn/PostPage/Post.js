@@ -8,7 +8,7 @@ import { CommonActions } from '@react-navigation/native';
 
 // 전체 게시글을 불러오는 함수
 const loadBoard = async () => {
-    await axios.get('http://10.0.2.2:8090/post/getPost')
+    await axios.get('http://10.0.2.2:8090/post/getAll')
         .then(response => {
             var count = parseInt(response.data.totalElements);
             if (count == 1) {
@@ -45,7 +45,7 @@ const loadBoard = async () => {
 // 게시글 작성 함수
 const WritePost = (Title, Content, navigation) => {
     console.log(Title, Content)
-    axios.post('http://10.0.2.2:8090/post/writePost', null, {
+    axios.post('http://10.0.2.2:8090/post/write', null, {
         params: {
             title: Title,
             content: Content

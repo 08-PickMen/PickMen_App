@@ -57,14 +57,14 @@ public class ChatRoomController {
 
 	// 로그인 되어 있는 유저의 모든 채팅방 목록 반환
 	// /chat/rooms
-	@GetMapping("/rooms")
+	@GetMapping("/room/getAll")
 	public @ResponseBody ResponseEntity<List<UserChatRoomDto>> rooms(@AuthenticationPrincipal PrincipalDetail principalDetail) {
 		return new ResponseEntity<List<UserChatRoomDto>>(chatService.findAllRoom(principalDetail.getUser().getId()), HttpStatus.OK);
 	}
 
 	// 채팅을 원하는 유저와 채팅방 생성 
 	// /chat/room/createRoom/{user_id}
-	@PostMapping("/room/createRoom/{user_id}")
+	@PostMapping("/room/create/{user_id}")
 	@ResponseBody
 	ResponseEntity<UserChatRoomDto> createRoom(@PathVariable long user_id,
 			@AuthenticationPrincipal PrincipalDetail principalDetail) {
@@ -77,30 +77,14 @@ public class ChatRoomController {
 				HttpStatus.OK);
 	}
 
-	// 채팅을 원하는 유저와 채팅방 생성 - test 용(security 적용 X)
-	// login 된 유저의 생성된 채팅방을 반환
-	// /chat/room/createRoomTest/{user_id}
-	@PostMapping("/room/createRoomTest/{user_id}")
-	public @ResponseBody ResponseEntity<UserChatRoomDto> createRoom(@PathVariable long user_id,
-			@RequestBody User user) {
-		return new ResponseEntity<UserChatRoomDto>(chatService.createRoom(user_id, user), HttpStatus.OK);
-	}
-
 	// 선택한 채팅방 입장 시 해당 채팅방의 채팅 메세지들 불러오기
-	@GetMapping("/room/enter/{room_id}")
+	@GetMapping("/room/{room_id}")
 	public @ResponseBody ResponseEntity<List<ChatDto>> getRoomChats(@PathVariable long room_id) {
 		return new ResponseEntity<List<ChatDto>>(chatService.getRoomChats(room_id), HttpStatus.OK);
 	}
 
-	// 특정 채팅방 조회 (현재 사용 X)
-	@GetMapping("/room/{room_id}")
-	@ResponseBody
-	public ChatRoom roomInfo(@PathVariable long room_id) {
-		return chatService.findById(room_id);
-	}
-
 	// 채팅방 종료(멘토링 종료) 시 멘토 평가(review)를 받아서 저장
-	@PostMapping("/room/makeReview/{chatroom_id}")
+	@PostMapping("/room/makeReview/{room_id}")
 	@ResponseBody
 	@JsonProperty("review")
 	public ResponseEntity<ReviewDto> makeReview(@RequestBody Review review,@PathVariable long chatroom_id) {

@@ -15,7 +15,7 @@ class ocrController {
     @Autowired
     private ocrService ocrService;
 
-    @PostMapping("certificate")
+    @PostMapping("/ocr/certifyReport")
     public String detectText(@RequestParam(value = "file", required = false) MultipartFile uploadfile) throws IOException{
         return ocrService.detectText(uploadfile);
     }

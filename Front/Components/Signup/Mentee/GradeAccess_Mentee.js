@@ -20,13 +20,12 @@ const GradeAccess_Menti = ({ navigation, route}) => {
     const [nickname, setNickname] = useState('');
     const [image, setImage] = useState(null);
     const [profileImage, setprofileImage] = useState('');
-    const [textImage, setTextImage] = useState('');
     const [CorrectText, setCorrectText] = useState('');
     const [LocationCheck, setLocationCheck] = useState('위치를 설정해주세요.');
     const [checkNickname, setCheckNickname] = useState('');
 
     const DuplicateCheck = (nickName) => {
-        axios.get('http://10.0.2.2:8090/DuplicateCheck', {
+        axios.get('http://10.0.2.2:8090/user/checkDuplicateNickName', {
             params: {
                 nickname: nickName
             }
@@ -38,7 +37,7 @@ const GradeAccess_Menti = ({ navigation, route}) => {
                     setCheckNickname('중복되는 닉네임입니다.')
                 }
             }).catch(error => {
-            })
+            });
     }
     const saveNickName = async (nickName) => {
         try {
@@ -75,8 +74,7 @@ const GradeAccess_Menti = ({ navigation, route}) => {
             });
             ImageSave(data);
             ImageLoad();
-        })
-
+        });
     }
     return (
         <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>

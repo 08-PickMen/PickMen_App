@@ -18,7 +18,7 @@ const PostList = ({ navigation }) => {
   const [search, setSearch] = useState(null);
   const [selectedId, setSelectedId] = useState(null)
   useEffect(() => {
-    axios.get('http://10.0.2.2:8090/post/getPost')
+    axios.get('http://10.0.2.2:8090/post/getAll')
       .then(response => {
         var count = parseInt(response.data.numberOfElements);
         var newData = [];
@@ -44,8 +44,8 @@ const PostList = ({ navigation }) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
   // 댓글 Count를 update 하는 함수
-  const updateCount = async (item, id) => {
-    await axios.post('http://10.0.2.2:8090/post/upcountPost?id=' + id).then(response => {
+  const updateCount = async (item, post_id) => {
+    await axios.post('http://10.0.2.2:8090/post/view/up/'+post_id).then(response => {
     })
   }
   const renderRole = (role) => {

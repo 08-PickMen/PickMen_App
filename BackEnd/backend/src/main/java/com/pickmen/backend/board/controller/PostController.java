@@ -38,7 +38,7 @@ public class PostController {
   // @AuthenticationPrincipal PrincipalDetail principalDetail
   // 위 코드를 통해 세션에 저장된 사용자 정보를 가져올 수 있다.
 
-  @GetMapping("post/getPost")
+  @GetMapping("/post/getAll")
   public Page<Post> postList(@PageableDefault(size = 5, sort="createDate",direction = Sort.Direction.DESC)Pageable pageable){
     return postService.getPostList(pageable);
   }
@@ -48,22 +48,22 @@ public class PostController {
     return postRepository.findByLivingwhere(principalDetail.getLivingWhere(), pageable);
   }
 
-  @GetMapping("post/getPost/{id}")
-  public ResponseDto<Post> postList(@PathVariable Long id){
+  @GetMapping("post/get/{post_id}")
+  public ResponseDto<Post> postList(@PathVariable Long post_id){
     try {
-      return new ResponseDto<Post>(HttpStatus.OK.value(),postRepository.findById(id).get());
+      return new ResponseDto<Post>(HttpStatus.OK.value(),postRepository.findById(post_id).get());
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseDto<Post>(HttpStatus.INTERNAL_SERVER_ERROR.value(),null);
     }
   }
 
-  @PostMapping("post/deletePost")
-  public String postDelete(@RequestParam("id") long id, @AuthenticationPrincipal PrincipalDetail principalDetail){
+  @PostMapping("post/delete/{post_id}")
+  public String postDelete(@PathVariable Long post_id, @AuthenticationPrincipal PrincipalDetail principalDetail){
     try{
-    Post post=postService.getPost(id);
+    Post post=postService.getPost(post_id);
     if(post.getUser().getId()==principalDetail.getUserId()){
-    postService.delete(id);
+    postService.delete(post_id);
     return "삭제 완료";
     }
     else{
@@ -96,10 +96,10 @@ public class PostController {
   }
 
   @Transactional
-  @PostMapping("post/upcountPost")
-  public String postUpCount(long id){
+  @PostMapping("post/view/up/{post_id}")
+  public String postUpCount(@PathVariable Long post_id){
     try{
-      postService.upcount(id);
+      postService.upcount(post_id);
     return "조회수 수정 성공";
     }
     catch(Exception e){
@@ -109,11 +109,11 @@ public class PostController {
   }
 
   
-  @PostMapping("post/updatePost")
-  public String postUpdate(long id,Post board,@AuthenticationPrincipal PrincipalDetail principalDetail){
+  @PostMapping("post/update/{post_id}")
+  public String postUpdate(@PathVariable Long post_id,Post board,@AuthenticationPrincipal PrincipalDetail principalDetail){
     try{
     board.setNickname(userRepository.getById(principalDetail.getUserId()).getNickname());
-    postService.update(id, board);
+    postService.update(post_id, board);
     return "수정 완료";
     }
     catch(Exception e){
@@ -123,7 +123,7 @@ public class PostController {
   }
 
 
-  @PostMapping("post/writePost")
+  @PostMapping("post/write")
   public String postWrite(@RequestParam("title") String title,@RequestParam("content")  String content, @AuthenticationPrincipal PrincipalDetail principalDetail){
     try{
 

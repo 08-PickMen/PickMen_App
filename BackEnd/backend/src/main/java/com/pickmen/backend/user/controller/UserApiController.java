@@ -55,7 +55,7 @@ public class UserApiController {
 
   @Autowired private ImageService imageService;
 
-  @PostMapping("/login")
+  @PostMapping("/user/login")
   public @ResponseBody ResponseDto<User> login(@RequestParam("username") String username, @RequestParam("password") String password)
   {
     try {
@@ -75,7 +75,7 @@ public class UserApiController {
     }
   }
 
-  @GetMapping("DuplicateCheck")
+  @GetMapping("/user/checkDuplicateNickName")
   public @ResponseBody ResponseDto<Integer> duplicateCheck(@RequestParam("nickname")String nickname) {
     try {
       if(userRepository.findByNickname(nickname).isEmpty()) {
@@ -88,7 +88,7 @@ public class UserApiController {
       return new ResponseDto<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null);
     }
   }
-  @GetMapping("DuplicateCheckId")
+  @GetMapping("/user/checkDuplicateId")
   public @ResponseBody ResponseDto<Integer> duplicateCheckId(@RequestParam("username")String username) {
     try {
       if(userRepository.findByUsername(username).isEmpty()) {
@@ -102,7 +102,7 @@ public class UserApiController {
     }
   }
 
-  @GetMapping("/user/myprofile")
+  @GetMapping("/user/get/profile")
   public @ResponseBody ResponseDto<User> myProfile(@AuthenticationPrincipal PrincipalDetail principalDetail) {
     try {
       return new ResponseDto<>(HttpStatus.OK.value(), userRepository.findByUsername(principalDetail.getUsername()).get());
@@ -129,7 +129,7 @@ public class UserApiController {
   }
   
 
-  @PostMapping("/signup/mentor")
+  @PostMapping("/user/mentor/signup")
   public @ResponseBody ResponseDto<User> signupMentor(@RequestParam("profile") MultipartFile uploadfile,User user,
 		  @RequestParam List<Long> lectureList)
    {
@@ -167,7 +167,7 @@ public class UserApiController {
     return imageService.display(user.getProfileImage());
   }
 
-  @PostMapping("/signup/mentee")
+  @PostMapping("/user/mentee/signup")
   public @ResponseBody ResponseDto<User> signupMentee(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user,
 		  @RequestParam List<Long> lectureList)
    {
@@ -196,7 +196,7 @@ public class UserApiController {
     }
   }
 
-  @PostMapping("/user/update")
+  @PostMapping("/user/mentee/update")
   public @ResponseBody ResponseDto<User> user(@RequestParam(value = "profile", required = false) MultipartFile uploadfile, User user, @AuthenticationPrincipal PrincipalDetail principalDetail,
 		 @RequestParam List<Long> lectureList) {
     try {
@@ -210,30 +210,30 @@ public class UserApiController {
   }
   
   // 유저의 관심 강의 리스트를 프론트로 반환하는 URL
-  @GetMapping("/getLectureList")
+  @GetMapping("/lecture/get")
 	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@AuthenticationPrincipal PrincipalDetail principalDetail) {
 		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(principalDetail.getUserId()), HttpStatus.OK);
 	}
   
-  @GetMapping("/getLectureListTest/{user_id}")
+  @GetMapping("/lecture/get/{user_id}")
 	public @ResponseBody ResponseEntity<List<LectureDto>> getUserLectureList(@PathVariable long user_id) {
 		return new ResponseEntity<List<LectureDto>>(userService.getUserLectureList(user_id), HttpStatus.OK);
 	}
   
   // 전체 관심 강의(전문 강의) 프론트로 반환
-  @GetMapping("/getAllLectureList")
+  @GetMapping("/lecture/getAll")
   public @ResponseBody ResponseEntity<List<LectureDto>> getAllLectureList() {
 	  return new ResponseEntity<List<LectureDto>>(userService.getAllLectureList(), HttpStatus.OK);
   }
   
   // 전체 전공 리스트 프론트로 반환
-  @GetMapping("/getAllMajorList")
+  @GetMapping("/major/getAll")
    public @ResponseBody ResponseEntity<List<MajorDto>> getAllMajorList() {
 	  return new ResponseEntity<List<MajorDto>>(userService.getAllMajorList(), HttpStatus.OK);
   }
   
   // 전체 학교 리스트 프론트로 반환
-  @GetMapping("/getAllSchoolList")
+  @GetMapping("/school/getAll")
    public @ResponseBody ResponseEntity<List<SchoolDto>> getAllSchoolList() {
 	  return new ResponseEntity<List<SchoolDto>>(userService.getAllSchoolList(), HttpStatus.OK);
   }

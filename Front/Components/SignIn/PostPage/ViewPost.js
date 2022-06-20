@@ -15,7 +15,7 @@ import FastImage from 'react-native-fast-image';
 
 // 전체 게시글 리스트를 불러오는 함수
 const loadPost = async () => {
-    await axios.get('http://10.0.2.2:8090/post/getPost').then(response => {
+    await axios.get('http://10.0.2.2:8090/post/getAll').then(response => {
         var count = parseInt(response.data.totalElements);
         if(count == 1) {
             data.length = 0;
@@ -53,9 +53,7 @@ const createRoom = (mentor_id) => {
 }
 // 게시글 삭제 기능
 const DeletePost = async (navigation, id) => {
-    await axios.post('http://10.0.2.2:8090/post/deletePost',null,{ params: {
-        id : parseInt(id),
-    } }).then(response => {
+    await axios.post('http://10.0.2.2:8090/post/delete/'+id).then(response => {
     }).catch(error => {
         console.log(error)
     })
@@ -174,7 +172,7 @@ const ViewPost = ({navigation}) => {
     const [ListTweets, setListTweets] = useState([]);
     // 댓글 목록을 불러옴
     const loadReply = (id) => {
-            axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(id)
+            axios.get('http://10.0.2.2:8090/reply/get/'+Number(id)
                 ).then(response => {
                     console.log(response.data)
                     setListTweets(response.data.data);
@@ -184,7 +182,7 @@ const ViewPost = ({navigation}) => {
     }
     // 댓글 작성 기능
     const subscribeReply = (post_id,content,navigation) => {
-        axios.post('http://10.0.2.2:8090/Reply/Post/'+post_id,null,{ params: {
+        axios.post('http://10.0.2.2:8090/reply/write/'+post_id,null,{ params: {
             content : content,
         }}).then(response => {
         })
@@ -206,7 +204,7 @@ const ViewPost = ({navigation}) => {
     const deleteReply = async (user_id, Reply_id, post_id) => {
         var data = await AsyncStorage.getItem('user_id');
         if(user_id==data) {
-            axios.post('http://10.0.2.2:8090/Reply/Delete/'+Reply_id, null, { params : {
+            axios.post('http://10.0.2.2:8090/reply/delete/'+Reply_id, null, { params : {
                 postId : post_id,
             }}).then(response => {
                 console.log(response.data)
@@ -299,7 +297,7 @@ const ViewPost = ({navigation}) => {
                 setId(newPostData[0].id);
                 setCount(newPostData[0].count);
                 setUser(newPostData[0].user);
-                axios.get('http://10.0.2.2:8090/Reply/Get/'+Number(newPostData[0].id)
+                axios.get('http://10.0.2.2:8090/reply/get/'+Number(newPostData[0].id)
                     ).then(response => {
                         setListTweets(response.data.data);
                     }).catch(error => {

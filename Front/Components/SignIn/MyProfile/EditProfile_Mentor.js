@@ -26,7 +26,7 @@ const EditProfile_Mentor = ({ navigation }) => {
     var data = new FormData();
 
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/getAllLectureList').then(response => {
+        axios.get('http://10.0.2.2:8090/lecture/getAll').then(response => {
             var newData = [];
             for (var i of response.data) {
                 newData.push({
@@ -67,7 +67,7 @@ const EditProfile_Mentor = ({ navigation }) => {
         )
     }
     const DuplicateCheck = (nickName) => {
-        axios.get('http://10.0.2.2:8090/DuplicateCheck', {
+        axios.get('http://10.0.2.2:8090/user/checkDuplicateNickName', {
             params: {
                 nickname: nickName
             }
@@ -94,7 +94,7 @@ const EditProfile_Mentor = ({ navigation }) => {
         })
         console.log(profileImage)
         console.log(nickName, ids, mentorIntroduce, mentoringContents)
-        axios.put('http://10.0.2.2:8090/mentor/update', profileImage, {
+        axios.put('http://10.0.2.2:8090/user/mentor/update', profileImage, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

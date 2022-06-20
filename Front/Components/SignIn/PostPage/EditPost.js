@@ -8,9 +8,8 @@ import { CommonActions } from '@react-navigation/native';
 import data from './PostData';
 // 게시글 수정 API
 const updatePost = async (id, Title, Content) => {
-    await axios.post('http://10.0.2.2:8090/post/updatePost', null, {
+    await axios.post('http://10.0.2.2:8090/post/update/'+id, null, {
         params: {
-            id: id,
             title: Title,
             content: Content,
         }

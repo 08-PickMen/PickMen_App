@@ -30,13 +30,13 @@ const MentorProfileDetail = ({navigation, route}) => {
   // 멘토 상세 정보를 불러오는 함수
   useEffect(() => {
       setLoading(false);
-      axios.get('http://10.0.2.2:8090/mentor/'+Number(mentor_id)).then(response => {
+      axios.get('http://10.0.2.2:8090/user/mentor/'+Number(mentor_id)).then(response => {
         console.log(response.data)
         setProfile(response.data);
       }).catch(error => {
         console.log(error)
       })
-      axios.get('http://10.0.2.2:8090/getLectureListTest/'+Number(mentor_id)).then(response => {
+      axios.get('http://10.0.2.2:8090/lecture/get/'+Number(mentor_id)).then(response => {
         setLectureList(response.data);
       })
       setLoading(true);

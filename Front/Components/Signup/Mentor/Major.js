@@ -28,7 +28,7 @@ const Major = ({navigation}) => {
         }
     }
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/getAllMajorList').then(response => {
+        axios.get('http://10.0.2.2:8090/major/getAll').then(response => {
             var count = response.data.length;
             var list = [];
             for(var i = 0; i < count; i++){
@@ -38,9 +38,8 @@ const Major = ({navigation}) => {
                 })
             }
             setMajorList(list);       
-        })
-
-        axios.get('http://10.0.2.2:8090/getAllLectureList').then(response => {
+        });
+        axios.get('http://10.0.2.2:8090/lecture/getAll').then(response => {
             var count = response.data.length;
             var list = [];
             for(var i = 0; i < count; i++){
@@ -50,11 +49,16 @@ const Major = ({navigation}) => {
                 })
             }
             setLectureList(list);
-        })
+        });
         setOpen(false);
         setOpen2(false);
         setOpen3(false);
-    },[])
+    },[]);
+    useEffect(() => {
+        return () => {
+            console.log('unmount');
+        }
+    }, []);
     return(
         <View style = {{backgroundColor : '#27BAFF', flex  :1,}}>
             <View style = {styles.PageStyle}>

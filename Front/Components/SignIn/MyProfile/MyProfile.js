@@ -20,7 +20,7 @@ const MyProfile = ({navigation}) => {
     const isFocused = useIsFocused();
     // 접속한 유저의 관심 분야를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/getLectureList').then((response) => {
+        axios.get('http://10.0.2.2:8090/lecture/getAll').then((response) => {
             setLecturelist(response.data[0]);
             setLecturelist2(response.data[1]);
             console.log(response.data[0], response.data[1]);

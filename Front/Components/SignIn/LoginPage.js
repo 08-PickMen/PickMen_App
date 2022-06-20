@@ -11,7 +11,7 @@ import myprofile from '../localData/MyProfile';
 // 멘토 리스트 정보를 담을 함수
 const saveMentorList = async () => {
     try {
-        await axios.get('http://10.0.2.2:8090/mentorList').then(async (response) =>{
+        await axios.get('http://10.0.2.2:8090/user/mentor/getAll').then(async (response) =>{
             var data = response.data;
             for (var i = 0; i < data.length; i++) {
                 await AsyncStorage.setItem('data' + i, JSON.stringify(data[i]));
@@ -23,7 +23,7 @@ const saveMentorList = async () => {
 }
 // 멘토 리스트 정보를 불러오는 함수
 const loadData = async () =>{
-    await axios.get('http://10.0.2.2:8090/mentorList').then(async (response) => {
+    await axios.get('http://10.0.2.2:8090/user/mentor/getAll').then(async (response) => {
         var data = response.data;
         var maxcount = data.length;
         profiledata.length = 0;
@@ -37,7 +37,7 @@ const loadData = async () =>{
 }
 // 자신의 프로필 정보를 불러오는 함수
 const loadprofile = async () => {
-    await axios.get('http://10.0.2.2:8090/user/myprofile').then(async (response) => {
+    await axios.get('http://10.0.2.2:8090/user/get/profile').then(async (response) => {
         myprofile.length = 0;
         console.log(response.data);
         myprofile.push({
@@ -64,7 +64,7 @@ const LoginPage = ({ navigation }) =>{
     }
     // 로그인 정보를 서버에 보내고 성공시 홈 화면으로 이동하는 함수
     const LoginAccess = async (email, password) => {
-        axios.post('http://10.0.2.2:8090/login', null, {
+        axios.post('http://10.0.2.2:8090/user/login', null, {
             params: {
                 username: email,
                 password: password,
@@ -84,7 +84,7 @@ const LoginPage = ({ navigation }) =>{
     }
     // 전체 게시글 정보를 불러오는 함수
     const loadBoard = async () => {
-        await axios.get('http://10.0.2.2:8090/post/getPost')
+        await axios.get('http://10.0.2.2:8090/post/getAll')
             .then(response => {
                 var count = parseInt(response.data.numberOfElements);
                 count = count - 1;

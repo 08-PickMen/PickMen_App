@@ -52,9 +52,9 @@ public class MentorController {
 
 	// Mentor 개별 프로필 보여주기
 	// /mentor/{id}
-	@GetMapping("/mentor/{id}")
-	public @ResponseBody ResponseEntity<User> mentorDetail(@PathVariable long id) {
-		return new ResponseEntity<User>(mentorService.getMentor(id), HttpStatus.OK);
+	@GetMapping("/user/mentor/{user_id}")
+	public @ResponseBody ResponseEntity<User> mentorDetail(@PathVariable long user_id) {
+		return new ResponseEntity<User>(mentorService.getMentor(user_id), HttpStatus.OK);
 	}
 
 	// Mentor 프로필 리스트 출력
@@ -82,7 +82,7 @@ public class MentorController {
 		return new ResponseEntity<List<MentorProfileDto>>(mentorService.getMentorList(), HttpStatus.OK);
 	}
 
-	@GetMapping("/newmentorList")
+	@GetMapping("/user/mentor/getAll")
 	public @ResponseBody ResponseEntity<List<MentorProfileDto>> newmentorList(
 			@AuthenticationPrincipal PrincipalDetail principalDetail) {
 		return new ResponseEntity<List<MentorProfileDto>>(mentorService.recommendMentor(principalDetail),
@@ -91,7 +91,7 @@ public class MentorController {
 
 	// Mentor 프로필 업데이트
 	// /mentor/update
-	@PutMapping("/mentor/update")
+	@PutMapping("/user/mentor/update")
 	public @ResponseBody ResponseEntity<User> mentorUpdate(
 			@RequestParam(value = "profile", required = false) MultipartFile uploadfile,  
 			User user,

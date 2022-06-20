@@ -22,7 +22,7 @@ const Information_Mento = ({ navigation }) => {
         setSendEmail(data)
     }
     const checkId = (username) => {
-        axios.get('http://10.0.2.2:8090/DuplicateCheckId', {
+        axios.get('http://10.0.2.2:8090/user/checkDuplicateId', {
             params: {
                 username: username,
             }
@@ -83,7 +83,7 @@ const Information_Mento = ({ navigation }) => {
             name: "image" + time + ".jpg",
             type: 'image/jpeg',
         })
-        await axios.post('http://10.0.2.2:8090/signup/mentor', InputImage, {
+        await axios.post('http://10.0.2.2:8090/user/mentor/signup', InputImage, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },

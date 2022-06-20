@@ -18,7 +18,7 @@ const SelectSchool_Mentor = ({ navigation }) => {
         }
     }
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/getAllSchoolList').then(response => {
+        axios.get('http://10.0.2.2:8090/school/getAll').then(response => {
             var count = response.data.length;
             var newData = [];
             for (var i = 1; i < count; i++) {
@@ -28,8 +28,13 @@ const SelectSchool_Mentor = ({ navigation }) => {
                 });
             }
             setSchoolList(newData);
-        })
-    }, [])
+        });
+    }, []);
+    useEffect(() => {
+        return () => {
+            console.log('unmount');
+        }
+    }, []);
     return (
         <View style={{ flex: 1, backgroundColor: '#27BAFF' }}>
             <View style={styles.PageStyle}>

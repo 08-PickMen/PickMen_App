@@ -31,7 +31,7 @@ const Home = ({ navigation }) =>{
             }
             setMentorList(newData);
         })
-        axios.get('http://10.0.2.2:8090/post/getPost').then(response => {
+        axios.get('http://10.0.2.2:8090/post/getAll').then(response => {
             var newData = [];
             for (var i of response.data.content) {
                 newData.push({
@@ -45,7 +45,7 @@ const Home = ({ navigation }) =>{
             }
             setPostList(newData);
         })
-        axios.get('http://10.0.2.2:8090/user/myprofile').then(response => {
+        axios.get('http://10.0.2.2:8090/user/get/profile').then(response => {
             setRole(response.data.data.role);
         })
         return () => clearTimeout(autoTimer);

@@ -22,7 +22,7 @@ const EditProfile_Mentee = ({ navigation }) => {
     var data = new FormData();
 
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/getAllLectureList').then(response => {
+        axios.get('http://10.0.2.2:8090/lecture/getAll').then(response => {
             var newData = [];
             for (var i of response.data) {
                 newData.push({
@@ -62,7 +62,7 @@ const EditProfile_Mentee = ({ navigation }) => {
         )
     }
     const DuplicateCheck = (nickName) => {
-        axios.get('http://10.0.2.2:8090/DuplicateCheck', {
+        axios.get('http://10.0.2.2:8090/user/checkDuplicateNickName', {
             params: {
                 nickname: nickName
             }
@@ -87,7 +87,7 @@ const EditProfile_Mentee = ({ navigation }) => {
             name: String(JSON.parse(newdata)._parts[0][1].name,"utf-8"),
             type: String(JSON.parse(newdata)._parts[0][1].type,"utf-8"),
         })
-        axios.post('http://10.0.2.2:8090/user/update', profileImage, {
+        axios.post('http://10.0.2.2:8090/user/mentee/update', profileImage, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },

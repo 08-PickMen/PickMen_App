@@ -24,7 +24,7 @@ const GradeAccess = ({ navigation }) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     const DuplicateCheck = (nickName) => {      
-        axios.get('http://10.0.2.2:8090/DuplicateCheck', {
+        axios.get('http://10.0.2.2:8090/user/checkDuplicateNickName', {
             params: {
                 nickname: nickName
             }
@@ -37,7 +37,7 @@ const GradeAccess = ({ navigation }) => {
                 console.log('중복체크 실패')
                 setCheckText('중복체크 실패')
             }
-        })
+        });
         return 0;
     }
     const saveNickName = async (nickName) => {
@@ -59,7 +59,7 @@ const GradeAccess = ({ navigation }) => {
                 name: 'image.jpg',
                 type: 'image/jpeg'
             });
-            axios.post('http://10.0.2.2:8090/certificate', data, {
+            axios.post('http://10.0.2.2:8090/ocr/certifyReport', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -72,8 +72,7 @@ const GradeAccess = ({ navigation }) => {
                     setSignCheck(true);
                 }
             })
-        })
-
+        });
     }
     const ProfileUpload = async () => {
         launchImageLibrary({}, response => {
@@ -87,8 +86,7 @@ const GradeAccess = ({ navigation }) => {
                 type: 'image/jpeg',
             });
             ImageSave(data);
-        })
-
+        });
     }
     const renderCheckText = () => {
         const backgroundColor = checkText === '중복체크 실패' ? '#ff0000' : '#27baff';

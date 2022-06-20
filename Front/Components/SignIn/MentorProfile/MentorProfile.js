@@ -101,13 +101,13 @@ const MentorProfile = ({ navigation }) => {
     }
     // 멘토 프로필 리스트를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/newmentorList').then(async (response) => {
+        axios.get('http://10.0.2.2:8090/user/mentor/getAll').then(async (response) => {
             var data = response.data;
             setMentorList(data);
             setMentorList2(data);
             console.log(data)
         });
-        axios.get('http://10.0.2.2:8090/getAllMajorList').then((response) => {
+        axios.get('http://10.0.2.2:8090/major/getAll').then((response) => {
             var data = response.data;
             var newlist = [];
             for (var i of data) {
@@ -118,7 +118,7 @@ const MentorProfile = ({ navigation }) => {
             }
             setMajorList(newlist);
         });
-        axios.get('http://10.0.2.2:8090/getAllLectureList').then((response) => {
+        axios.get('http://10.0.2.2:8090/lecture/getAll').then((response) => {
             var data = response.data;
             var newlist = [];
             for (var i of data) {

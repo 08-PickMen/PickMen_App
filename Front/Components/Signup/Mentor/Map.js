@@ -27,7 +27,7 @@ const Map = ({ navigation , route}) => {
         })
         console.log(region)
     }
-    const getAddress = (latitude, longitude) => {
+    const getAddress = () => {
         fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' +
             location.latitude + ',' + location.longitude + '&key=' + 'AIzaSyD_b4PvKJG8CvebhZOuIfsETyXGVxbcN6A&callback=initMap&language=ko'
         ).then((response) => response.json()).then((responseJson) => {
@@ -64,8 +64,12 @@ const Map = ({ navigation , route}) => {
         if(liveinWhere === ''){
             getAddress(latitude, longitude);
         }
-
-    })
+    },[]);
+    useEffect(() => {
+        return () => {
+            console.log('unmount');
+        }
+    }, []);
     return (
         <View style={{ flex: 1 }}>
             <MapView

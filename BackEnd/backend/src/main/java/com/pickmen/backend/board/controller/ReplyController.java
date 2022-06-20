@@ -37,11 +37,11 @@ public class ReplyController {
 
 
     @Transactional
-    @PostMapping("Reply/Update/{replyId}")
-    public ResponseDto<Reply> updateReply(@PathVariable long replyId, String content){
+    @PostMapping("/reply/update/{reply_id}")
+    public ResponseDto<Reply> updateReply(@PathVariable long reply_id, String content){
 
         try {
-            Reply reply=replyRepository.findById(replyId).get();
+            Reply reply=replyRepository.findById(reply_id).get();
             reply.setContent(content);
 
             
@@ -57,10 +57,10 @@ public class ReplyController {
     } 
 
     @Transactional
-    @GetMapping("Reply/Get/{postId}")
-    public ResponseDto<List<ReplyDto>> getReply(@PathVariable long postId){
+    @GetMapping("/reply/get/{reply_id}")
+    public ResponseDto<List<ReplyDto>> getReply(@PathVariable long reply_id){
         try {
-            List<Reply> replylist=postRepository.getById(postId).getReply();
+            List<Reply> replylist=postRepository.getById(reply_id).getReply();
             List<ReplyDto> replyDtoList = new ArrayList<>();
 
             for(Reply reply:replylist){
@@ -81,15 +81,15 @@ public class ReplyController {
 
 
     @Transactional
-    @PostMapping("Reply/Delete/{replyId}")
-    public ResponseDto<Reply> deleteReply(@PathVariable long replyId,long postId){
+    @PostMapping("/reply/delete/{reply_id}")
+    public ResponseDto<Reply> deleteReply(@PathVariable long reply_id,long postId){
 
         try {
             List<Reply> list=postRepository.getById(postId).getReply();
             Reply removeReply=new Reply();
             for(Reply reply:list){
                 //System.out.println(reply.getId());
-                if(reply.getId()==replyId)
+                if(reply.getId()==reply_id)
                 {
                     removeReply=reply;
                     break;
@@ -98,7 +98,7 @@ public class ReplyController {
             list.remove(removeReply);
 
           
-            replyRepository.delete(replyRepository.findById(replyId).get());
+            replyRepository.delete(replyRepository.findById(reply_id).get());
 
 
 
@@ -116,11 +116,11 @@ public class ReplyController {
     
 
     @Transactional
-    @PostMapping("Reply/Post/{boardId}")
-    public ResponseDto<Reply> postReply(@PathVariable long boardId, @AuthenticationPrincipal PrincipalDetail principalDetail, String content){
+    @PostMapping("/reply/write/{post_id}")
+    public ResponseDto<Reply> postReply(@PathVariable long post_id, @AuthenticationPrincipal PrincipalDetail principalDetail, String content){
 
         try {
-            Post post=postRepository.getById(boardId);
+            Post post=postRepository.getById(post_id);
             Reply reply=new Reply().builder().content(content).nickname(principalDetail.getNickName()).user(principalDetail.getUser()).build();
             post.addReply(reply);
             

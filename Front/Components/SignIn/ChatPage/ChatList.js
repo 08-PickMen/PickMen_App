@@ -37,7 +37,7 @@ const ChatList = ({ navigation }) => {
    
     // 채팅 리스트를 불러오는 함수
     useEffect(() => {
-        axios.get('http://10.0.2.2:8090/chat/rooms').then(response => {
+        axios.get('http://10.0.2.2:8090/chat/room/getAll').then(response => {
             var data = response.data;
             setChatList(data);
         })

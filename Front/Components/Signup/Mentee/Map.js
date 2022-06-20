@@ -60,12 +60,16 @@ const Map = ({ navigation , route}) => {
             },
             error => console.log(error),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-        )
+        );
         if(liveinWhere === ''){
             getAddress(latitude, longitude);
         }
-
-    })
+    },[]);
+    useEffect(() => {
+        return () => {
+            console.log('unmount');
+        }
+    }, []);
     return (
         <View style={{ flex: 1 }}>
             <MapView

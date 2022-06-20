@@ -26,7 +26,7 @@ const Certify = ({ navigation }) => {
             ).catch((error) => {
                 console.log(error)
             }
-            )
+            );
     }
     const saveEmail = async (email) => {
         await AsyncStorage.setItem('email', String(email));
