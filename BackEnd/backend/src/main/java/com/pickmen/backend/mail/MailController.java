@@ -13,7 +13,7 @@ public class MailController {
     @Autowired
     private SendMailService sendMailService;
 
-    @PostMapping("/auth/send")
+    @PostMapping("/mail/certify")
     public String sendMail(String email,HttpSession session){
         System.out.println(email);
         int random = new Random().nextInt(888889)+111111;

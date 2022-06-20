@@ -15,7 +15,7 @@ const Certify_Mento = ({ navigation }) => {
     const [data, setData] = useState([]);
 
     const SendMail = async (text) => {
-        await api.post('http://10.0.2.2:8090/auth/send', null, {
+        await api.post('http://10.0.2.2:8090/mail/certify', null, {
             params: {
                 email: text
             }
